@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     color: "#3C896D",
   },
   viewIcon: {
-    fontWeight: 24,
+    fontSize: 24,
     height: "100%",
   },
 });

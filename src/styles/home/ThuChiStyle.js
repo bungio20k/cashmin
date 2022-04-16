@@ -14,10 +14,11 @@ const styles = StyleSheet.create({
   },
   thuchiTitleWrapper: {
     flexDirection: "row",
+    alignItems: "center",
   },
   thuchiTitle: {
     color: "white",
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "700",
     marginRight: 10,
   },
@@ -52,22 +53,22 @@ const styles = StyleSheet.create({
   nameItem: {
     color: "#888",
     fontSize: 18,
-    fontWeight: 400,
+    fontWeight: "400",
   },
   thuMoney: {
     color: "#198155",
     fontSize: 18,
-    fontWeight: 400,
+    fontWeight: "400",
   },
   chiMoney: {
     color: "#d3180c",
     fontSize: 18,
-    fontWeight: 400,
+    fontWeight: "400",
   },
   result: {
     color: "white",
     fontSize: 18,
-    fontWeight: 400,
+    fontWeight: "400",
     textAlign: "right",
   },
 });

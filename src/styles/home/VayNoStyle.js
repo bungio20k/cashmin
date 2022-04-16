@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
   vaynoTitle: {
     color: "white",
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: "700",
   },
 

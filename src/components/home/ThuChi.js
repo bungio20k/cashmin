@@ -1,27 +1,38 @@
-import { Text, View, Picker } from "react-native";
+import { Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import React from "react";
 import styles from "../../styles/home/ThuChiStyle";
+import { Select } from "native-base";
+import { useState } from "react";
 
 const ThuChi = () => {
+  const [type, setType] = useState("day");
+
   return (
     <View style={styles.thuchiContainer}>
       <View style={styles.thuchiTop}>
         <View style={styles.thuchiTitleWrapper}>
           <Text style={styles.thuchiTitle}>Tình hình thu chi</Text>
-          <Picker
-            style={{
-              backgroundColor: "transparent",
-              borderColor: "transparent",
-              borderBottomColor: "#888",
-              color: "#878787",
+          <Select
+            w="86px"
+            h="18px"
+            p="0"
+            selectedValue={type}
+            onValueChange={(itemValue) => {
+              setType(itemValue);
             }}
+            _selectedItem={{
+              bg: "teal.600",
+            }}
+            borderColor="transparent"
+            borderBottomColor="#888"
+            borderRadius="none"
           >
-            <Picker.Item label="day" value="day" />
-            <Picker.Item label="week" value="week" />
-            <Picker.Item label="month" value="month" />
-            <Picker.Item label="year" value="year" />
-          </Picker>
+            <Select.Item label="Hôm nay" value="day" />
+            <Select.Item label="Tuần này" value="week" />
+            <Select.Item label="Tháng này" value="month" />
+            <Select.Item label="Năm này" value="year" />
+          </Select>
         </View>
         <AntDesign name="arrowright" size={24} color="#198155" />
       </View>
