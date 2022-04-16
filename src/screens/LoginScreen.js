@@ -1,10 +1,12 @@
-import BigIcon from '../components/BigIcon'
-import InputField from '../components/InputField'
+import { View } from 'react-native'
+import RegisterForm from '../components/login-signup/RegisterForm'
+import Logo from '../components/login-signup/Logo'
 
 export default function LoginScreen() {
     return (
         <View>
-            <BigIcon />
+            <Logo />
+            <RegisterForm />
         </View>
     )
 }

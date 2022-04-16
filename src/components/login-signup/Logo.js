@@ -1,7 +1,7 @@
-import style from '../styles/BigIconStyle'
+import style from '../../styles/login-signup/LogoStyle'
 import { Image } from 'react-native'
 
-const icon = require('../assets/logo.png')
+const icon = require('../../assets/logo.png')
 
 export default function BigIcon() {
     return (
