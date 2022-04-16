@@ -1,0 +1,175 @@
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import styles from "../../styles/income_expense/FormStyle";
+import {
+  Button,
+  Radio,
+  Input,
+  FormControl,
+  Select,
+  TextArea,
+} from "native-base";
+import DateTimePicker from "@react-native-community/datetimepicker";
+
+import { AntDesign } from "@expo/vector-icons";
+
+const FormAddNewItem = () => {
+  const [type, setType] = useState(0);
+  const [category, setCategory] = useState("");
+  const [wallet, setWallet] = useState("");
+  const [desc, setDesc] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+  };
+
+  const showMode = (currentMode) => {
+    setShow(true);
+    setMode(currentMode);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
+  return (
+    <FormControl isRequired style={styles.container}>
+      <Radio.Group
+        name="type"
+        value={type}
+        onChange={(nextValue) => {
+          setType(nextValue);
+        }}
+        style={styles.radioGroup}
+        accessibilityLabel="favorite number"
+        my="2"
+      >
+        <Radio value="0" my={1}>
+          <Text style={{ fontSize: 20 }}>Thêm khoản thu</Text>
+        </Radio>
+        <Radio value="1" my={1}>
+          <Text style={{ fontSize: 20 }}>Thêm khoản chi</Text>
+        </Radio>
+      </Radio.Group>
+      <Input
+        fontSize="xl"
+        type="number"
+        placeholder="Số tiền"
+        variant="rounded"
+        bg="rgba(233,215,88,.6)"
+        my="2"
+        keyboardType="numeric"
+      />
+      <Select
+        fontSize="xl"
+        my="2"
+        bg="rgba(233,215,88,.6)"
+        borderRadius="full"
+        selectedValue={category}
+        minWidth="100%"
+        accessibilityLabel="Chọn hạng mục"
+        placeholder="Chọn hạng mục"
+        _selectedItem={{
+          bg: "teal.600",
+        }}
+        onValueChange={(itemValue) => setCategory(itemValue)}
+      >
+        <Select.Item label="UX Research" value="ux" />
+        <Select.Item label="Web Development" value="web" />
+        <Select.Item label="Cross Platform Development" value="cross" />
+        <Select.Item label="UI Designing" value="ui" />
+        <Select.Item label="Backend Development" value="backend" />
+      </Select>
+      <TouchableOpacity onPress={showDatepicker}>
+        <Input
+          fontSize="xl"
+          my="2"
+          bg="rgba(233,215,88,.6)"
+          w={{
+            md: "100%",
+          }}
+          variant="rounded"
+          type="date"
+          InputRightElement={
+            <AntDesign
+              name="calendar"
+              size={24}
+              color="#7a7975"
+              onPress={showDatepicker}
+              style={{
+                marginRight: 8,
+              }}
+            />
+          }
+          placeholder="Thời gian"
+          value={(date && date.toLocaleString()) || new Date().toLocaleString()}
+          editable={false}
+        />
+      </TouchableOpacity>
+      <Select
+        fontSize="xl"
+        my="2"
+        bg="rgba(233,215,88,.6)"
+        borderRadius="full"
+        selectedValue={wallet}
+        minWidth="100%"
+        accessibilityLabel="Chọn ví tiền"
+        placeholder="Chọn ví tiền"
+        _selectedItem={{
+          bg: "teal.600",
+        }}
+        onValueChange={(itemValue) => setWallet(itemValue)}
+      >
+        <Select.Item label="UX Research" value="ux" />
+        <Select.Item label="Web Development" value="web" />
+        <Select.Item label="Cross Platform Development" value="cross" />
+        <Select.Item label="UI Designing" value="ui" />
+        <Select.Item label="Backend Development" value="backend" />
+      </Select>
+
+      <TextArea
+        fontSize="xl"
+        my="2"
+        bg="rgba(233,215,88,.6)"
+        borderRadius="2xl"
+        value={desc}
+        onChange={(e) => {
+          setDesc(e.currentTarget.value);
+        }}
+        w="100%"
+        minHeight="100px"
+        placeholder="Mô tả"
+      />
+      <Button
+        fontSize="xl"
+        my="2"
+        mx="auto"
+        py="3"
+        style={{
+          backgroundColor: "#4FB286",
+        }}
+        w="80%"
+      >
+        Thêm
+      </Button>
+      <View>
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date || new Date()}
+            mode={mode}
+            is24Hour={true}
+            onChange={onChange}
+          />
+        )}
+      </View>
+    </FormControl>
+  );
+};
+
+export default FormAddNewItem;
