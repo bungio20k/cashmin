@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider } from "native-base";
 import { StyleSheet, Text, View } from "react-native";
 import HomeScreen from "./src/screens/HomeScreen";
+import IncomeExpenseScreen from "./src/screens/IncomeExpenseScreen";
 
 export default function App() {
   return (
@@ -10,7 +11,8 @@ export default function App() {
     //   <StatusBar style="auto" />
     // </View>
     <NativeBaseProvider>
-      <HomeScreen />
+      {/* <HomeScreen /> */}
+      <IncomeExpenseScreen />
     </NativeBaseProvider>
   );
 }
