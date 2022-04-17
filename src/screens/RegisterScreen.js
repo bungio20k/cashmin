@@ -1,12 +1,12 @@
 import { View } from 'react-native'
+import RegisterForm from '../components/login-signup/RegisterForm'
 import Logo from '../components/login-signup/Logo'
-import LoginForm from '../components/login-signup/LoginForm'
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
     return (
         <View>
             <Logo />
-            <LoginForm />            
+            <RegisterForm />
         </View>
     )
 }

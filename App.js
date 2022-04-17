@@ -5,6 +5,11 @@ import HomeScreen from "./src/screens/HomeScreen";
 import IncomeExpenseScreen from "./src/screens/IncomeExpenseScreen";
 import CategoryScreen from "./src/screens/CategoryScreen";
 
+import WelcomeScreen from "./src/screens/WelcomeScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
+import LoginScreen from "./src/screens/LoginScreen";
+import RetrieveScreen from "./src/screens/RetrieveScreen";
+
 export default function App() {
   return (
     // <View style={styles.container}>
