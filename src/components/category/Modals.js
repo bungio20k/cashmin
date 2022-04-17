@@ -93,6 +93,7 @@ const Modals = ({
             </Text>
             <Text style={styles.label}>Tên hạng mục</Text>
             <Input
+              fontSize="xl"
               mt="1"
               mb="4"
               variant="rounded"
@@ -120,8 +121,9 @@ const Modals = ({
                   setIconName(option.value);
                 }}
                 style={{
-                  borderRadius: 12,
+                  borderRadius: "50%",
                   backgroundColor: "#4FB286",
+                  paddingHorizontal: 12,
                 }}
                 optionContainerStyle={{
                   backgroundColor: "#ECFCE5",
@@ -139,7 +141,7 @@ const Modals = ({
                     name={isEdit ? category.icon : iconName}
                     size={28}
                     color="#ECFCE5"
-                    style={{ marginRight: 12 }}
+                    style={{ marginRight: 16 }}
                   />
                   <Ionicons name="chevron-down" size={22} color="#ECFCE5" />
                 </View>
