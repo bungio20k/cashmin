@@ -1,15 +1,17 @@
-import { View } from 'react-native'
-import WelcomeText from '../components/WelcomeText'
-import LoginButton from '../components/LoginButton'
-import RegisterButton from '../components/RegisterButton'
-import Logo from '../components/Logo'
-import style from '../styles/WelcomeStyle.js'
+import { View, Text } from 'react-native'
+import LoginButton from '../components/login-signup/LoginButton'
+import RegisterButton from '../components/login-signup/RegisterButton'
+import Logo from '../components/login-signup/Logo'
+import style from '../styles/login-signup/WelcomeStyle'
 
 export default function WelcomeScreen() {
+    const titleText = 'Chào mừng đến với Cashmin! \n'
+    const bodyText = 'Cashmin sẽ là trợ thủ đắc lực của bạn trong việc ghi chú và quản lý chi tiêu hằng ngày\nĐăng ký hoặc đăng nhập để bắt đầu ngay'
     return (
-        <View style={style.container}>
+        <View>
             <Logo />
-            <WelcomeText style={style.text}/>
+            <Text>{titleText}</Text>
+            <Text>{bodyText}</Text>
             <LoginButton />
             <RegisterButton />
         </View>

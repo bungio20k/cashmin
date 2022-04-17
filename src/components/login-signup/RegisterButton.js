@@ -1,10 +1,10 @@
 import { Button, Alert } from 'react-native'
 
-export default function RegisterButton() {
+export default function RegisterButton(props) {
     return (
         <Button
             title = 'ĐĂNG KÝ'
-            onPress = {() => {Alert.alert('Register button pressed!')}}
+            onPress = {props.onPress}
         />
     )
 }

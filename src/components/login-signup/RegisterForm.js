@@ -1,7 +1,9 @@
+import { Text, Alert } from 'react-native'
 import { useState } from 'react'
 import { VStack, FormControl, Input, Button, Icon } from 'native-base';
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
+import RegisterButton from './RegisterButton';
 
 export default function RegisterForm() {
     const [formData, setData] = useState({});
@@ -169,10 +171,11 @@ export default function RegisterForm() {
                         Nhập lại mật khẩu để chắc chắn
                     </FormControl.HelperText>}
             </FormControl>
-
-            <Button onPress={onSubmit} mt="5" colorScheme="cyan">
-                Đăng ký
-            </Button>
+            
+            <RegisterButton onPress={onSubmit}/>
+            
+            <Text onPress={() => Alert.alert('Quen mat khau pressed')}> Quên mật khẩu </Text>
+            <Text onPress={() => Alert.alert('Dang nhap pressed')}> Đăng nhập </Text>
         </VStack>
     )
 }
