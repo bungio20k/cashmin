@@ -3,6 +3,7 @@ import { NativeBaseProvider } from "native-base";
 import { StyleSheet, Text, View } from "react-native";
 import HomeScreen from "./src/screens/HomeScreen";
 import IncomeExpenseScreen from "./src/screens/IncomeExpenseScreen";
+import CategoryScreen from "./src/screens/CategoryScreen";
 
 export default function App() {
   return (
@@ -12,7 +13,8 @@ export default function App() {
     // </View>
     <NativeBaseProvider>
       {/* <HomeScreen /> */}
-      <IncomeExpenseScreen />
+      {/* <IncomeExpenseScreen /> */}
+      <CategoryScreen />
     </NativeBaseProvider>
   );
 }
