@@ -8,6 +8,7 @@ import {
   FormControl,
   Select,
   TextArea,
+  Modal,
 } from "native-base";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -21,6 +22,7 @@ const FormAddNewItem = () => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -154,6 +156,7 @@ const FormAddNewItem = () => {
           backgroundColor: "#4FB286",
         }}
         w="80%"
+        onPress={() => setShowModal(true)}
       >
         Thêm
       </Button>
@@ -168,6 +171,38 @@ const FormAddNewItem = () => {
           />
         )}
       </View>
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal.Content
+          w="90%"
+          style={{ backgroundColor: " rgba(236, 252, 229, 1)", padding: 20 }}
+        >
+          <Modal.Body>
+            <Text
+              style={{
+                fontSize: 18,
+                fontWeight: "700",
+                textAlign: "center",
+                marginBottom: 20,
+              }}
+            >
+              Bạn đã thêm thành công!
+            </Text>
+            <Button
+              fontSize="xl"
+              my="2"
+              mx="auto"
+              py="3"
+              style={{
+                backgroundColor: "#4FB286",
+              }}
+              w="80%"
+              onPress={() => setShowModal(false)}
+            >
+              SUCCESS
+            </Button>
+          </Modal.Body>
+        </Modal.Content>
+      </Modal>
     </FormControl>
   );
 };
