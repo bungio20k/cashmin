@@ -9,6 +9,7 @@ import WelcomeScreen from "./src/screens/WelcomeScreen";
 import RegisterScreen from "./src/screens/RegisterScreen";
 import LoginScreen from "./src/screens/LoginScreen";
 import RetrieveScreen from "./src/screens/RetrieveScreen";
+import LimitScreen from "./src/screens/LimitScreen";
 
 export default function App() {
   return (
@@ -19,7 +20,8 @@ export default function App() {
     <NativeBaseProvider>
       {/* <HomeScreen /> */}
       {/* <IncomeExpenseScreen /> */}
-      <CategoryScreen />
+      {/* <CategoryScreen /> */}
+      <LimitScreen />
     </NativeBaseProvider>
   );
 }
