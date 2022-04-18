@@ -3,11 +3,13 @@ import { NativeBaseProvider } from "native-base";
 import { StyleSheet, Text, View } from "react-native";
 import HomeScreen from "./src/screens/HomeScreen";
 import IncomeExpenseScreen from "./src/screens/IncomeExpenseScreen";
+import CategoryScreen from "./src/screens/CategoryScreen";
 
-import WelcomeScreen from './src/screens/WelcomeScreen'
-import RegisterScreen from './src/screens/RegisterScreen'
-import LoginScreen from './src/screens/LoginScreen'
-import RetrieveScreen from './src/screens/RetrieveScreen'
+import WelcomeScreen from "./src/screens/WelcomeScreen";
+import RegisterScreen from "./src/screens/RegisterScreen";
+import LoginScreen from "./src/screens/LoginScreen";
+import RetrieveScreen from "./src/screens/RetrieveScreen";
+import LimitScreen from "./src/screens/LimitScreen";
 
 export default function App() {
   return (
@@ -17,10 +19,16 @@ export default function App() {
     // </View>
     <NativeBaseProvider>
       {/* <HomeScreen /> */}
+<<<<<<< HEAD
       <WelcomeScreen />
       {/* <RegisterScreen /> */}
       {/* <LoginScreen /> */}
       {/* <RetrieveScreen /> */}
+=======
+      {/* <IncomeExpenseScreen /> */}
+      {/* <CategoryScreen /> */}
+      <LimitScreen />
+>>>>>>> 697e0eec07d98bd873dae6b97a244bd010c30b51
     </NativeBaseProvider>
   );
 }
