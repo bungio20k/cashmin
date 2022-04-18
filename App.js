@@ -16,8 +16,8 @@ export default function App() {
     //   <StatusBar style="auto" />
     // </View>
     <NativeBaseProvider>
-      <HomeScreen />
-      {/* <WelcomeScreen /> */}
+      {/* <HomeScreen /> */}
+      <WelcomeScreen />
       {/* <RegisterScreen /> */}
       {/* <LoginScreen /> */}
       {/* <RetrieveScreen /> */}
