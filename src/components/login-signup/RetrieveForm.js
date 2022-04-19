@@ -9,7 +9,7 @@ export default function RegisterForm() {
     const [errors, setErrors] = useState({});
 
     const validate = () => {
-        if (formData.name === undefined) {
+        if (formData.name === undefined || formData.name == '') {
             setErrors({
                 ...errors,
                 name: 'Chưa có tên đăng nhập'

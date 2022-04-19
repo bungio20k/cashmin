@@ -11,7 +11,7 @@ export default function RegisterForm() {
     const [show, setShow] = useState(false)
 
     const validate = () => {
-        if (formData.name === undefined) {
+        if (formData.name === undefined || formData.name == '') {
             setErrors({
                 ...errors,
                 name: 'Chưa có tên đăng nhập'
@@ -26,7 +26,7 @@ export default function RegisterForm() {
         }
 
         const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
-        if (formData.email === undefined) {
+        if (formData.email === undefined || formData.email == '') {
             setErrors({
                 ...errors,
                 email: 'Chưa có email'
@@ -41,7 +41,7 @@ export default function RegisterForm() {
             return false
         }
 
-        if (formData.password === undefined) {
+        if (formData.password === undefined || formData.password == '') {
             setErrors({
                 ...errors,
                 password: 'Chưa có mật khẩu'
@@ -55,7 +55,7 @@ export default function RegisterForm() {
             return false
         }
 
-        if (formData.password_ === undefined) {
+        if (formData.password_ === undefined || formData.password_ == '') {
             setErrors({
                 ...errors,
                 password_: 'Chưa có mật khẩu'
