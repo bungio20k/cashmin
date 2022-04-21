@@ -9,7 +9,7 @@ const style = {
         fontSize: mainTypo.input.fontSize,
         width: '350',
         alignSelf: 'center',
-        margin: '2',
+        margin: '3',
     },
     icon: {
         size: 20,

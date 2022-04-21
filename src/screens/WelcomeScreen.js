@@ -7,14 +7,16 @@ import Typo from '../theme/mainTypo'
 
 export default function WelcomeScreen() {
     const titleText = 'Chào mừng đến với Cashmin! \n'
-    const bodyText = 'Cashmin sẽ là trợ thủ đắc lực của bạn trong việc ghi chú và quản lý chi tiêu hằng ngày\n\nĐăng ký hoặc đăng nhập để bắt đầu ngay'
+    const bodyText1 = 'Cashmin sẽ là trợ thủ đắc lực của bạn trong việc ghi chú và quản lý chi tiêu hằng ngày'
+    const bodyText2 = 'Đăng ký hoặc đăng nhập để bắt đầu ngay'
     return (
         <View style={style.container}>
             <Logo />
             <Text style={[Typo.h4, style.title]}>{titleText}</Text>
-            <Text style={[Typo.body, style.body]}>{bodyText}</Text>
-            <RegisterButton />
+            <Text style={[Typo.body, style.body1]}>{bodyText1}</Text>
+            <Text style={[Typo.body, style.body2]}>{bodyText2}</Text>
             <LoginButton />
+            <RegisterButton />
         </View>
     )
 }

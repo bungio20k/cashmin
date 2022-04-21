@@ -58,7 +58,7 @@ export default function LoginForm() {
     };
 
     return (
-        <VStack marginTop='10'>
+        <VStack marginTop='20'>
 
             <FormControl isRequired isInvalid={'name' in errors}>
                 <Input
@@ -122,7 +122,7 @@ export default function LoginForm() {
             </FormControl>
 
             <LoginButton onPress={onSubmit}/>
-            <Text style={[style.text, { alignSelf: 'center' }]}> Hoặc đăng nhập bằng </Text>
+            <Text style={[style.text, { alignSelf: 'center', marginTop: 20 }]}> Hoặc đăng nhập bằng </Text>
             
             <HStack justifyContent='center'>
                 <FontAwesome name="facebook" size={30} color="gray" style={{margin: 10}}/>
@@ -131,16 +131,16 @@ export default function LoginForm() {
 
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: 50 }}>
                 <VStack>
-                    <Text style={style.text}> Bạn chưa có tài khoản? </Text>
+                    <Text style={style.text}>Bạn chưa có tài khoản?</Text>
                     <Text
                         onPress={() => Alert.alert('Dang ky pressed')}
                         style={[style.text, style.link, { alignSelf: 'center' }]}
-                    > Đăng ký </Text>
+                    >Đăng ký</Text>
                 </VStack>
                 <Text
                     onPress={() => Alert.alert('Quen mat khau pressed')}
                     style={[style.text, style.link]}
-                > Quên mật khẩu? </Text>
+                >Quên mật khẩu?</Text>
             </View>
 
         </VStack>

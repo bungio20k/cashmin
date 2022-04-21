@@ -21,7 +21,7 @@ export default function App() {
       {/* <HomeScreen /> */}
       {/* <WelcomeScreen /> */}
       {/* <RegisterScreen /> */}
-      <LoginScreen />
+      {/* <LoginScreen /> */}
       {/* <RetrieveScreen /> */}
       {/* <IncomeExpenseScreen /> */}
       {/* <CategoryScreen /> */}
