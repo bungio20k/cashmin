@@ -8,14 +8,20 @@ const style = StyleSheet.create({
     },
     title: {
         textAlign: 'center',
-        color: Theme.mint,
+        color: Theme.gray,
         marginTop: 30,
     },
-    body: {
+    body1: {
         width: 320,
         textAlign: 'center',
-        color: Theme.mint,
+        color: Theme.gray,
         marginBottom: 100
+    },
+    body2: {
+        width: 320,
+        textAlign: 'center',
+        color: Theme.gray,
+        marginBottom: 30
     }
 })
 

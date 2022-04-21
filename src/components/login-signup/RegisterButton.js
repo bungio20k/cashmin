@@ -15,10 +15,10 @@ export default function RegisterButton(props) {
 
 const style = StyleSheet.create({
     container: {
-        backgroundColor: Theme.gray,
+        backgroundColor: Theme.dark,
         margin: 10,
         padding: 15,
-        width: 300,
+        width: 350,
         borderRadius: 5,
 
         shadowColor: "#000",
@@ -30,5 +30,6 @@ const style = StyleSheet.create({
         shadowRadius: 6.27,
 
         elevation: 10,
+        alignSelf: 'center'
     },
 })

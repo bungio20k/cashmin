@@ -1,12 +1,19 @@
-import { View } from 'react-native'
+import { ScrollView } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import RegisterForm from '../components/login-signup/RegisterForm'
 import Logo from '../components/login-signup/Logo'
 
 export default function RegisterScreen() {
     return (
-        <View>
-            <Logo />
-            <RegisterForm />
-        </View>
+        <KeyboardAwareScrollView
+            resetScrollToCoords={{ x: 0, y: 0 }}
+            contentContainerStyle={{ flex: 1 }}
+            scrollEnabled={false}
+        >
+            <ScrollView>
+                <Logo />
+                <RegisterForm />
+            </ScrollView>
+        </KeyboardAwareScrollView>
     )
 }

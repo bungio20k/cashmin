@@ -3,13 +3,14 @@ import { useState } from 'react'
 import { VStack, FormControl, Input } from 'native-base';
 import { FontAwesome } from '@expo/vector-icons'
 import RetrieveButton from './RetrieveButton'
+import style from '../../styles/login-signup/RetrieveStyle'
 
 export default function RegisterForm() {
     const [formData, setData] = useState({});
     const [errors, setErrors] = useState({});
 
     const validate = () => {
-        if (formData.name === undefined) {
+        if (formData.name === undefined || formData.name == '') {
             setErrors({
                 ...errors,
                 name: 'Chưa có tên đăng nhập'
@@ -37,11 +38,19 @@ export default function RegisterForm() {
     };
 
     return (
-        <VStack width="90%" mx="3" maxW="300px">
+        <VStack marginTop='20'>
 
             <FormControl isRequired isInvalid={'name' in errors}>
                 <Input
-                    InputLeftElement={<FontAwesome name='user' size={25} color="black" />}
+                    variant={style.input.variant}
+                    borderWidth={style.input.borderWidth}
+                    borderColor={style.input.borderColor}
+                    fontSize={style.input.fontSize}
+                    width={style.input.width}
+                    alignSelf={style.input.alignSelf}
+                    margin={style.input.margin}
+
+                    InputLeftElement={<FontAwesome name='user' size={style.icon.size} color={style.icon.color} style={style.left_icon} />}
                     placeholder="Tên đăng nhập"
                     onChangeText={value => {
                         setData({
@@ -56,15 +65,18 @@ export default function RegisterForm() {
                         {errors.name}
                     </FormControl.ErrorMessage>
                     :
-                    <></>
+                    <FormControl.HelperText marginLeft='9' marginTop='0'>
+                        Nhận mật khẩu mới qua email của bạn
+                    </FormControl.HelperText>
                 }
             </FormControl>
-           
+
             <RetrieveButton onPress={onSubmit} />
-            <Text> Hoặc đăng nhập bằng </Text>
-            
-            <Text onPress={() => Alert.alert('Quen mat khau pressed')}> Đăng nhập </Text>
-            <Text onPress={() => Alert.alert('Dang ky pressed')}> Đăng ký </Text>
+
+            <Text
+                style={[style.text, style.link, { marginLeft: 20, marginTop: 250 }]}
+                onPress={() => Alert.alert('OK')}>Quay lại
+            </Text>
         </VStack>
     )
 }

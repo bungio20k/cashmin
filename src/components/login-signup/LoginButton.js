@@ -18,7 +18,7 @@ const style = StyleSheet.create({
         backgroundColor: Theme.mint,
         margin: 10,
         padding: 15,
-        width: 300,
+        width: 350,
         borderRadius: 5,
 
         shadowColor: "#000",
@@ -30,5 +30,7 @@ const style = StyleSheet.create({
         shadowRadius: 6.27,
 
         elevation: 10,
+        alignSelf: 'center',
+        
     },
 })

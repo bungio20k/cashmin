@@ -6,6 +6,9 @@ const Typo = StyleSheet.create({
         fontFamily: 'sans-serif',
         fontWeight: 'bold',
     },
+    h5: {
+        fontSize: 16,
+    },
     body: {
         fontSize: 16
     },
@@ -13,7 +16,11 @@ const Typo = StyleSheet.create({
         color: '#FFFFFF',
         textAlign: 'center',
         fontSize: 17
-    }
+    },
+    input: {
+        fontSize: 16
+    },
+    
 })
 
 export default Typo
