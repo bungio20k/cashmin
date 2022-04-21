@@ -15,7 +15,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { AntDesign } from "@expo/vector-icons";
 
 const FormAddNewItem = () => {
-  const [type, setType] = useState(0);
+  const [type, setType] = useState("0");
   const [category, setCategory] = useState("");
   const [wallet, setWallet] = useState("");
   const [desc, setDesc] = useState("");
@@ -50,12 +50,13 @@ const FormAddNewItem = () => {
         style={styles.radioGroup}
         accessibilityLabel="favorite number"
         my="2"
+        size="sm"
       >
         <Radio value="0" my={1}>
-          <Text style={{ fontSize: 20 }}>Thêm khoản thu</Text>
+          <Text style={{ fontSize: 18 }}>Thêm khoản thu</Text>
         </Radio>
         <Radio value="1" my={1}>
-          <Text style={{ fontSize: 20 }}>Thêm khoản chi</Text>
+          <Text style={{ fontSize: 18 }}>Thêm khoản chi</Text>
         </Radio>
       </Radio.Group>
       <Input
@@ -63,14 +64,14 @@ const FormAddNewItem = () => {
         type="number"
         placeholder="Số tiền"
         variant="rounded"
-        bg="rgba(233,215,88,.6)"
+        bg="#fbfbff"
         my="2"
         keyboardType="numeric"
       />
       <Select
         fontSize="xl"
         my="2"
-        bg="rgba(233,215,88,.6)"
+        bg="#fbfbff"
         borderRadius="full"
         selectedValue={category}
         minWidth="100%"
@@ -91,7 +92,7 @@ const FormAddNewItem = () => {
         <Input
           fontSize="xl"
           my="2"
-          bg="rgba(233,215,88,.6)"
+          bg="#fbfbff"
           w={{
             md: "100%",
           }}
@@ -116,7 +117,7 @@ const FormAddNewItem = () => {
       <Select
         fontSize="xl"
         my="2"
-        bg="rgba(233,215,88,.6)"
+        bg="#fbfbff"
         borderRadius="full"
         selectedValue={wallet}
         minWidth="100%"
@@ -137,7 +138,7 @@ const FormAddNewItem = () => {
       <TextArea
         fontSize="xl"
         my="2"
-        bg="rgba(233,215,88,.6)"
+        bg="#fbfbff"
         borderRadius="2xl"
         value={desc}
         onChange={(e) => {
@@ -198,7 +199,7 @@ const FormAddNewItem = () => {
               w="80%"
               onPress={() => setShowModal(false)}
             >
-              SUCCESS
+              Thành công
             </Button>
           </Modal.Body>
         </Modal.Content>

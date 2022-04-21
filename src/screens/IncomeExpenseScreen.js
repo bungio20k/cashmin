@@ -11,7 +11,7 @@ const IncomeExpenseScreen = () => {
     <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Ionicons name="add-circle" size={36} color="#198155" />
+          {/* <Ionicons name="add-circle" size={36} color="#198155" /> */}
           <Text style={styles.title}>Thêm thu chi</Text>
         </View>
         <View style={styles.historyContainer}>

@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   thuchiContainer: {
-    backgroundColor: "#E9D758",
+    backgroundColor: "#C9DAEA",
     padding: 12,
     marginBottom: 8,
   },
@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   thuchiTitle: {
-    color: "white",
+    color: "black",
     fontSize: 24,
     fontWeight: "700",
     marginRight: 10,

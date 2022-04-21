@@ -121,7 +121,7 @@ const Modals = ({
                   setIconName(option.value);
                 }}
                 style={{
-                  borderRadius: "50%",
+                  borderRadius: 24,
                   backgroundColor: "#4FB286",
                   paddingHorizontal: 12,
                 }}

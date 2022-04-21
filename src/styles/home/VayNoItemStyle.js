@@ -6,17 +6,26 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 16,
     paddingHorizontal: 8,
-    backgroundColor: "#4fb286b3",
+    backgroundColor: "#fafafa",
     borderRadius: 6,
     marginBottom: 6,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   vaynoItemTime: {
-    color: "#fbfbff",
+    color: "#555",
     fontStyle: "italic",
   },
   vaynoItemMoney: {
     fontSize: 16,
-    fontWeight: "600",
+    fontWeight: "700",
   },
 });
 

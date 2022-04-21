@@ -41,10 +41,6 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#3C896D",
   },
-  viewIcon: {
-    fontSize: 24,
-    height: "100%",
-  },
 });
 
 export default styles;
