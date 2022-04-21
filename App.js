@@ -19,16 +19,10 @@ export default function App() {
     // </View>
     <NativeBaseProvider>
       {/* <HomeScreen /> */}
-<<<<<<< HEAD
-      <WelcomeScreen />
+      {/* <WelcomeScreen /> */}
       {/* <RegisterScreen /> */}
       {/* <LoginScreen /> */}
       {/* <RetrieveScreen /> */}
-=======
-      {/* <IncomeExpenseScreen /> */}
-      {/* <CategoryScreen /> */}
-      <LimitScreen />
->>>>>>> 697e0eec07d98bd873dae6b97a244bd010c30b51
     </NativeBaseProvider>
   );
 }
