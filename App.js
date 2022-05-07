@@ -11,6 +11,8 @@ import LoginScreen from "./src/screens/LoginScreen";
 import RetrieveScreen from "./src/screens/RetrieveScreen";
 import LimitScreen from "./src/screens/LimitScreen";
 
+import ReportHistoryScreen from "./src/screens/ReportHistoryScreen";
+
 export default function App() {
   return (
     // <View style={styles.container}>
@@ -23,6 +25,7 @@ export default function App() {
       {/* <RegisterScreen /> */}
       {/* <LoginScreen /> */}
       {/* <RetrieveScreen /> */}
+      <ReportHistoryScreen />
     </NativeBaseProvider>
   );
 }

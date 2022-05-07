@@ -1,4 +1,6 @@
 const Theme = {
+    background: '#c9daea',
+    lightGreen: '#ecfce5',
     mint: '#4FB286',
     gray: '#9FA5AA',
     dark: '#6b6f73',
