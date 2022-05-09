@@ -18,11 +18,14 @@ export default function App() {
     //   <StatusBar style="auto" />
     // </View>
     <NativeBaseProvider>
-      {/* <HomeScreen /> */}
+      <HomeScreen />
+      {/* <IncomeExpenseScreen /> */}
       {/* <WelcomeScreen /> */}
       {/* <RegisterScreen /> */}
       {/* <LoginScreen /> */}
       {/* <RetrieveScreen /> */}
+      {/* <CategoryScreen /> */}
+      {/* <LimitScreen /> */}
     </NativeBaseProvider>
   );
 }
