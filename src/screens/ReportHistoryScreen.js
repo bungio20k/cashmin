@@ -118,10 +118,10 @@ export default function ReportHistoryScreen() {
 
         <View style={st.graph}
           onLayout={(event) => {
-            var layout = event.nativeEvent.layout;
-            graphViewY = layout.y;
-            graphViewHeight = layout.height; 
-            console.log("Y = " + graphViewY + " + " + graphViewHeight); 
+            // var layout = event.nativeEvent.layout;
+            // graphViewY = layout.y;
+            // graphViewHeight = layout.height; 
+            // console.log("Y = " + graphViewY + " + " + graphViewHeight); 
           }}>
           <VictoryChart
             width={360}
@@ -207,7 +207,7 @@ const st = StyleSheet.create({
   },
 
   reportContainer: {
-    flex: 0.53,
+    flex: 0.57,
     width: '100%'
   },
     reportHeader: {
@@ -252,7 +252,7 @@ const st = StyleSheet.create({
 
 
   historyContainer: {
-    flex: 0.47,
+    flex: 0.43,
     width: '100%',
   },
     historyHeader: {

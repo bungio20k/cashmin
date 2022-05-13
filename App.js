@@ -13,20 +13,57 @@ import LimitScreen from "./src/screens/LimitScreen";
 
 import ReportHistoryScreen from "./src/screens/ReportHistoryScreen";
 
+// Navigation
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
+
 export default function App() {
   return (
-    // <View style={styles.container}>
-    //   <Text>Open up App.js to start working on your app!</Text>
-    //   <StatusBar style="auto" />
-    // </View>
     <NativeBaseProvider>
-      {/* <HomeScreen /> */}
-      {/* <WelcomeScreen /> */}
-      {/* <RegisterScreen /> */}
-      {/* <LoginScreen /> */}
-      {/* <RetrieveScreen /> */}
-      <ReportHistoryScreen />
+      <NavigationContainer>
+        <Tab.Navigator 
+          initialRouteName="Home"
+          screenOptions={{ headerShown: false }}>
+
+          {/* <WelcomeScreen /> */}
+          {/* <RegisterScreen /> */}
+          {/* <LoginScreen /> */}
+          {/* <RetrieveScreen /> */}
+          
+          <Tab.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              tabBarLabel: "Trang chủ"
+            }} />
+
+          <Tab.Screen 
+            name="ReportHistory" 
+            component={ReportHistoryScreen} 
+            options={{
+              tabBarLabel: "Thống kê"
+            }} />
+
+          <Tab.Screen 
+            name="IncomeExpense" 
+            component={IncomeExpenseScreen} 
+            options={{
+              tabBarLabel: "Thu - Chi"
+            }} />
+
+          <Tab.Screen 
+            name="Limit" 
+            component={LimitScreen} 
+            options={{
+              tabBarLabel: "Hạn mức"
+            }} />
+        </Tab.Navigator>
+      </NavigationContainer>
     </NativeBaseProvider>
+
   );
 }
 
