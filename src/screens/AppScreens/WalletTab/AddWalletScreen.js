@@ -3,11 +3,11 @@ import React, { useState } from "react";
 import { 
     Fab,
 } from 'native-base';
-import AddModal from "../components/wallet/AddModal";
-import ModifyWalletModal from "../components/wallet/ModifyWalletModal";
+import AddModal from "src/components/wallet/AddModal";
+import ModifyWalletModal from "src/components/wallet/ModifyWalletModal";
 
 import { AntDesign } from '@expo/vector-icons'; 
-import style from '../styles/wallet/AddRemoveWallet';
+import style from 'src/styles/wallet/AddRemoveWallet';
 
 const data = [
     {

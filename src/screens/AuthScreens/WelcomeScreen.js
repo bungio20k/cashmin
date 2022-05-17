@@ -1,9 +1,9 @@
 import { View, Text } from 'react-native'
-import LoginButton from '../components/login-signup/LoginButton'
-import RegisterButton from '../components/login-signup/RegisterButton'
-import Logo from '../components/login-signup/Logo'
-import style from '../styles/login-signup/WelcomeStyle'
-import Typo from '../theme/mainTypo'
+import LoginButton from 'src/components/login-signup/LoginButton'
+import RegisterButton from 'src/components/login-signup/RegisterButton'
+import Logo from 'src/components/login-signup/Logo'
+import style from 'src/styles/login-signup/WelcomeStyle'
+import Typo from 'src/theme/mainTypo'
 
 export default function WelcomeScreen() {
     const titleText = 'Chào mừng đến với Cashmin! \n'

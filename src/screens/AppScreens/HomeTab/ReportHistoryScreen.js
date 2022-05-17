@@ -4,9 +4,9 @@ import { StyleSheet, Text, View, ScrollView, StatusBar, FlatList, Button } from 
 import { Picker } from '@react-native-picker/picker';
 import { VictoryChart, VictoryGroup, VictoryBar, VictoryTheme } from 'victory-native';
 
-import Theme from '../theme/mainTheme';
-import Typo from '../theme/mainTypo';
-import { HistoryListItem } from '../components/history/HistoryListItem';
+import Theme from 'src/theme/mainTheme';
+import Typo from 'src/theme/mainTypo';
+import { HistoryListItem } from 'src/components/history/HistoryListItem';
 
 
 // Data (TODO: get from database)

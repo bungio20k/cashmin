@@ -1,9 +1,9 @@
 import { View, Text, TouchableWithoutFeedback } from "react-native";
 import React from "react";
-import styles from "../styles/income_expense/MainStyle";
+import styles from "src/styles/income_expense/MainStyle";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
-import FormAddNewItem from "../components/income_expense/FormAddNewItem";
+import FormAddNewItem from "src/components/income_expense/FormAddNewItem";
 import { Keyboard } from "react-native";
 
 const IncomeExpenseScreen = () => {
