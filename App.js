@@ -12,7 +12,9 @@ import RetrieveScreen from "./src/screens/RetrieveScreen";
 import LimitScreen from "./src/screens/LimitScreen";
 
 import ReportHistoryScreen from "./src/screens/ReportHistoryScreen";
+import WalletScreen from "./src/screens/WalletScreen";
 
+import AddWalletScreen from "./src/screens/AddWalletScreen";
 // Navigation
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -23,15 +25,12 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NativeBaseProvider>
-      <NavigationContainer>
-        <Tab.Navigator 
+        <AddWalletScreen />
+        
+
+        {/* <Tab.Navigator 
           initialRouteName="Home"
           screenOptions={{ headerShown: false }}>
-
-          {/* <WelcomeScreen /> */}
-          {/* <RegisterScreen /> */}
-          {/* <LoginScreen /> */}
-          {/* <RetrieveScreen /> */}
           
           <Tab.Screen
             name="Home"
@@ -60,8 +59,9 @@ export default function App() {
             options={{
               tabBarLabel: "Hạn mức"
             }} />
-        </Tab.Navigator>
-      </NavigationContainer>
+        </Tab.Navigator> */}
+
+      {/* </NavigationContainer> */}
     </NativeBaseProvider>
 
   );
