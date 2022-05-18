@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 
-import HomeTop from "../components/home/HomeTop";
-import ThuChi from "../components/home/ThuChi";
-import HanMuc from "../components/home/HanMuc";
-import VayNo from "../components/home/VayNo";
+import HomeTop from "src/components/home/HomeTop";
+import ThuChi from "src/components/home/ThuChi";
+import HanMuc from "src/components/home/HanMuc";
+import VayNo from "src/components/home/VayNo";
 
 export default function HomeScreen() {
   return (

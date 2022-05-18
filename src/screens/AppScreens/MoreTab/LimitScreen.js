@@ -1,10 +1,10 @@
 import { View, Text } from "react-native";
 import React, { useState } from "react";
-import styles from "../styles/limit/MainStyle";
+import styles from "src/styles/limit/MainStyle";
 import { Ionicons } from "@expo/vector-icons";
-import LimitItem from "../components/limit/LimitItem";
+import LimitItem from "src/components/limit/LimitItem";
 import { FlatList } from "native-base";
-import ModalEdit from "../components/limit/ModalEdit";
+import ModalEdit from "src/components/limit/ModalEdit";
 
 const data = [
   {

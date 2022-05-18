@@ -4,9 +4,9 @@ import { StyleSheet, Text, View, ScrollView, StatusBar, FlatList, Button } from 
 import { Picker } from '@react-native-picker/picker';
 import { VictoryChart, VictoryGroup, VictoryBar, VictoryTheme } from 'victory-native';
 
-import Theme from '../theme/mainTheme';
-import Typo from '../theme/mainTypo';
-import { HistoryListItem } from '../components/history/HistoryListItem';
+import Theme from 'src/theme/mainTheme';
+import Typo from 'src/theme/mainTypo';
+import { HistoryListItem } from 'src/components/history/HistoryListItem';
 
 
 // Data (TODO: get from database)
@@ -118,10 +118,10 @@ export default function ReportHistoryScreen() {
 
         <View style={st.graph}
           onLayout={(event) => {
-            var layout = event.nativeEvent.layout;
-            graphViewY = layout.y;
-            graphViewHeight = layout.height; 
-            console.log("Y = " + graphViewY + " + " + graphViewHeight); 
+            // var layout = event.nativeEvent.layout;
+            // graphViewY = layout.y;
+            // graphViewHeight = layout.height; 
+            // console.log("Y = " + graphViewY + " + " + graphViewHeight); 
           }}>
           <VictoryChart
             width={360}
@@ -207,7 +207,7 @@ const st = StyleSheet.create({
   },
 
   reportContainer: {
-    flex: 0.53,
+    flex: 0.57,
     width: '100%'
   },
     reportHeader: {
@@ -252,7 +252,7 @@ const st = StyleSheet.create({
 
 
   historyContainer: {
-    flex: 0.47,
+    flex: 0.43,
     width: '100%',
   },
     historyHeader: {

@@ -1,24 +1,35 @@
 import { StatusBar } from "expo-status-bar";
 import { NativeBaseProvider } from "native-base";
 import { StyleSheet, Text, View } from "react-native";
-import HomeScreen from "./src/screens/HomeScreen";
-import IncomeExpenseScreen from "./src/screens/IncomeExpenseScreen";
-import CategoryScreen from "./src/screens/CategoryScreen";
 
-import WelcomeScreen from "./src/screens/WelcomeScreen";
-import RegisterScreen from "./src/screens/RegisterScreen";
-import LoginScreen from "./src/screens/LoginScreen";
-import RetrieveScreen from "./src/screens/RetrieveScreen";
-import LimitScreen from "./src/screens/LimitScreen";
+// Authentication screens
+import WelcomeScreen from "src/screens/AuthScreens/WelcomeScreen";
+import RegisterScreen from "src/screens/AuthScreens/RegisterScreen";
+import LoginScreen from "src/screens/AuthScreens/LoginScreen";
+import RetrieveScreen from "src/screens/AuthScreens/RetrieveScreen";
 
-import ReportHistoryScreen from "./src/screens/ReportHistoryScreen";
+// Home tab
+import HomeScreen from "src/screens/AppScreens/HomeTab/HomeScreen";
+import ReportHistoryScreen from "src/screens/AppScreens/HomeTab/ReportHistoryScreen";
+
+// Transaction tab
+import IncomeExpenseScreen from "src/screens/AppScreens/TransactionTab/IncomeExpenseScreen";
+
+// Wallet tab
+import AddWalletScreen from "src/screens/AppScreens/WalletTab/AddWalletScreen";
+
+// More tab
+import CategoryScreen from "src/screens/AppScreens/MoreTab/CategoryScreen";
+import LimitScreen from "src/screens/AppScreens/MoreTab/LimitScreen";
+
+// Navigation
+import { NavigationContainer } from "@react-navigation/native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    // <View style={styles.container}>
-    //   <Text>Open up App.js to start working on your app!</Text>
-    //   <StatusBar style="auto" />
-    // </View>
     <NativeBaseProvider>
       {/* <HomeScreen /> */}
       <ReportHistoryScreen />

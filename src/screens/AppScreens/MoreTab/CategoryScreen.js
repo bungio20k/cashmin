@@ -1,10 +1,10 @@
 import { View, Text } from "react-native";
 import React, { useState } from "react";
-import styles from "../styles/category/MainStyle";
+import styles from "src/styles/category/MainStyle";
 import { Ionicons } from "@expo/vector-icons";
 import { FlatList } from "native-base";
-import CategoryItem from "../components/category/CategoryItem";
-import Modals from "../components/category/Modals";
+import CategoryItem from "src/components/category/CategoryItem";
+import Modals from "src/components/category/Modals";
 
 const CategoryScreen = () => {
   const [isEdit, setIsEdit] = useState(false);

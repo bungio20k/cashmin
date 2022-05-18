@@ -1,6 +1,6 @@
 import { View, Keyboard, TouchableWithoutFeedback } from 'react-native'
-import Logo from '../components/login-signup/Logo'
-import LoginForm from '../components/login-signup/LoginForm'
+import Logo from 'src/components/login-signup/Logo'
+import LoginForm from 'src/components/login-signup/LoginForm'
 
 export default function LoginScreen() {
     return (
