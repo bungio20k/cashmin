@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View, ScrollView, StatusBar, FlatList, Button } from 'react-native';
 
+import { Select } from 'native-base';
 import { Picker } from '@react-native-picker/picker';
 import { VictoryChart, VictoryGroup, VictoryBar, VictoryTheme } from 'victory-native';
 
@@ -92,28 +93,71 @@ var graphViewY; var graphViewHeight;
 
 // Screen
 export default function ReportHistoryScreen() {
-  const [selectedTime, setSelectedTime] = useState();
-  const [selectedWallet, setSelectedWallet] = useState();
+  const [selectedTime, setSelectedTime] = useState("week");
+  const [selectedWallet, setSelectedWallet] = useState("Ví #1");
   return (
     <View style={st.container}>
       <View style={st.reportContainer}>
         <Text style={[Typo.h4, st.reportHeader]}>Thống kê</Text>
 
         <View style={st.btnContainer}>
-          <Picker selectedValue={selectedTime}
+          {/* <Picker selectedValue={selectedTime}
                   onValueChange={(itemValue, itemIndex) => setSelectedTime(itemValue)}
                   style={st.picker}>
             <Picker.Item label="Tuần" value="week" />
             <Picker.Item label="Tháng" value="month" />
             <Picker.Item label="Năm" value="year" />
-          </Picker>
-          <Picker selectedValue={selectedWallet}
+          </Picker> */}
+          <Select
+            w="86px"
+            h="66%"
+            p="0"
+            marginX="1"
+            borderColor="transparent"
+            borderBottomColor="#888"
+            borderRadius="none"
+            marginHorizontal="10%"
+            selectedValue={selectedTime}
+            onValueChange={(itemValue) => {
+              setSelectedTime(itemValue);
+            }}
+            _selectedItem={{
+              bg: "teal.600",
+            }}
+          >
+            <Select.Item label="Tuần" value="week" />
+            <Select.Item label="Tháng" value="month" />
+            <Select.Item label="Năm" value="year" />
+          </Select>
+
+          <Select
+            w="86px"
+            h="66%"
+            p="0"
+            marginX="1"
+            borderColor="transparent"
+            borderBottomColor="#888"
+            borderRadius="none"
+            selectedValue={selectedWallet}
+            onValueChange={(itemValue) => {
+              setSelectedWallet(itemValue);
+            }}
+            _selectedItem={{
+              bg: "teal.600",
+            }}
+          >
+            <Select.Item label="Ví #1" value="Ví #1" />
+            <Select.Item label="Ví #2" value="Ví #2" />
+            <Select.Item label="Ví #3" value="Ví #3" />
+          </Select>
+
+          {/* <Picker selectedValue={selectedWallet}
                   onValueChange={(itemValue, itemIndex) => setSelectedWallet(itemValue)}
                   style={st.picker}>
             <Picker.Item label="Ví #1" value="Ví #1" />
             <Picker.Item label="Ví #2" value="Ví #2" />
             <Picker.Item label="Ví #3" value="Ví #3" />
-          </Picker>
+          </Picker> */}
         </View>
 
         <View style={st.graph}
@@ -125,7 +169,7 @@ export default function ReportHistoryScreen() {
           }}>
           <VictoryChart
             width={360}
-            height={250}
+            height={260}
             //height={graphViewY + graphViewHeight}
             
             domain={{ x: [0, graphData.in.length + graphData.out.length], y: [0, 275] }}
@@ -219,7 +263,7 @@ const st = StyleSheet.create({
     },
 
     btnContainer: {
-      flex: 1.1,
+      flex: 0.9,
       width: '100%',
       flexDirection: 'row',
       justifyContent: 'center'

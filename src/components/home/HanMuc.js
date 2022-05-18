@@ -3,12 +3,16 @@ import { AntDesign } from "@expo/vector-icons";
 import React from "react";
 import styles from "../../styles/home/HanMucStyle";
 
+// Navigation
+import { useNavigation } from "@react-navigation/native";
+
 const HanMuc = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.hanmucContainer}>
       <View style={styles.hanmucTop}>
         <Text style={styles.hanmucTitle}>Hạn mức chi</Text>
-        <AntDesign name="arrowright" size={24} color="#198155" />
+        <AntDesign name="arrowright" size={24} color="#198155" onPress={() => navigation.navigate("Khác", { screen: "Limit" })} />
       </View>
       <View style={styles.hanmucInfo}>
         <Text style={styles.hanmucDate}>01/04 - 30/04</Text>
