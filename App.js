@@ -23,14 +23,20 @@ import LimitScreen from "src/screens/AppScreens/MoreTab/LimitScreen";
 
 // Navigation
 import { NavigationContainer } from "@react-navigation/native";
+import AuthNavigator from "src/navigation/AuthNavigator";
 import TabNavigator from "src/navigation/TabNavigator";
+
+
+//TODO: actual authentication from database
+const isLoggedIn = false;
 
 
 export default function App() {
   return (
     <NativeBaseProvider>
       <NavigationContainer>  
-        <TabNavigator />
+        {!isLoggedIn && <AuthNavigator />}
+        {isLoggedIn && <TabNavigator />}
       </NavigationContainer>
     </NativeBaseProvider>
   );

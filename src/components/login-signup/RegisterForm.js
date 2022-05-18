@@ -6,7 +6,12 @@ import { FontAwesome } from '@expo/vector-icons'
 import RegisterButton from './RegisterButton';
 import style from '../../styles/login-signup/RegisterStyle'
 
+// Navigation
+import { useNavigation } from "@react-navigation/native";
+
 export default function RegisterForm() {
+    const navigation = useNavigation();
+
     const [formData, setData] = useState({});
     const [errors, setErrors] = useState({});
     const [show, setShow] = useState(false)
@@ -205,7 +210,7 @@ export default function RegisterForm() {
             <HStack alignSelf='center' marginTop='5'>
                 <Text style={style.text}>Bạn đã có tài khoản?</Text>
                 <Text
-                    onPress={() => Alert.alert('Dang nhap pressed')}
+                    onPress={() => navigation.navigate("Login")}
                     style={[style.text, style.link, { alignSelf: 'center' }]}
                 >Đăng nhập</Text>
             </HStack>
