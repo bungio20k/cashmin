@@ -1,4 +1,5 @@
 import { View } from "react-native";
+import styles from "../styles/navigation/navigationStyle";
 
 // Home tab
 import HomeScreen from "src/screens/AppScreens/HomeTab/HomeScreen";
@@ -19,63 +20,107 @@ import IonIcon from "@expo/vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 
-export default function TabNavigator() {
-    return (
-        <Tab.Navigator initialRouteName="Trang chủ" screenOptions={{ headerShown: false, unmountOnBlur: true }}>
-            <Tab.Screen 
-                name='Trang chủ' 
-                component={HomeScreen} 
-                options={{
-                    tabBarIcon: ({ focused, color, size }) => (
-                        <View style={{ position: "relative", justifyContent: "center", alignItems: "center" }}>
-                            {focused && <IonIcon name="radio-button-off" color={color} size={size * 1.35} />}
-                            <IonIcon name="home-sharp" color={color} size={size * 0.8} style={focused? iconStyle : {}} />
-                        </View>
-                    )
-                }} />
+const getStyle = (focused, color, size) => {
+  return {
+    justifyContent: "center",
+    alignItems: "center",
+    borderColor: color,
+    padding: 2,
+    borderRadius: size + 4,
+    borderWidth: (focused && 2) || 0,
+  };
+};
 
-            <Tab.Screen 
-                name='Thu - Chi' 
-                component={IncomeExpenseScreen} 
-                options={{
-                    tabBarIcon: ({ focused, color, size }) => (
-                        <View style={{ position: "relative", justifyContent: "center", alignItems: "center" }}>
-                            {focused && <IonIcon name="radio-button-off" color={color} size={size * 1.35} />}
-                            <IonIcon name="logo-usd" color={color} size={size} style={focused? iconStyle : {}} />
-                        </View>
-                    )
-                }} />
-            <Tab.Screen 
-                name='Ví' 
-                component={WalletNavigator}
-                options={{
-                    tabBarIcon: ({ focused, color, size }) => (
-                        <View style={{ position: "relative", justifyContent: "center", alignItems: "center" }}>
-                            {focused && <IonIcon name="radio-button-off" color={color} size={size * 1.35} />}
-                            <IonIcon name="wallet" color={color} size={size * 0.85} style={focused? iconStyle : {}} />
-                        </View>
-                    )
-                }} />
-            <Tab.Screen
-                name='Khác' 
-                component={MoreNavigator}
-                options={{
-                    tabBarIcon: ({ focused, color, size }) => (
-                        <View style={{ position: "relative", justifyContent: "center", alignItems: "center" }}>
-                            {focused && <IonIcon name="radio-button-off" color={color} size={size * 1.35} />}
-                            <IonIcon name="ellipsis-horizontal" color={color} size={size} style={focused? iconStyle : {}} />
-                        </View>
-                    )
-                }} />
-        </Tab.Navigator>
-    )
+export default function TabNavigator() {
+  return (
+    <Tab.Navigator
+      initialRouteName="Trang chủ"
+      screenOptions={{
+        headerShown: false,
+        unmountOnBlur: true,
+        tabBarStyle: { position: "absolute", zIndex: 10 },
+        tabBarIconStyle: {},
+        tabBarLabelStyle: {
+          marginBottom: 2,
+        },
+      }}
+    >
+      <Tab.Screen
+        name="Trang chủ"
+        component={HomeScreen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <View style={getStyle(focused, color, size)}>
+              <IonIcon
+                name="home-sharp"
+                color={color}
+                size={size}
+                style={{ lineHeight: size }}
+              />
+            </View>
+          ),
+        }}
+      />
+
+      <Tab.Screen
+        name="Thu - Chi"
+        component={IncomeExpenseScreen}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <View style={getStyle(focused, color, size)}>
+              <IonIcon
+                name="logo-usd"
+                color={color}
+                size={size}
+                style={{ lineHeight: size, marginLeft: 1, marginRight: -1 }}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Ví"
+        component={WalletNavigator}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <View style={getStyle(focused, color, size)}>
+              <IonIcon
+                name="wallet"
+                color={color}
+                size={size}
+                style={{
+                  lineHeight: size,
+                  marginLeft: 2,
+                  marginRight: -1,
+                }}
+              />
+            </View>
+          ),
+        }}
+      />
+      <Tab.Screen
+        name="Khác"
+        component={MoreNavigator}
+        options={{
+          tabBarIcon: ({ focused, color, size }) => (
+            <View style={getStyle(focused, color, size)}>
+              <IonIcon
+                name="ellipsis-horizontal"
+                color={color}
+                size={size}
+                style={{ lineHeight: size, marginLeft: 1 }}
+              />
+            </View>
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
 }
 
 const iconStyle = {
-    position: "absolute",
-    zIndex: 10
+  //   position: "absolute",
+  //   zIndex: 10,
 };
 
-const options = ({ route }) => ({
-
-})
+const options = ({ route }) => ({});
