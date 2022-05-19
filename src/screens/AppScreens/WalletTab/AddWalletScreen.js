@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { 
     Fab,
 } from 'native-base';
-import AddModal from "src/components/wallet/AddModal";
+import AddModal from "src/components/wallet/AddWalletModal";
 import ModifyWalletModal from "src/components/wallet/ModifyWalletModal";
 
 import { AntDesign } from '@expo/vector-icons'; 
@@ -33,7 +33,7 @@ const data = [
     },
 ]
 
-const TotalBalance = () => {
+const AddWalletScreen = () => {
     const [showModal1, setShowModal1] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
     const [currentWallet, setCurrentWallet] = useState();
@@ -41,7 +41,7 @@ const TotalBalance = () => {
     return (
         <ScrollView style={style.container}>
             {data.map(wallet => (
-                <TouchableOpacity style={style.card} key={wallet.key} 
+                <TouchableOpacity style={style.card} key={wallet.key}
                     onPress={() => {
                         setCurrentWallet(wallet);
                         setShowModal2(true);
@@ -59,10 +59,11 @@ const TotalBalance = () => {
                 size="sm" 
                 bgColor="#4FB286"
                 onPress={() => setShowModal1(true)}
+                marginBottom={12}
                 icon={<AntDesign name="pluscircleo" size={24} color="white" />}
             />
         </ScrollView>
     );
 };
 
-export default TotalBalance;
+export default AddWalletScreen;

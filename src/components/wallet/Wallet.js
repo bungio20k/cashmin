@@ -22,7 +22,7 @@ const walletData = [
   }
 ]
 
-const AddWallet = () => {
+const Wallet = () => {
   const navigation = useNavigation();
   return (
     <View style={styles.top}>
@@ -47,4 +47,4 @@ const AddWallet = () => {
   );
 };
 
-export default AddWallet;
+export default Wallet;

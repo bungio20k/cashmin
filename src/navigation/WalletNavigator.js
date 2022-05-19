@@ -1,6 +1,6 @@
 import WalletScreen from "src/screens/AppScreens/WalletTab/WalletScreen";
-import AddWalletScreen from "src/screens/AppScreens/WalletTab/AddWalletScreen"
-// TODO: import DebtScreen from "src/screens/AppScreens/WalletTab/..."
+import AddWalletScreen from "src/screens/AppScreens/WalletTab/AddWalletScreen";
+import AddDebitScreen from "src/screens/AppScreens/WalletTab/AddDebitScreen";
 
 import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -19,6 +19,7 @@ export default function WalletNavigator() {
     <Stack.Navigator initialRouteName="Wallet" screenOptions={{ headerShown: false, unmountOnBlur: true }}>
       <Stack.Screen name="Wallet" component={WalletScreen} />
       <Stack.Screen name="AddWallet" component={AddWalletScreen} />
+      <Stack.Screen name="AddDebit" component={AddDebitScreen} />
     </Stack.Navigator>
   )
 }

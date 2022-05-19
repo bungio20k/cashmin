@@ -1,6 +1,8 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import styles from "../../styles/wallet/Debit";
 
+import { useNavigation } from "@react-navigation/native";
+
 const walletData = [
   {
     key: '1',
@@ -20,13 +22,14 @@ const walletData = [
 ]
 
 const Debit = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.top}>
       <View style={styles.title}>
         <Text style={styles.name}>Sổ ghi nợ</Text>
       </View>
 
-      <TouchableOpacity style={styles.walletContainer}>
+      <TouchableOpacity style={styles.walletContainer} onPress={() => navigation.navigate("Ví", { screen: "AddDebit" })}>
         <View style={styles.content}>
           {walletData.map(wallet => (
             <View style={styles.moneyContainer} key={wallet.key}>
