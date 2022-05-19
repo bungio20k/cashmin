@@ -1,6 +1,8 @@
 import { View } from "react-native";
 import styles from "../styles/navigation/navigationStyle";
 
+import Theme from "src/theme/mainTheme";
+
 // Home tab
 import HomeScreen from "src/screens/AppScreens/HomeTab/HomeScreen";
 

@@ -31,17 +31,6 @@ const isLoggedIn = true;
 
 export default function App() {
   return (
-    // <NativeBaseProvider>
-    //   {/* <HomeScreen /> */}
-    //   {/* <ReportHistoryScreen /> */}
-    //   <IncomeExpenseScreen />
-    //   {/* <WelcomeScreen /> */}
-    //   {/* <RegisterScreen /> */}
-    //   {/* <LoginScreen /> */}
-    //   {/* <RetrieveScreen /> */}
-    //   {/* <CategoryScreen /> */}
-    //   {/* <LimitScreen /> */}
-    // </NativeBaseProvider>
     <NativeBaseProvider>
       <NavigationContainer>
         {!isLoggedIn && <AuthNavigator />}

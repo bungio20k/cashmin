@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
   featureContainer: {
     backgroundColor: "#ECFCE5",
-    width: "85%",
+    width: "90%",
     borderRadius: 20,
     paddingHorizontal: 8,
     paddingVertical: 12,
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   },
   moreContainer: {
     backgroundColor: "#ECFCE5",
-    width: "85%",
+    width: "90%",
     borderRadius: 20,
     paddingHorizontal: 8,
     paddingVertical: 12,
