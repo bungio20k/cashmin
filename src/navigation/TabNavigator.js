@@ -1,5 +1,7 @@
 import { View } from "react-native";
 
+import Theme from "src/theme/mainTheme";
+
 // Home tab
 import HomeScreen from "src/screens/AppScreens/HomeTab/HomeScreen";
 
@@ -21,7 +23,12 @@ const Tab = createBottomTabNavigator();
 
 export default function TabNavigator() {
     return (
-        <Tab.Navigator initialRouteName="Trang chủ" screenOptions={{ headerShown: false, unmountOnBlur: true }}>
+        <Tab.Navigator 
+            initialRouteName="Trang chủ" 
+            screenOptions={{ 
+                headerShown: false, 
+                unmountOnBlur: true,
+                tabBarActiveTintColor: Theme.darkGreen }}>
             <Tab.Screen 
                 name='Trang chủ' 
                 component={HomeScreen} 

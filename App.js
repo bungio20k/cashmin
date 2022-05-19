@@ -27,21 +27,10 @@ import AuthNavigator from "src/navigation/AuthNavigator";
 import TabNavigator from "src/navigation/TabNavigator";
 
 //TODO: actual authentication from database
-const isLoggedIn = false;
+const isLoggedIn = true;
 
 export default function App() {
   return (
-    // <NativeBaseProvider>
-    //   {/* <HomeScreen /> */}
-    //   {/* <ReportHistoryScreen /> */}
-    //   <IncomeExpenseScreen />
-    //   {/* <WelcomeScreen /> */}
-    //   {/* <RegisterScreen /> */}
-    //   {/* <LoginScreen /> */}
-    //   {/* <RetrieveScreen /> */}
-    //   {/* <CategoryScreen /> */}
-    //   {/* <LimitScreen /> */}
-    // </NativeBaseProvider>
     <NativeBaseProvider>
       <NavigationContainer>
         {!isLoggedIn && <AuthNavigator />}
