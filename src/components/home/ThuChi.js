@@ -5,7 +5,12 @@ import styles from "../../styles/home/ThuChiStyle";
 import { Select } from "native-base";
 import { useState } from "react";
 
+// Navigation
+import { useNavigation } from "@react-navigation/native";
+
+
 const ThuChi = () => {
+  const navigation = useNavigation();
   const [type, setType] = useState("day");
 
   return (
@@ -34,7 +39,7 @@ const ThuChi = () => {
             <Select.Item label="Năm này" value="year" />
           </Select>
         </View>
-        <AntDesign name="arrowright" size={24} color="#198155" />
+        <AntDesign name="arrowright" size={24} color="#198155" onPress={() => navigation.navigate("Khác", { screen: "ReportHistory" })} />
       </View>
       <View style={styles.thuchiContent}>
         <View style={styles.thuchiChart}>
