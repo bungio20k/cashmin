@@ -30,16 +30,61 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
+    // <NativeBaseProvider>
+    //   {/* <HomeScreen /> */}
+    //   {/* <ReportHistoryScreen /> */}
+    //   <IncomeExpenseScreen />
+    //   {/* <WelcomeScreen /> */}
+    //   {/* <RegisterScreen /> */}
+    //   {/* <LoginScreen /> */}
+    //   {/* <RetrieveScreen /> */}
+    //   {/* <CategoryScreen /> */}
+    //   {/* <LimitScreen /> */}
+    // </NativeBaseProvider>
     <NativeBaseProvider>
-      {/* <HomeScreen /> */}
-      <ReportHistoryScreen />
-      {/* <IncomeExpenseScreen /> */}
-      {/* <WelcomeScreen /> */}
-      {/* <RegisterScreen /> */}
-      {/* <LoginScreen /> */}
-      {/* <RetrieveScreen /> */}
-      {/* <CategoryScreen /> */}
-      {/* <LimitScreen /> */}
+      <NavigationContainer>
+        <Tab.Navigator
+          initialRouteName="Home"
+          screenOptions={{ headerShown: false }}
+        >
+          {/* <WelcomeScreen /> */}
+          {/* <RegisterScreen /> */}
+          {/* <LoginScreen /> */}
+          {/* <RetrieveScreen /> */}
+
+          <Tab.Screen
+            name="Home"
+            component={HomeScreen}
+            options={{
+              tabBarLabel: "Trang chủ",
+            }}
+          />
+
+          <Tab.Screen
+            name="ReportHistory"
+            component={ReportHistoryScreen}
+            options={{
+              tabBarLabel: "Thống kê",
+            }}
+          />
+
+          <Tab.Screen
+            name="IncomeExpense"
+            component={IncomeExpenseScreen}
+            options={{
+              tabBarLabel: "Thu - Chi",
+            }}
+          />
+
+          <Tab.Screen
+            name="Limit"
+            component={LimitScreen}
+            options={{
+              tabBarLabel: "Hạn mức",
+            }}
+          />
+        </Tab.Navigator>
+      </NavigationContainer>
     </NativeBaseProvider>
   );
 }
