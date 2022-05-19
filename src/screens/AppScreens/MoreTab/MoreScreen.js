@@ -7,6 +7,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableHighlight } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import AccountScreen from "./AccountScreen";
 
 export default function MoreScreen() {
   const navigation = useNavigation();
@@ -88,7 +89,13 @@ export default function MoreScreen() {
                 <Text style={styles.featureTitle}>Cài đặt chung</Text>
               </View>
             </TouchableHighlight>
-            <TouchableHighlight activeOpacity={0.8} underlayColor="#ECFCE5">
+            <TouchableHighlight
+              activeOpacity={0.8}
+              underlayColor="#ECFCE5"
+              onPress={() =>
+                navigation.navigate("Account", { screen: "AccountScreen" })
+              }
+            >
               <View style={styles.featureItem}>
                 <FontAwesome name="user" size={40} color="#198155" />
                 <Text style={styles.featureTitle}>Tài khoản</Text>

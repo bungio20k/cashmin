@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SettingScreen from "../screens/AppScreens/MoreTab/SettingScreen";
+import AccountScreen from "../screens/AppScreens/MoreTab/AccountScreen";
 const Stack = createNativeStackNavigator();
 
 export default function MoreNavigator() {
@@ -27,6 +28,7 @@ export default function MoreNavigator() {
       <Stack.Screen name="Limit" component={LimitScreen} />
       <Stack.Screen name="Category" component={CategoryScreen} />
       <Stack.Screen name="Setting" component={SettingScreen} />
+      <Stack.Screen name="Account" component={AccountScreen} />
     </Stack.Navigator>
   );
 }
