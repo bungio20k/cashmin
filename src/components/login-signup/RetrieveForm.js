@@ -4,11 +4,11 @@ import { VStack, FormControl, Input } from 'native-base';
 import { FontAwesome } from '@expo/vector-icons'
 import RetrieveButton from './RetrieveButton'
 import style from '../../styles/login-signup/RetrieveStyle'
-
+import { useNavigation } from "@react-navigation/native";
 export default function RegisterForm() {
     const [formData, setData] = useState({});
     const [errors, setErrors] = useState({});
-
+    const navigation = useNavigation();
     const validate = () => {
         if (formData.name === undefined || formData.name == '') {
             setErrors({
@@ -75,7 +75,7 @@ export default function RegisterForm() {
 
             <Text
                 style={[style.text, style.link, { marginLeft: 20, marginTop: 250 }]}
-                onPress={() => Alert.alert('OK')}>Quay lại
+                onPress={() => navigation.goBack()}>Quay lại
             </Text>
         </VStack>
     )

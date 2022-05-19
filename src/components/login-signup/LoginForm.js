@@ -6,6 +6,8 @@ import { FontAwesome } from '@expo/vector-icons'
 import LoginButton from './LoginButton'
 import style from '../../styles/login-signup/LoginStyle'
 
+import { useNavigation } from "@react-navigation/native";
+
 export default function LoginForm() {
     const [formData, setData] = useState({});
     const [errors, setErrors] = useState({});
@@ -56,6 +58,8 @@ export default function LoginForm() {
     const onSubmit = () => {
         validate() ? console.log(formData) : console.log('Validation Failed');
     };
+    
+    const navigation = useNavigation();
 
     return (
         <VStack marginTop='20'>
@@ -133,12 +137,12 @@ export default function LoginForm() {
                 <VStack>
                     <Text style={style.text}>Bạn chưa có tài khoản?</Text>
                     <Text
-                        onPress={() => Alert.alert('Dang ky pressed')}
+                        onPress={() => navigation.navigate("Register")}
                         style={[style.text, style.link, { alignSelf: 'center' }]}
                     >Đăng ký</Text>
                 </VStack>
                 <Text
-                    onPress={() => Alert.alert('Quen mat khau pressed')}
+                    onPress={() => navigation.navigate("Retrieve")}
                     style={[style.text, style.link]}
                 >Quên mật khẩu?</Text>
             </View>
