@@ -6,7 +6,7 @@ import {
 } from 'native-base';
 import Theme from '../../theme/mainTheme';
 export default function ModifyDebitModal(props) {
-    const { showModal, setShowModal, currentWallet } = props
+    const { showModal, setShowModal, currentDebit } = props
     return (
         <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
             <Modal.Content maxWidth="400px">
@@ -15,28 +15,28 @@ export default function ModifyDebitModal(props) {
                 <Modal.Body>
                     <FormControl>
                         <FormControl.Label>Tên khoản nợ</FormControl.Label>
-                        <Input defaultValue={currentWallet?.name} />
+                        <Input defaultValue={currentDebit?.name} />
                     </FormControl>
                     <FormControl>
                         <FormControl.Label>Số tiền</FormControl.Label>
-                        <Input defaultValue={currentWallet?.amount} />
+                        <Input defaultValue={currentDebit?.amount} />
                     </FormControl>
                     <FormControl>
                         <FormControl.Label>Nợ/ Cho nợ</FormControl.Label>
-                        <Input defaultValue={currentWallet?.debt.toString()} />
+                        <Input defaultValue={currentDebit?.debt.toString()} />
                     </FormControl>
                     <FormControl>
                         <FormControl.Label>Hạng mục</FormControl.Label>
-                        <Input defaultValue={currentWallet?.category} />
+                        <Input defaultValue={currentDebit?.category} />
                     </FormControl>
                     <FormControl>
                         <FormControl.Label>Mô tả</FormControl.Label>
-                        <Input defaultValue={currentWallet?.desc} />
+                        <Input defaultValue={currentDebit?.desc} />
                     </FormControl>
-                    {currentWallet?.periodic &&
+                    {currentDebit?.periodic &&
                         <FormControl>
                             <FormControl.Label>Định kỳ</FormControl.Label>
-                            <Input defaultValue={currentWallet?.periodic.period} />
+                            <Input defaultValue={currentDebit?.periodic.period} />
                         </FormControl>
                     }
                 </Modal.Body>

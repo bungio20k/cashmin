@@ -1,12 +1,13 @@
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import React, { useState } from "react";
-import { 
+import {
     Fab,
 } from 'native-base';
 import AddModal from "src/components/wallet/AddWalletModal";
 import ModifyWalletModal from "src/components/wallet/ModifyWalletModal";
+import WalletLongPress from "../../../components/wallet/WalletLongPress";
 
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from '@expo/vector-icons';
 import style from 'src/styles/wallet/AddRemoveWallet';
 
 const data = [
@@ -36,6 +37,7 @@ const data = [
 const AddWalletScreen = () => {
     const [showModal1, setShowModal1] = useState(false);
     const [showModal2, setShowModal2] = useState(false);
+    const [hold, setHold] = useState(false);
     const [currentWallet, setCurrentWallet] = useState();
 
     return (
@@ -45,18 +47,25 @@ const AddWalletScreen = () => {
                     onPress={() => {
                         setCurrentWallet(wallet);
                         setShowModal2(true);
-                    }}>
+                    }}
+                    onLongPress={() => {
+                        setCurrentWallet(wallet);
+                        setHold(true);
+                    }}
+                    delayLongPress={100}
+                >
                     <Text style={style.name}>{wallet.name}</Text>
                     <Text style={style.balance}>Số dư: {wallet.balance}</Text>
                     <Text style={style.category}>Hạng mục: {wallet.category}</Text>
                     <Text style={style.desc}>Mô tả: {wallet.desc}</Text>
                 </TouchableOpacity>
             ))}
-            <AddModal showModal={showModal1} setShowModal={setShowModal1}/>
-            <ModifyWalletModal showModal={showModal2} setShowModal={setShowModal2} currentWallet={currentWallet}/>
-            <Fab 
-                position="absolute" 
-                size="sm" 
+            <AddModal showModal={showModal1} setShowModal={setShowModal1} />
+            <ModifyWalletModal showModal={showModal2} setShowModal={setShowModal2} currentWallet={currentWallet} />
+            <WalletLongPress hold={hold} setHold={setHold} currentWallet={currentWallet} setShowModal2={setShowModal2}/>
+            <Fab
+                position="absolute"
+                size="sm"
                 bgColor="#4FB286"
                 onPress={() => setShowModal1(true)}
                 marginBottom={12}
