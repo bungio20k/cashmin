@@ -64,14 +64,14 @@ const FormAddNewItem = () => {
         type="number"
         placeholder="Số tiền"
         variant="rounded"
-        bg="#fbfbff"
+        bg="white"
         my="2"
         keyboardType="numeric"
       />
       <Select
         fontSize="xl"
         my="2"
-        bg="#fbfbff"
+        bg="white"
         borderRadius="full"
         selectedValue={category}
         minWidth="100%"
@@ -92,7 +92,7 @@ const FormAddNewItem = () => {
         <Input
           fontSize="xl"
           my="2"
-          bg="#fbfbff"
+          bg="white"
           w={{
             md: "100%",
           }}
@@ -117,7 +117,7 @@ const FormAddNewItem = () => {
       <Select
         fontSize="xl"
         my="2"
-        bg="#fbfbff"
+        bg="white"
         borderRadius="full"
         selectedValue={wallet}
         minWidth="100%"
@@ -138,7 +138,7 @@ const FormAddNewItem = () => {
       <TextArea
         fontSize="xl"
         my="2"
-        bg="#fbfbff"
+        bg="white"
         borderRadius="2xl"
         value={desc}
         onChange={(e) => {

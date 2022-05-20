@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
-import Theme from '../../theme/mainTheme';
-import Typo from '../../theme/mainTypo';
+import Theme from 'src/theme/mainTheme';
+import Typo from 'src/theme/mainTypo';
 
 export function HistoryListItem({ data }) {
   return (

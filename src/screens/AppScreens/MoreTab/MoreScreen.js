@@ -1,21 +1,29 @@
 import { View, Text, Input, VStack, HStack, FlatList } from "native-base";
 import styles from "../../../styles/more_screen/moreScreenStyle";
 import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableHighlight } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import AccountScreen from "./AccountScreen";
 
 export default function MoreScreen() {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Xin chào Nguyễn Văn A</Text>
       <Input
         w={{
-          base: "85%",
+          base: "95%",
         }}
         InputRightElement={
-          <TouchableHighlight style={{ marginRight: 8 }}>
+          <TouchableHighlight
+            style={{ marginRight: 8 }}
+            activeOpacity={0.8}
+            underlayColor="#ECFCE5"
+          >
             <AntDesign name="search1" size={24} color="#198155" />
           </TouchableHighlight>
         }
@@ -29,28 +37,70 @@ export default function MoreScreen() {
         <Text style={styles.containerTitle}>Tính năng</Text>
         <VStack space={6} alignItems="center" mt="4">
           <HStack space={4} justifyContent="space-between">
-            <View style={styles.featureItem}>
-              <FontAwesome name="money" size={40} color="#198155" />
-              <Text style={styles.featureTitle}>Hạn mức chi</Text>
-            </View>
-            <View style={styles.featureItem}>
-              <MaterialIcons name="category" size={40} color="#198155" />
-              <Text style={styles.featureTitle}>Thêm hạng mục</Text>
-            </View>
-            <View style={styles.featureItem}>
-              <FontAwesome name="bar-chart" size={40} color="#198155" />
-              <Text style={styles.featureTitle}>Thống kê</Text>
-            </View>
+            <TouchableHighlight
+              onPress={() =>
+                navigation.navigate("Limit", { screen: "LimitScreen" })
+              }
+              activeOpacity={0.8}
+              underlayColor="#ECFCE5"
+            >
+              <View style={styles.featureItem}>
+                <FontAwesome5 name="money-bill" size={40} color="#198155" />
+                <Text style={styles.featureTitle}>Hạn mức chi</Text>
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
+              activeOpacity={0.8}
+              underlayColor="#ECFCE5"
+              onPress={() =>
+                navigation.navigate("Category", { screen: "CategoryScreen" })
+              }
+            >
+              <View style={styles.featureItem}>
+                <MaterialIcons name="category" size={40} color="#198155" />
+                <Text style={styles.featureTitle}>Thêm hạng mục</Text>
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
+              activeOpacity={0.8}
+              underlayColor="#ECFCE5"
+              onPress={() =>
+                navigation.navigate("ReportHistory", {
+                  screen: "ReportHistoryScreen",
+                })
+              }
+            >
+              <View style={styles.featureItem}>
+                <FontAwesome name="bar-chart" size={40} color="#198155" />
+                <Text style={styles.featureTitle}>Thống kê</Text>
+              </View>
+            </TouchableHighlight>
           </HStack>
           <HStack space={4} justifyContent="space-between">
-            <View style={styles.featureItem}>
-              <Ionicons name="settings-outline" size={40} color="#198155" />
-              <Text style={styles.featureTitle}>Cài đặt chung</Text>
-            </View>
-            <View style={styles.featureItem}>
-              <FontAwesome name="user" size={40} color="#198155" />
-              <Text style={styles.featureTitle}>Tài khoản</Text>
-            </View>
+            <TouchableHighlight
+              activeOpacity={0.8}
+              underlayColor="#ECFCE5"
+              onPress={() =>
+                navigation.navigate("Setting", { screen: "SettingScreen" })
+              }
+            >
+              <View style={styles.featureItem}>
+                <Ionicons name="settings" size={40} color="#198155" />
+                <Text style={styles.featureTitle}>Cài đặt chung</Text>
+              </View>
+            </TouchableHighlight>
+            <TouchableHighlight
+              activeOpacity={0.8}
+              underlayColor="#ECFCE5"
+              onPress={() =>
+                navigation.navigate("Account", { screen: "AccountScreen" })
+              }
+            >
+              <View style={styles.featureItem}>
+                <FontAwesome name="user" size={40} color="#198155" />
+                <Text style={styles.featureTitle}>Tài khoản</Text>
+              </View>
+            </TouchableHighlight>
           </HStack>
         </VStack>
       </View>
@@ -66,8 +116,8 @@ export default function MoreScreen() {
           ]}
           renderItem={({ item }) => (
             <TouchableHighlight
-              activeOpacity={0.6}
-              underlayColor="#DDDDDD"
+              activeOpacity={0.8}
+              underlayColor="#ECFCE5"
               onPress={() => alert("Pressed!")}
               style={styles.moreItemContainer}
             >

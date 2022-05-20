@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    marginTop: 4,
     paddingHorizontal: 12,
     paddingVertical: 16,
     marginHorizontal: 12,
@@ -19,7 +20,7 @@ const styles = StyleSheet.create({
     shadowRadius: 2.62,
 
     elevation: 4,
-    marginBottom: 16,
+    marginBottom: 8,
   },
 
   content: {

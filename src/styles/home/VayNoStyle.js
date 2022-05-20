@@ -2,9 +2,20 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   vaynoContainer: {
-    backgroundColor: "#C9DAEA",
+    // backgroundColor: "#C9DAEA",
+    backgroundColor: "#fbfbff",
     padding: 12,
     marginBottom: 8,
+    height: 600,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   vaynoTop: {
     flexDirection: "row",
@@ -19,7 +30,7 @@ const styles = StyleSheet.create({
 
   vaynoList: {
     marginTop: 12,
-    height: 200,
+    height: "100%",
     padding: 12,
   },
 });

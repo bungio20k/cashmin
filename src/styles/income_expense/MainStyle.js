@@ -4,11 +4,12 @@ const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: STATUSBAR_HEIGHT,
-    backgroundColor: "#C9DAEA",
+    // backgroundColor: "#C9DAEA",
+    backgroundColor: "#fbfbff",
     height: "100%",
   },
   header: {
+    marginTop: STATUSBAR_HEIGHT,
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 8,

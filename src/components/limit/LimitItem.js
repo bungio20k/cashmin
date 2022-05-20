@@ -23,7 +23,7 @@ const LimitItem = ({ item, setShowModal, setLimit }) => {
         shadowOpacity: 0.22,
         shadowRadius: 2.22,
         elevation: 3,
-        marginBottom: 12,
+        marginVertical: 8,
         borderRadius: 20,
       }}
     >

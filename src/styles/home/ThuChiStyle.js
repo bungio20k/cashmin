@@ -2,9 +2,19 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   thuchiContainer: {
-    backgroundColor: "#C9DAEA",
+    // backgroundColor: "#C9DAEA",
+    backgroundColor: "#fbfbff",
     padding: 12,
     marginBottom: 8,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
   },
   thuchiTop: {
     flexDirection: "row",
@@ -66,9 +76,9 @@ const styles = StyleSheet.create({
     fontWeight: "400",
   },
   result: {
-    color: "white",
+    color: "#555",
     fontSize: 18,
-    fontWeight: "400",
+    fontWeight: "700",
     textAlign: "right",
   },
 });
