@@ -14,7 +14,7 @@ export default function MoreScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Xin chào Nguyễn Văn A</Text>
-      <Input
+      {/* <Input
         w={{
           base: "95%",
         }}
@@ -32,11 +32,11 @@ export default function MoreScreen() {
         variant="rounded"
         borderColor="#198155"
         mb="28"
-      />
+      /> */}
       <View style={styles.featureContainer}>
         <Text style={styles.containerTitle}>Tính năng</Text>
         <VStack space={6} alignItems="center" mt="4">
-          <HStack space={4} justifyContent="space-between">
+          <HStack space={2} justifyContent="space-between">
             <TouchableHighlight
               onPress={() =>
                 navigation.navigate("Limit", { screen: "LimitScreen" })
@@ -76,7 +76,7 @@ export default function MoreScreen() {
               </View>
             </TouchableHighlight>
           </HStack>
-          <HStack space={4} justifyContent="space-between">
+          <HStack space={2} justifyContent="space-between">
             <TouchableHighlight
               activeOpacity={0.8}
               underlayColor="#ECFCE5"

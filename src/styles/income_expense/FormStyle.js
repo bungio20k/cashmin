@@ -2,8 +2,8 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
-    marginTop: 24,
+    paddingHorizontal: 12,
+    marginTop: 8,
   },
   radioGroup: {
     flexDirection: "row",

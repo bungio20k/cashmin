@@ -49,7 +49,7 @@ const FormAddNewItem = () => {
         }}
         style={styles.radioGroup}
         accessibilityLabel="favorite number"
-        my="2"
+        my="1"
         size="sm"
       >
         <Radio value="0" my={1}>
@@ -60,17 +60,17 @@ const FormAddNewItem = () => {
         </Radio>
       </Radio.Group>
       <Input
-        fontSize="xl"
+        fontSize="md"
         type="number"
         placeholder="Số tiền"
         variant="rounded"
         bg="white"
-        my="2"
+        my="1"
         keyboardType="numeric"
       />
       <Select
-        fontSize="xl"
-        my="2"
+        fontSize="md"
+        my="1"
         bg="white"
         borderRadius="full"
         selectedValue={category}
@@ -90,8 +90,8 @@ const FormAddNewItem = () => {
       </Select>
       <TouchableOpacity onPress={showDatepicker}>
         <Input
-          fontSize="xl"
-          my="2"
+          fontSize="md"
+          my="1"
           bg="white"
           w={{
             md: "100%",
@@ -115,8 +115,8 @@ const FormAddNewItem = () => {
         />
       </TouchableOpacity>
       <Select
-        fontSize="xl"
-        my="2"
+        fontSize="md"
+        my="1"
         bg="white"
         borderRadius="full"
         selectedValue={wallet}
@@ -136,8 +136,8 @@ const FormAddNewItem = () => {
       </Select>
 
       <TextArea
-        fontSize="xl"
-        my="2"
+        fontSize="md"
+        my="1"
         bg="white"
         borderRadius="2xl"
         value={desc}

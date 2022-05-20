@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 8,
-    paddingVertical: 12,
+    paddingVertical: 8,
   },
   title: {
     fontSize: 36,
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   history: {
-    fontSize: 22,
+    fontSize: 18,
     fontWeight: "400",
     color: "#39A0ED",
     marginLeft: 4,
