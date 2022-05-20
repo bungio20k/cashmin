@@ -230,6 +230,7 @@ export default function ReportHistoryScreen() {
 
           </FlatList>
         </View>
+        <View style={st.historyEmpty}></View>
       </View>
 
     </View>
@@ -251,7 +252,7 @@ const st = StyleSheet.create({
   },
 
   reportContainer: {
-    flex: 0.57,
+    flex: 0.55,
     width: '100%'
   },
     reportHeader: {
@@ -263,7 +264,7 @@ const st = StyleSheet.create({
     },
 
     btnContainer: {
-      flex: 0.9,
+      flex: 0.7,
       width: '100%',
       flexDirection: 'row',
       justifyContent: 'center'
@@ -277,13 +278,14 @@ const st = StyleSheet.create({
 
     graph: {
       flex: 4.5,
-      justifyContent: 'flex-end',
+      justifyContent: 'center',
       alignItems: 'center',
       width: '100%'
     },
 
     summaryContainer: {
-      flex: 1.7
+      flex: 2,
+      justifyContent: 'center'
     },
       summaryRowContainer: {
         flexDirection: 'row',
@@ -296,7 +298,7 @@ const st = StyleSheet.create({
 
 
   historyContainer: {
-    flex: 0.43,
+    flex: 0.45,
     width: '100%',
   },
     historyHeader: {
@@ -312,5 +314,8 @@ const st = StyleSheet.create({
     historyList: {
       justifyContent: 'center',
       alignItems: 'flex-start'
+    },
+    historyEmpty: {
+      flex: 1.5
     }
 });
