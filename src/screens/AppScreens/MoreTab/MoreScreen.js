@@ -16,7 +16,7 @@ export default function MoreScreen() {
       <Text style={styles.title}>Xin chào Nguyễn Văn A</Text>
       <Input
         w={{
-          base: "85%",
+          base: "95%",
         }}
         InputRightElement={
           <TouchableHighlight

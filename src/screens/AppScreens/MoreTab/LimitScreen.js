@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import LimitItem from "src/components/limit/LimitItem";
 import { FlatList } from "native-base";
 import ModalEdit from "src/components/limit/ModalEdit";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const data = [
   {
@@ -25,6 +26,7 @@ const data = [
 ];
 
 const LimitScreen = () => {
+  const tabBarHeight = useBottomTabBarHeight();
   const [showModal, setShowModal] = useState(false);
   const [limit, setLimit] = useState("");
   return (
@@ -45,7 +47,7 @@ const LimitScreen = () => {
           />
         )}
         keyExtractor={(item, index) => index}
-        style={{ paddingHorizontal: 12 }}
+        style={{ paddingHorizontal: 12, marginBottom: tabBarHeight }}
       />
       <ModalEdit
         showModal={showModal}

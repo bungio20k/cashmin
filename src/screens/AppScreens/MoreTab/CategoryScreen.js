@@ -5,15 +5,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { FlatList } from "native-base";
 import CategoryItem from "src/components/category/CategoryItem";
 import Modals from "src/components/category/Modals";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const CategoryScreen = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [category, setCategory] = useState({ name: "", icon: "fast-food" });
+  const tabBarHeight = useBottomTabBarHeight();
 
   return (
-    <View style={styles.container}>
+    <View style={{ ...styles.container, marginBottom: tabBarHeight }}>
       <View style={styles.header}>
         <Text style={styles.title}>Thêm hạng mục</Text>
         <View style={styles.addIcon}>

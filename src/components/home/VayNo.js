@@ -4,6 +4,104 @@ import React from "react";
 import VayNoItem from "./VayNoItem";
 import styles from "../../styles/home/VayNoStyle";
 
+const data = [
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+  {
+    name: "Nợ A",
+    money: "9.000.000",
+    time: "30/04/2022",
+  },
+];
+
 const VayNo = () => {
   return (
     <View style={styles.vaynoContainer}>
@@ -12,109 +110,21 @@ const VayNo = () => {
 
         <AntDesign name="arrowright" size={24} color="#198155" />
       </View>
-      <SafeAreaView style={styles.vaynoList}>
+      <SafeAreaView>
+        <ScrollView nestedScrollEnabled>
+          {data.map((item, index) => (
+            <VayNoItem item={item} key={index} />
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+      {/* <SafeAreaView style={styles.vaynoList}>
         <FlatList
-          data={[
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-            {
-              name: "Nợ A",
-              money: "9.000.000",
-              time: "30/04/2022",
-            },
-          ]}
+          data={data}
           keyExtractor={(item, index) => index}
           renderItem={({ item }) => <VayNoItem item={item} />}
+          nestedScrollEnabled
         />
-      </SafeAreaView>
+      </SafeAreaView> */}
     </View>
   );
 };
