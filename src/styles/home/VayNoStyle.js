@@ -23,8 +23,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   vaynoTitle: {
-    color: "black",
-    fontSize: 24,
+    color: "#445",
+    fontSize: 20,
+    marginBottom: 12,
     fontWeight: "700",
   },
 

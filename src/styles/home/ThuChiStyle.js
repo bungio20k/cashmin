@@ -27,8 +27,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   thuchiTitle: {
-    color: "black",
-    fontSize: 24,
+    color: "#445",
+    fontSize: 20,
     fontWeight: "700",
     marginRight: 10,
   },
@@ -62,22 +62,22 @@ const styles = StyleSheet.create({
   },
   nameItem: {
     color: "#888",
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "400",
   },
   thuMoney: {
     color: "#198155",
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "400",
   },
   chiMoney: {
     color: "#d3180c",
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "400",
   },
   result: {
     color: "#555",
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "700",
     textAlign: "right",
   },
