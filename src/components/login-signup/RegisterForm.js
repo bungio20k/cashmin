@@ -8,6 +8,7 @@ import style from '../../styles/login-signup/RegisterStyle'
 
 // Navigation
 import { useNavigation } from "@react-navigation/native";
+import axios from 'axios';
 
 export default function RegisterForm() {
     const navigation = useNavigation();
@@ -16,7 +17,7 @@ export default function RegisterForm() {
     const [errors, setErrors] = useState({});
     const [show, setShow] = useState(false)
 
-    const validate = () => {
+    const validate = async () => {
         if (formData.name === undefined || formData.name == '') {
             setErrors({
                 ...errors,
@@ -75,12 +76,31 @@ export default function RegisterForm() {
             return false
         }
 
-        return true;
+        const res = await axios.post('/users/register', {
+            username: formData.name,
+            password: formData.password,
+            email: formData.email
+        }).then(
+            () => { navigation.navigate('Login'); }
+        ).catch(
+            (err) => {
+                if (err.response.status === 409) {
+                    setErrors({
+                        ...errors,
+                        name: 'Tên đăng nhập đã tồn tại'
+                    })
+                }
+                else if (err.response.status === 500) {
+                    setErrors({
+                        ...errors,
+                        name: 'Lỗi từ server, vui lòng thử lại sau'
+                    })
+                }        
+            }
+        )
     };
 
-    const onSubmit = () => {
-        validate() ? console.log(formData) : console.log('Validation Failed');
-    };
+    const onSubmit = () => validate();
 
     return (
         <VStack marginTop='10'>

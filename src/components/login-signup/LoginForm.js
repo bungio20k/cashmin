@@ -1,5 +1,5 @@
 import { Text, Alert, View } from 'react-native'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { VStack, HStack, FormControl, Input } from 'native-base';
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
@@ -7,13 +7,16 @@ import LoginButton from './LoginButton'
 import style from '../../styles/login-signup/LoginStyle'
 
 import { useNavigation } from "@react-navigation/native";
+import axios from 'axios';
+import AuthContext from '../../hooks/login-signup/AuthContext';
 
 export default function LoginForm() {
     const [formData, setData] = useState({});
     const [errors, setErrors] = useState({});
     const [show, setShow] = useState(false)
+    const { setAuth, setToken } = useContext(AuthContext);
 
-    const validate = () => {
+    const validate = async () => {
         if (formData.name === undefined || formData.name == '') {
             setErrors({
                 ...errors,
@@ -32,32 +35,33 @@ export default function LoginForm() {
 
         // server authentication
         // ...
-        const authen = {
-            user: 'bungio20k',
-            token: 'lwqj292kjld12nd1293dasndlcpi2'
-        }
-
-        if (authen.user === undefined) {
-            setErrors({
-                ...errors,
-                name: 'Tên đăng nhập không tồn tại'
-            })
-            return false
-        }
-        else if (authen.token === undefined) {
-            setErrors({
-                ...errors,
-                password: 'Mật khẩu không đúng'
-            })
-            return false
-        }
-
-        return true;
+        axios.post('/users/login', {
+            username: formData.name,
+            password: formData.password,
+        }).then(
+            (res) => { 
+                setToken(res.data.accessToken);
+                setAuth(true);
+            }
+        ).catch(
+            (err) => {
+                if (err.response.status === 404) {
+                    setErrors({
+                        ...errors,
+                        name: 'Tên đăng nhập không tồn tại'
+                    })
+                }
+                else if (err.response.status === 401) {
+                    setErrors({
+                        ...errors,
+                        password: 'Mật khẩu không đúng'
+                    })
+                }
+            }
+        )
     };
 
-    const onSubmit = () => {
-        validate() ? console.log(formData) : console.log('Validation Failed');
-    };
+    const onSubmit = () => validate();
     
     const navigation = useNavigation();
 
