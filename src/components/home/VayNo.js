@@ -3,6 +3,7 @@ import { AntDesign } from "@expo/vector-icons";
 import React from "react";
 import VayNoItem from "./VayNoItem";
 import styles from "../../styles/home/VayNoStyle";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const data = [
   {
@@ -103,8 +104,9 @@ const data = [
 ];
 
 const VayNo = () => {
+  const tabBarHeight = useBottomTabBarHeight();
   return (
-    <View style={styles.vaynoContainer}>
+    <View style={[styles.vaynoContainer, { marginBottom: tabBarHeight + 10 }]}>
       <View style={styles.vaynoTop}>
         <Text style={styles.vaynoTitle}>Tình hình vay nợ</Text>
 
