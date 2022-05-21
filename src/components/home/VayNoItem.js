@@ -6,7 +6,14 @@ const VayNoItem = ({ item }) => {
   return (
     <View style={styles.vaynoItem}>
       <Text style={styles.vaynoItemName}>{item.name}</Text>
-      <Text style={styles.vaynoItemMoney}>{item.money}</Text>
+      <Text
+        style={[
+          styles.vaynoItemMoney,
+          { color: (item.money.includes("-") && "red") || "green" },
+        ]}
+      >
+        {item.money}
+      </Text>
       <Text style={styles.vaynoItemTime}>{item.time}</Text>
     </View>
   );

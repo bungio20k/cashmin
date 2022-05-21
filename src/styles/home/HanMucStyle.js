@@ -25,8 +25,8 @@ const styles = StyleSheet.create({
   },
 
   hanmucTitle: {
-    color: "black",
-    fontSize: 24,
+    color: "#445",
+    fontSize: 20,
     fontWeight: "700",
     marginRight: 10,
   },
