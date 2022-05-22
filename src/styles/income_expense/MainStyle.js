@@ -16,10 +16,10 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   title: {
-    fontSize: 36,
+    fontSize: 28,
     fontWeight: "700",
     color: "#198155",
-    marginLeft: 10,
+    marginLeft: 8,
   },
   historyContainer: {
     flexDirection: "row",

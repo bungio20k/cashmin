@@ -3,7 +3,7 @@ import { StyleSheet, StatusBar } from "react-native";
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const styles = StyleSheet.create({
   top: {
-    backgroundColor: "#15E388",
+    backgroundColor: "#4FB286",
     paddingHorizontal: 12,
     paddingVertical: 12,
   },

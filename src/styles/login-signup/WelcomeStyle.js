@@ -1,28 +1,33 @@
-import { StyleSheet } from "react-native"
-import Theme from '../../theme/mainTheme'
+import { StyleSheet } from "react-native";
+import Theme from "../../theme/mainTheme";
 
 const style = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center'
-    },
-    title: {
-        textAlign: 'center',
-        color: Theme.gray,
-        marginTop: 30,
-    },
-    body1: {
-        width: 320,
-        textAlign: 'center',
-        color: Theme.gray,
-        marginBottom: 100
-    },
-    body2: {
-        width: 320,
-        textAlign: 'center',
-        color: Theme.gray,
-        marginBottom: 30
-    }
-})
+  container: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#fbfbff",
+  },
+  title: {
+    textAlign: "center",
+    // color: Theme.gray,
+    color: "#333",
+    marginTop: 24,
+    fontSize: 20,
+  },
+  body1: {
+    width: 320,
+    textAlign: "center",
+    color: Theme.gray,
+    fontStyle: "italic",
+    marginBottom: 44,
+  },
+  body2: {
+    //   flex: 1,
+    width: 320,
+    textAlign: "center",
+    color: Theme.gray,
+    // marginBottom: ,
+  },
+});
 
-export default style
+export default style;
