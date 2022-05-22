@@ -14,24 +14,22 @@ const IncomeExpenseScreen = () => {
   const navigation = useNavigation();
   const tabBarHeight = useBottomTabBarHeight();
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-      <View style={{ ...styles.container, marginBottom: tabBarHeight }}>
-        <View style={styles.header}>
-          {/* <Ionicons name="add-circle" size={36} color="#198155" /> */}
-          <Text style={styles.title}>Thêm thu chi</Text>
-        </View>
-        <Pressable
-          style={styles.historyContainer}
-          onPress={() =>
-            navigation.navigate("Khác", { screen: "ReportHistory" })
-          }
-        >
-          <FontAwesome name="history" size={22} color="#39A0ED" />
-          <Text style={styles.history}>Xem lịch sử</Text>
-        </Pressable>
-        <FormAddNewItem />
+    // <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+    <View style={{ ...styles.container, marginBottom: tabBarHeight }}>
+      <View style={styles.header}>
+        {/* <Ionicons name="add-circle" size={36} color="#198155" /> */}
+        <Text style={styles.title}>Thêm thu chi</Text>
       </View>
-    </TouchableWithoutFeedback>
+      <Pressable
+        style={styles.historyContainer}
+        onPress={() => navigation.navigate("Khác", { screen: "ReportHistory" })}
+      >
+        <FontAwesome name="history" size={22} color="#39A0ED" />
+        <Text style={styles.history}>Xem lịch sử</Text>
+      </Pressable>
+      <FormAddNewItem />
+    </View>
+    // </TouchableWithoutFeedback>
   );
 };
 
