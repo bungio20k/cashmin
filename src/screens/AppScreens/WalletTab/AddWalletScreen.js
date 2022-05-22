@@ -8,6 +8,7 @@ import WalletLongPress from "../../../components/wallet/WalletLongPress";
 import { AntDesign } from "@expo/vector-icons";
 import style from "src/styles/wallet/AddRemoveWallet";
 import WalletItem from "../../../components/wallet/WalletItem";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const data = [
   {
@@ -38,35 +39,39 @@ const AddWalletScreen = () => {
   const [showModal2, setShowModal2] = useState(false);
   const [hold, setHold] = useState(false);
   const [currentWallet, setCurrentWallet] = useState();
+  const tabBarHeight = useBottomTabBarHeight();
 
   return (
-    <ScrollView style={style.container}>
+    <View style={[style.container, { marginBottom: tabBarHeight }]}>
       <Text style={style.title}>Thêm/Xóa ví</Text>
-      {data.map((wallet) => (
-        <WalletItem
-          wallet={wallet}
-          setCurrentWallet={setCurrentWallet}
-          setShowModal2={setShowModal2}
-          setHold={setHold}
-          key={wallet.key}
-        />
-        // <TouchableOpacity style={style.card} key={wallet.key}
-        //     onPress={() => {
-        //         setCurrentWallet(wallet);
-        //         setShowModal2(true);
-        //     }}
-        //     onLongPress={() => {
-        //         setCurrentWallet(wallet);
-        //         setHold(true);
-        //     }}
-        //     delayLongPress={100}
-        // >
-        //     <Text style={style.name}>{wallet.name}</Text>
-        //     <Text style={style.balance}>Số dư: {wallet.balance}</Text>
-        //     <Text style={style.category}>Hạng mục: {wallet.category}</Text>
-        //     <Text style={style.desc}>Mô tả: {wallet.desc}</Text>
-        // </TouchableOpacity>
-      ))}
+      <ScrollView>
+        {data.map((wallet) => (
+          <WalletItem
+            wallet={wallet}
+            setCurrentWallet={setCurrentWallet}
+            setShowModal2={setShowModal2}
+            setHold={setHold}
+            key={wallet.key}
+          />
+          // <TouchableOpacity style={style.card} key={wallet.key}
+          //     onPress={() => {
+          //         setCurrentWallet(wallet);
+          //         setShowModal2(true);
+          //     }}
+          //     onLongPress={() => {
+          //         setCurrentWallet(wallet);
+          //         setHold(true);
+          //     }}
+          //     delayLongPress={100}
+          // >
+          //     <Text style={style.name}>{wallet.name}</Text>
+          //     <Text style={style.balance}>Số dư: {wallet.balance}</Text>
+          //     <Text style={style.category}>Hạng mục: {wallet.category}</Text>
+          //     <Text style={style.desc}>Mô tả: {wallet.desc}</Text>
+          // </TouchableOpacity>
+        ))}
+      </ScrollView>
+
       <AddModal showModal={showModal1} setShowModal={setShowModal1} />
       <ModifyWalletModal
         showModal={showModal2}
@@ -87,7 +92,7 @@ const AddWalletScreen = () => {
         marginBottom={12}
         icon={<AntDesign name="pluscircleo" size={24} color="white" />}
       />
-    </ScrollView>
+    </View>
   );
 };
 
