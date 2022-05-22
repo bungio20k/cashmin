@@ -23,8 +23,8 @@ const setLocalToken = async (token) => {
 }
 
 export const AuthProvider = ({ children }) => {
-    const [auth, changeAuth] = useState(false);
     const [token, changeToken] = useState(getLocalToken())
+    const [auth, changeAuth] = useState(token != null);
     
     const setToken = (newToken) => {
         changeToken(newToken);
