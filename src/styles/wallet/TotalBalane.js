@@ -1,11 +1,11 @@
 import { StyleSheet, StatusBar } from "react-native";
 import Theme from "../../theme/mainTheme";
 
-const STATUSBAR_HEIGHT = StatusBar.currentHeight;
+// const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 const styles = StyleSheet.create({
   top: {
-    backgroundColor: "#fff",
-    marginTop: STATUSBAR_HEIGHT,
+    // backgroundColor: "#fff",
+    // marginTop: STATUSBAR_HEIGHT,
     paddingHorizontal: 12,
     paddingVertical: 12,
   },
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   content: {},
   contentTitle: {
-    color: '#fff',
+    color: "#fff",
     fontWeight: "400",
     marginBottom: 2,
   },
