@@ -1,4 +1,12 @@
-import { Modal, FormControl, Input, Button, Radio, Select } from "native-base";
+import {
+  Modal,
+  FormControl,
+  Input,
+  Button,
+  Radio,
+  Select,
+  TextArea,
+} from "native-base";
 import { useState } from "react";
 import Theme from "../../theme/mainTheme";
 import { View, TouchableOpacity, Text } from "react-native";
@@ -58,17 +66,12 @@ export default function AddDebitModal(props) {
               <Select.Item label="Cho nợ" value="1" />
             </Select>
           </FormControl>
-
           <FormControl>
             <FormControl.Label>Hạng mục</FormControl.Label>
             <Input />
-          </FormControl>
+          </FormControl>{" "}
           <FormControl>
-            <FormControl.Label>Mô tả</FormControl.Label>
-            <Input />
-          </FormControl>
-          <FormControl>
-            <FormControl.Label>Định kỳ</FormControl.Label>
+            <FormControl.Label> Thời hạn thanh toán</FormControl.Label>
             {/* <Input /> */}
             <TouchableOpacity onPress={showDatepicker}>
               <Input
@@ -91,6 +94,10 @@ export default function AddDebitModal(props) {
                 editable={false}
               />
             </TouchableOpacity>
+          </FormControl>
+          <FormControl>
+            <FormControl.Label>Mô tả</FormControl.Label>
+            <TextArea h={20} />
           </FormControl>
         </Modal.Body>
         <Modal.Footer justifyContent="center">
