@@ -5,9 +5,9 @@ const AuthContext = createContext({});
 
 const getLocalToken = async () => {
     try {
-        const value = await AsyncStorage.getItem('@accessToken')
-        if (value !== null) {
-            return value
+        const token = await AsyncStorage.getItem('@accessToken')
+        if (token !== null) {
+            return token
         }
     } catch (e) {
         console.log(e);
@@ -24,7 +24,8 @@ const setLocalToken = async (token) => {
 
 export const AuthProvider = ({ children }) => {
     const [token, changeToken] = useState(getLocalToken())
-    const [auth, changeAuth] = useState(token != null);
+    // const [auth, changeAuth] = useState(token != null);
+    const [auth, changeAuth] = useState(false);
     
     const setToken = (newToken) => {
         changeToken(newToken);
