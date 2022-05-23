@@ -9,7 +9,7 @@ const HomeTop = () => {
   const [hideMoney, setHideMoney] = useState(false);
   const { profile, wallets, settings } = useContext(DataContext);
   const mainWalletBalance = wallets.find((w) => w.isMain).balance;
-
+  
   return (
     <View style={styles.top}>
       <View style={styles.title}>

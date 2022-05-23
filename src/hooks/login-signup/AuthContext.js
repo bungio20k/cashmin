@@ -1,4 +1,4 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const AuthContext = createContext({});
@@ -23,18 +23,25 @@ const setLocalToken = async (token) => {
 }
 
 export const AuthProvider = ({ children }) => {
-    const [token, changeToken] = useState(getLocalToken())
-    // const [auth, changeAuth] = useState(token != null);
+    const [token, changeToken] = useState(null);
     const [auth, changeAuth] = useState(false);
     
+    useEffect(async() => {
+        const token = await getLocalToken();
+        if (token != null) changeAuth(true);
+        changeToken(token);
+    }, []);
+
+
     const setToken = (newToken) => {
         changeToken(newToken);
         setLocalToken(newToken);
     }
+
     const setAuth = (value) => {
         changeAuth(value)
     }
-    
+
     return (
         <AuthContext.Provider
             value={{
