@@ -16,19 +16,40 @@ const fetch = async (token) => {
 }
 
 export const DataProvider = ({ children }) => {
-    const [data, changeData] = useState({});
+    const [profile, changeProfile] = useState({});
+    const [settings, changeSettings] = useState({});
+    const [limits, changeLimits] = useState([]);
+    const [wallets, changeWallets] = useState([]);
+    const [debits, changeDebits] = useState([]);
+    const [categories, changeCategories] = useState([]);
+
     const { token } = useContext(AuthContext);
 
-    useEffect(() => {
-        changeData(fetch(token));
-    }, [token])
+    useEffect(async () => {
+        const newData = await fetch(token);
+        changeProfile(newData.profile);
+        changeSettings(newData.settings);
+        changeLimits(newData.limits);
+        changeWallets(newData.wallets);
+        changeDebits(newData.debits);
+        changeCategories(newData.categories);
+    }, [])
 
-    const setData = (d) => changeData(d);
     return (
         <DataContext.Provider
             value={{
-                data,
-                setData
+                profile,
+                setProfile : (value) => changeProfile(value),
+                settings,
+                setSettings : (value) => changeSettings(value),
+                limits,
+                setLimits : (value) => changeLimits(value),
+                wallets,
+                setWallets : (value) => changeWallets(value),
+                debits,
+                setDebits: (value) => changeDebits(value),
+                categories,
+                setCategories: (value) => changeCategories(value)  
             }}
         >
             {children}

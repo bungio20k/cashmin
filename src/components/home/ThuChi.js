@@ -10,33 +10,12 @@ import { useNavigation } from "@react-navigation/native";
 
 const ThuChi = () => {
   const navigation = useNavigation();
-  const [type, setType] = useState("day");
 
   return (
     <View style={styles.thuchiContainer}>
       <View style={styles.thuchiTop}>
         <View style={styles.thuchiTitleWrapper}>
-          <Text style={styles.thuchiTitle}>Tình hình thu chi</Text>
-          <Select
-            w="86px"
-            h="18px"
-            p="0"
-            selectedValue={type}
-            onValueChange={(itemValue) => {
-              setType(itemValue);
-            }}
-            _selectedItem={{
-              bg: "teal.600",
-            }}
-            borderColor="transparent"
-            borderBottomColor="#888"
-            borderRadius="none"
-          >
-            <Select.Item label="Hôm nay" value="day" />
-            <Select.Item label="Tuần này" value="week" />
-            <Select.Item label="Tháng này" value="month" />
-            <Select.Item label="Năm này" value="year" />
-          </Select>
+          <Text style={styles.thuchiTitle}>Tình hình thu chi hôm nay</Text>
         </View>
         <AntDesign
           name="arrowright"
