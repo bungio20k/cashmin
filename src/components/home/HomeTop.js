@@ -8,7 +8,7 @@ import DataContext from '../../hooks/data/DataContext'
 const HomeTop = () => {
   const [hideMoney, setHideMoney] = useState(false);
   const { profile, wallets, settings } = useContext(DataContext);
-  const mainWalletBalance = wallets.find((w) => w.isMain).balance;
+  const mainWalletBalance = (wallets[0] != undefined)? wallets.find((w) => w.isMain).balance : 0;
   
   return (
     <View style={styles.top}>

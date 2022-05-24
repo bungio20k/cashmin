@@ -7,9 +7,6 @@ import AuthRedirect from "./src/containers/AuthRedirect";
 // Navigation
 import { NavigationContainer } from "@react-navigation/native";
 
-// data
-import { DataProvider } from "./src/hooks/data/DataContext";
-
 // Axios config
 import axios from 'axios';
 axios.defaults.baseURL = 'http://192.168.137.1:3001/api/v1';
@@ -19,9 +16,7 @@ export default function App() {
     <AuthProvider>
       <NativeBaseProvider>
         <NavigationContainer>
-          <DataProvider>
-            <AuthRedirect />
-          </DataProvider>
+          <AuthRedirect />
         </NavigationContainer>
       </NativeBaseProvider>
     </AuthProvider>
