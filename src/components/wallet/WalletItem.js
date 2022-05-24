@@ -37,7 +37,7 @@ const WalletItem = ({ wallet, setCurrentWallet, setShowModal2, setHold }) => {
           style={style.icon}
         />
         <Text style={style.tit}>Hạng mục</Text>
-        <Text style={style.value}>{wallet.category}</Text>
+        <Text style={style.value}>{wallet.categoryName}</Text>
       </View>
       <View style={style.textContainer}>
         <FontAwesome

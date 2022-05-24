@@ -1,5 +1,5 @@
 import { ScrollView, Text, TouchableOpacity, View } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Fab } from "native-base";
 import AddModal from "src/components/wallet/AddWalletModal";
 import ModifyWalletModal from "src/components/wallet/ModifyWalletModal";
@@ -9,6 +9,8 @@ import { AntDesign } from "@expo/vector-icons";
 import style from "src/styles/wallet/AddRemoveWallet";
 import WalletItem from "../../../components/wallet/WalletItem";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+
+import DataContext from '../../../hooks/data/DataContext';
 
 const data = [
   {
@@ -40,35 +42,19 @@ const AddWalletScreen = () => {
   const [hold, setHold] = useState(false);
   const [currentWallet, setCurrentWallet] = useState();
   const tabBarHeight = useBottomTabBarHeight();
-
+  const { wallets } = useContext(DataContext); 
   return (
     <View style={[style.container, { marginBottom: tabBarHeight }]}>
       <Text style={style.title}>Thêm/Xóa ví</Text>
       <ScrollView>
-        {data.map((wallet) => (
+        {wallets.map((wallet) => (
           <WalletItem
             wallet={wallet}
             setCurrentWallet={setCurrentWallet}
             setShowModal2={setShowModal2}
             setHold={setHold}
-            key={wallet.key}
+            key={wallet._id}
           />
-          // <TouchableOpacity style={style.card} key={wallet.key}
-          //     onPress={() => {
-          //         setCurrentWallet(wallet);
-          //         setShowModal2(true);
-          //     }}
-          //     onLongPress={() => {
-          //         setCurrentWallet(wallet);
-          //         setHold(true);
-          //     }}
-          //     delayLongPress={100}
-          // >
-          //     <Text style={style.name}>{wallet.name}</Text>
-          //     <Text style={style.balance}>Số dư: {wallet.balance}</Text>
-          //     <Text style={style.category}>Hạng mục: {wallet.category}</Text>
-          //     <Text style={style.desc}>Mô tả: {wallet.desc}</Text>
-          // </TouchableOpacity>
         ))}
       </ScrollView>
 

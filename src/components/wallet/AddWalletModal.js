@@ -5,18 +5,21 @@ import {
     Button,
 } from 'native-base';
 import Theme from '../../theme/mainTheme';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons'
 import { FontAwesome } from '@expo/vector-icons'
 
 import style from '../../styles/wallet/walletModal'
 
 export default function AddModal(props) {
-    const { showModal, setShowModal } = props
+    const { showModal, setShowModal } = props;
     const [formData, setData] = useState({});
     const [errors, setErrors] = useState({});
-    const [show, setShow] = useState(false)
 
+    useEffect(() => {
+        setData({});
+        setErrors({});
+    }, [showModal]);
 
     const validate = async () => {
         if (formData.name === undefined || formData.name == '') {
