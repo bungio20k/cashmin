@@ -3,8 +3,15 @@ import { View, Text, ScrollView } from "react-native";
 import styles from "../../../styles/more_screen/settingSceenStyle";
 import { AntDesign } from "@expo/vector-icons";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useContext } from "react";
+import DataContext from "../../../hooks/data/DataContext";
+import { useState } from "react";
 
 const SettingScreen = () => {
+  const { settings, setSettings } = useContext(DataContext);
+  const [data, setData] = useState({ ...settings });
+  console.log(data);
+
   const tabBarHeight = useBottomTabBarHeight();
   return (
     <View style={styles.container}>
@@ -17,7 +24,12 @@ const SettingScreen = () => {
       >
         <View style={styles.itemContainer}>
           <Text style={styles.itemTitle}>Chung</Text>
-          <VStack space={2} alignItems="stretch" px="4">
+          <VStack
+            space={2}
+            alignItems="stretch"
+            px="4"
+            // justifyContent="space-between"
+          >
             <HStack
               space={4}
               justifyContent="space-between"
@@ -25,23 +37,25 @@ const SettingScreen = () => {
             >
               <Text style={styles.subItemTitle}>Ngôn ngữ</Text>
               <Select
-                selectedValue="vi"
-                minWidth="120"
+                selectedValue={data.language}
+                w="110"
                 placeholder="Ngôn ngữ"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
                 mt={1}
-                onValueChange={(itemValue) => itemValue}
+                onValueChange={(itemValue) =>
+                  setData((prev) => ({ ...prev, language: itemValue }))
+                }
                 borderRadius="full"
                 backgroundColor="#39A0ED"
                 color="white"
-                fontSize="sm"
+                // fontSize="sm"
                 style={{ height: 38 }}
               >
-                <Select.Item label="Tiếng Việt" value="vi" />
-                <Select.Item label="English" value="eng" />
+                <Select.Item label="Tiếng Việt" value="Tiếng việt" />
+                <Select.Item label="English" value="English" />
               </Select>
             </HStack>
             <HStack
@@ -51,21 +65,23 @@ const SettingScreen = () => {
             >
               <Text style={styles.subItemTitle}>Định dạng thời gian</Text>
               <Select
-                selectedValue="0"
-                minWidth="120"
+                selectedValue={data.dateFormat}
+                w="110"
                 placeholder="Thời gian"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
-                onValueChange={(itemValue) => itemValue}
+                onValueChange={(itemValue) =>
+                  setData((prev) => ({ ...prev, dateFormat: itemValue }))
+                }
                 borderRadius="full"
                 backgroundColor="#39A0ED"
                 color="white"
                 style={{ height: 38 }}
               >
-                <Select.Item label="dd/mm/yy" value="0" />
-                <Select.Item label="yy/mm/dd" value="1" />
+                <Select.Item label="dd/mm/yyyy" value="dd/mm/yyyy" />
+                <Select.Item label="yyyy/mm/dd" value="yyyy/mm/dd" />
               </Select>
             </HStack>
             <HStack
@@ -75,21 +91,23 @@ const SettingScreen = () => {
             >
               <Text style={styles.subItemTitle}>Đơn vị tiền</Text>
               <Select
-                selectedValue="0"
-                minWidth="120"
+                selectedValue={data.currency}
+                w="110"
                 placeholder="Đơn vị"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
-                onValueChange={(itemValue) => itemValue}
+                onValueChange={(itemValue) =>
+                  setData((prev) => ({ ...prev, currency: itemValue }))
+                }
                 borderRadius="full"
                 backgroundColor="#39A0ED"
                 color="white"
                 style={{ height: 38 }}
               >
-                <Select.Item label="VNĐ" value="0" />
-                <Select.Item label="USD" value="1" />
+                <Select.Item label="VNĐ" value="VNĐ" />
+                <Select.Item label="USD" value="USD" />
               </Select>
             </HStack>
             <HStack
@@ -98,20 +116,37 @@ const SettingScreen = () => {
               alignItems="center"
             >
               <Text style={styles.subItemTitle}>Ẩn số tiền</Text>
-              <Switch size="lg" />
+              <Switch
+                size="lg"
+                value={data.hideMoney}
+                onValueChange={(itemvalue) =>
+                  setData((prev) => ({ ...prev, hideMoney: itemvalue }))
+                }
+              />
             </HStack>
           </VStack>
         </View>
         <View style={styles.itemContainer}>
           <Text style={styles.itemTitle}>Nhắc nhở</Text>
-          <VStack space={1} alignItems="stretch" px="4">
+          <VStack
+            space={1}
+            // alignItems="center"
+            px="4"
+            justifyContent="space-between"
+          >
             <HStack
               space={4}
               justifyContent="space-between"
               alignItems="center"
             >
               <Text style={styles.subItemTitle}>Nhắc nhở nhập liệu</Text>
-              <Switch size="lg" value={true} />
+              <Switch
+                size="lg"
+                value={data.reminder}
+                onValueChange={(itemvalue) =>
+                  setData((prev) => ({ ...prev, reminder: itemvalue }))
+                }
+              />
             </HStack>
             <HStack
               space={4}
@@ -120,14 +155,16 @@ const SettingScreen = () => {
             >
               <Text style={styles.subItemTitle}>Thời gian nhắc</Text>
               <Select
-                selectedValue="0"
-                minWidth="120"
+                selectedValue={data.reminder || "0"}
+                w="110"
                 placeholder="Thời gian"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
-                onValueChange={(itemValue) => itemValue}
+                onValueChange={(itemValue) =>
+                  setData((prev) => ({ ...prev, reminderTime: itemValue }))
+                }
                 borderRadius="full"
                 color="white"
                 backgroundColor="#39A0ED"
@@ -154,23 +191,24 @@ const SettingScreen = () => {
             >
               <Text style={styles.subItemTitle}>Ngày bắt đầu của tuần</Text>
               <Select
-                selectedValue="0"
-                minWidth="120"
+                selectedValue={data.weekStart}
+                w="110"
                 placeholder="Ngày bắt đầu"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
                 mt={1}
-                onValueChange={(itemValue) => itemValue}
+                onValueChange={(itemValue) =>
+                  setData((prev) => ({ ...prev, weekStart: itemValue }))
+                }
                 borderRadius="full"
                 backgroundColor="#39A0ED"
                 color="white"
-                fontSize="sm"
                 style={{ height: 38 }}
               >
-                <Select.Item label="Thứ 2" value="0" />
-                <Select.Item label="Chủ Nhật" value="1" />
+                <Select.Item label="Thứ 2" value={1} />
+                <Select.Item label="Chủ Nhật" value={0} />
               </Select>
             </HStack>
             <HStack
@@ -180,23 +218,24 @@ const SettingScreen = () => {
             >
               <Text style={styles.subItemTitle}>Ngày bắt đầu của tháng</Text>
               <Select
-                selectedValue="0"
-                minWidth="120"
+                selectedValue={data.monthStart}
+                w="110"
                 placeholder="Ngày bắt đầu"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
                 mt={1}
-                onValueChange={(itemValue) => itemValue}
+                onValueChange={(itemValue) =>
+                  setData((prev) => ({ ...prev, monthStart: itemValue }))
+                }
                 borderRadius="full"
                 backgroundColor="#39A0ED"
                 color="white"
-                fontSize="sm"
                 style={{ height: 38 }}
               >
-                <Select.Item label="Thứ 2" value="0" />
-                <Select.Item label="Chủ Nhật" value="1" />
+                <Select.Item label="Thứ 2" value={1} />
+                <Select.Item label="Chủ Nhật" value={0} />
               </Select>
             </HStack>
             <HStack
@@ -206,23 +245,24 @@ const SettingScreen = () => {
             >
               <Text style={styles.subItemTitle}>Ngày bắt đầu của năm</Text>
               <Select
-                selectedValue="0"
-                minWidth="120"
+                selectedValue={data.yearStart}
+                w="110"
                 placeholder="Ngày bắt đầu"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
                 mt={1}
-                onValueChange={(itemValue) => itemValue}
+                onValueChange={(itemValue) =>
+                  setData((prev) => ({ ...prev, yearStart: itemValue }))
+                }
                 borderRadius="full"
                 backgroundColor="#39A0ED"
                 color="white"
-                fontSize="sm"
                 style={{ height: 38 }}
               >
-                <Select.Item label="Thứ 2" value="0" />
-                <Select.Item label="Chủ Nhật" value="1" />
+                <Select.Item label="Thứ 2" value={1} />
+                <Select.Item label="Chủ Nhật" value={0} />
               </Select>
             </HStack>
           </VStack>

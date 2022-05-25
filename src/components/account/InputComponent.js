@@ -6,7 +6,7 @@ import { Input } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
 
-const InputComponent = ({ label, value, type = "text" }) => {
+const InputComponent = ({ label, value, handleChange, type = "text" }) => {
   const [show, setShow] = useState(false);
   return (
     <View>
@@ -15,10 +15,11 @@ const InputComponent = ({ label, value, type = "text" }) => {
         <Input
           w="100%"
           placeholder={label}
-          value={value || ""}
+          value={value}
           variant="rounded"
           backgroundColor="#fbfbfb"
           fontSize="md"
+          onChangeText={handleChange}
         />
       ) : (
         <Input
@@ -34,10 +35,11 @@ const InputComponent = ({ label, value, type = "text" }) => {
             />
           }
           placeholder={label}
-          value={value || ""}
+          value={value}
           variant="rounded"
           backgroundColor="#fbfbfb"
           fontSize="md"
+          onChangeText={handleChange}
         />
       )}
     </View>

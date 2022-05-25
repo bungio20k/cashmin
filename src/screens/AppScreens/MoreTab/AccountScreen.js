@@ -5,23 +5,35 @@ import { AntDesign } from "@expo/vector-icons";
 import InputComponent from "../../../components/account/InputComponent";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Input } from "native-base";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useContext } from "react";
 import AuthContext from "../../../hooks/login-signup/AuthContext";
+import DataContext from "../../../hooks/data/DataContext";
+import Moment from "moment";
 
 const AccountScreen = () => {
   const { logout } = useContext(AuthContext);
+  const { profile, setProfile } = useContext(DataContext);
+  const [data, setData] = useState({ ...profile });
+  const [passwords, setPasswords] = useState({
+    oldPassword: "",
+    newPassword: "",
+  });
+
   const tabBarHeight = useBottomTabBarHeight();
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [disable1, setDisabled1] = useState(true);
+  const [disable2, setDisabled2] = useState(true);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(false);
-    setDate(currentDate);
+    // setDate(currentDate);
+    handleChange(currentDate, "birthday");
   };
 
   const showMode = (currentMode) => {
@@ -32,6 +44,32 @@ const AccountScreen = () => {
   const showDatepicker = () => {
     showMode("date");
   };
+
+  const handleChange = (value, typ) => {
+    if (typ === "oldPassword" || typ === "newPassword")
+      setPasswords((prev) => ({ ...prev, [typ]: value }));
+    else setData((prev) => ({ ...prev, [typ]: value }));
+  };
+
+  const updateProfile = () => {
+    console.log(data);
+  };
+
+  const changePassword = () => {
+    console.log(passwords);
+  };
+
+  useEffect(() => {
+    setDisabled1(
+      profile.fullName === data.fullName &&
+        profile.phoneNumber === data.phoneNumber &&
+        profile.birthday === data.birthday
+    );
+  }, [data.fullName, data.phoneNumber, data.birthday]);
+
+  useEffect(() => {
+    setDisabled2(passwords.newPassword === "" || passwords.oldPassword === "");
+  }, [passwords.newPassword, passwords.oldPassword]);
 
   return (
     <View style={styles.container}>
@@ -65,13 +103,30 @@ const AccountScreen = () => {
             pb="1"
           >
             <Text style={styles.itemTitle}>Chung</Text>
-            <Button colorScheme="success">Cập nhật</Button>
+            <Button
+              colorScheme="success"
+              isDisabled={disable1}
+              onPress={updateProfile}
+            >
+              Cập nhật
+            </Button>
           </HStack>
           <VStack space={2} alignItems="stretch" px="4" mt="2">
-            <InputComponent label="Họ và Tên" value="Nguyễn Văn A" />
-            <InputComponent label="Email" value="nguyenvana@gmail.com" />
-            <InputComponent label="Tên đăng nhập" value="nguyenvana" />
-            <InputComponent label="Số điện thoại" value="0123456789" />
+            <InputComponent
+              label="Họ và Tên"
+              value={data.fullName}
+              handleChange={(value) => handleChange(value, "fullName")}
+            />
+            {/* <InputComponent
+              label="Email"
+              value={data.email}
+              handleChange={(value) => handleChange(value, "email")}
+            /> */}
+            <InputComponent
+              label="Số điện thoại"
+              value={data.phoneNumber}
+              handleChange={(value) => handleChange(value, "phoneNumber")}
+            />
             <View>
               <Text style={{ fontSize: 16 }}>Sinh nhật</Text>
               <TouchableOpacity onPress={showDatepicker}>
@@ -97,8 +152,12 @@ const AccountScreen = () => {
                   }
                   placeholder="Thời gian"
                   value={
-                    (date && date.toLocaleString()) ||
-                    new Date().toLocaleString()
+                    // (date && date.toLocaleString()) ||
+                    // new Date().toLocaleString()
+                    // data.birthday
+                    data.birthday === ""
+                      ? ""
+                      : Moment(data.birthday).format("DD/MM/YYYY")
                   }
                   editable={false}
                 />
@@ -115,13 +174,27 @@ const AccountScreen = () => {
             pb="1"
           >
             <Text style={styles.itemTitle}>Bảo mật</Text>
-            <Button colorScheme="success" isDisabled>
-              Cập nhật
+            <Button
+              colorScheme="success"
+              isDisabled={disable2}
+              onPress={changePassword}
+            >
+              Thay đổi mật khẩu
             </Button>
           </HStack>
           <VStack space={1} alignItems="stretch" px="4" mt="2">
-            <InputComponent label="Mật khẩu cũ" value="ồ la" type="pwd" />
-            <InputComponent label="Mật khẩu mới" value="" type="pwd" />
+            <InputComponent
+              label="Mật khẩu cũ"
+              value={passwords.oldPassword}
+              type="pwd"
+              handleChange={(value) => handleChange(value, "oldPassword")}
+            />
+            <InputComponent
+              label="Mật khẩu mới"
+              value={passwords.newPassword}
+              type="pwd"
+              handleChange={(value) => handleChange(value, "newPassword")}
+            />
           </VStack>
         </View>
       </ScrollView>
