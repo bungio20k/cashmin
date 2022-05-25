@@ -145,31 +145,12 @@ export default function ReportHistoryScreen() {
             </Select>
           </View>
 
-          <View
-            style={st.graph}
-            onLayout={(event) => {
-              // var layout = event.nativeEvent.layout;
-              // graphViewY = layout.y;
-              // graphViewHeight = layout.height;
-              // console.log("Y = " + graphViewY + " + " + graphViewHeight);
-            }}
-          >
+          <View style={st.graph} >
             <VictoryChart
               width={360}
-              // height={220}
-              //height={graphViewY + graphViewHeight}
-
               domain={{
                 x: [0, graphData.in.length + graphData.out.length],
                 y: [0, 275],
-              }}
-              //theme={VictoryTheme.material}
-              style={{
-                chart: {
-                  //width: '30%'
-                  // flex: 0.5,
-                  // height: '50%'
-                },
               }}
             >
               <VictoryGroup offset={15}>
