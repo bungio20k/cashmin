@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
   },
   vaynoTitle: {
     color: "#445",
-    fontSize: 20,
+    fontSize: 18,
     marginBottom: 12,
     fontWeight: "700",
   },

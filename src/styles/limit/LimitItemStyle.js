@@ -24,9 +24,10 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    textTransform: "uppercase",
+    // textTransform: "uppercase",
     fontSize: 18,
-    fontWeight: "400",
+    fontWeight: "700",
+    color: "#555",
   },
 
   actions: {
@@ -53,12 +54,15 @@ const styles = StyleSheet.create({
   },
   descTitle: {
     fontSize: 16,
+    color: "#555",
   },
   day: {
     fontSize: 16,
+    color: "#333",
   },
   time: {
     fontSize: 16,
+    color: "#333",
   },
   money: {
     fontSize: 16,

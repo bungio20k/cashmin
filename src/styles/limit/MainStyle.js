@@ -7,22 +7,24 @@ const styles = StyleSheet.create({
     // backgroundColor: "#C9DAEA",
     backgroundColor: "#fbfbff",
     height: "100%",
-    paddingTop: 14,
+    marginTop: 8,
+    // paddingTop: 14,
   },
   header: {
     marginTop: STATUSBAR_HEIGHT,
     position: "relative",
-    minHeight: 60,
+    // minHeight: 60,
+    marginBottom: 16,
   },
   title: {
-    fontSize: 34,
+    fontSize: 28,
     fontWeight: "700",
     color: "#198155",
     marginLeft: 12,
   },
   addIcon: {
     position: "absolute",
-    top: 8,
+    top: 4,
     right: 20,
   },
 });

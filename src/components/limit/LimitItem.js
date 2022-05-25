@@ -34,12 +34,18 @@ const LimitItem = ({ item, setShowModal, setLimit }) => {
             name="pencil"
             size={28}
             color="#198155"
+            // color="#d8d511"
             style={{ marginRight: 16 }}
             onPress={() => {
               setLimit(item.money), setShowModal(true);
             }}
           />
-          <FontAwesome name="history" size={28} color="#198155" />
+          <FontAwesome
+            name="history"
+            size={28}
+            color="#198155"
+            // color="#3F00FF"
+          />
         </View>
       </View>
       <Text
@@ -88,7 +94,14 @@ const LimitItem = ({ item, setShowModal, setLimit }) => {
         </View>
         <View style={styles.descItem}>
           <Text style={styles.descTitle}>Đã tiêu</Text>
-          <Text style={styles.money}>{item.money}</Text>
+          <Text
+            style={[
+              styles.money,
+              { color: progress === 100 ? "red" : "green" },
+            ]}
+          >
+            {item.money}
+          </Text>
         </View>
       </View>
     </View>

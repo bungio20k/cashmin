@@ -9,17 +9,17 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const data = [
   {
-    time: "hôm nay",
+    time: "Hôm nay",
     money: "120000",
     total: "200000",
   },
   {
-    time: "tuần này",
+    time: "Tuần này",
     money: "2000000",
     total: "2000000",
   },
   {
-    time: "tháng này",
+    time: "Tháng này",
     money: "17000000",
     total: "20000000",
   },

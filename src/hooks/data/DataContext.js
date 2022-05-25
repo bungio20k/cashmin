@@ -5,14 +5,20 @@ import AuthContext from '../login-signup/AuthContext';
 const DataContext = createContext({});
 
 const fetch = async (token) => {
-    return axios.get('/users/user-info', {
-        headers: {
-            Authorization: 'Bearer ' + await token
-        }
-    }).then((res) => {
+    try {
+        const res = await axios.get('/all-data', {
+            headers: {
+                Authorization: 'Bearer ' + token
+            }
+        })
+
+        // console.log("Got all data");
+        // console.log(res.data);
         return res.data;
-    })
-        .catch(err => console.log(err));
+    }
+    catch (err) {
+        console.log(err);
+    }
 }
 
 export const DataProvider = ({ children }) => {
@@ -26,14 +32,16 @@ export const DataProvider = ({ children }) => {
     const { token } = useContext(AuthContext);
 
     useEffect(async () => {
-        const newData = await fetch(token);
-        changeProfile(newData.profile);
-        changeSettings(newData.settings);
-        changeLimits(newData.limits);
-        changeWallets(newData.wallets);
-        changeDebits(newData.debits);
-        changeCategories(newData.categories);
-    }, [])
+        if (token != null) {
+            const newData = await fetch(token);
+            changeProfile(newData.profile);
+            changeSettings(newData.settings);
+            changeLimits(newData.limits);
+            changeWallets(newData.wallets);
+            changeDebits(newData.debits);
+            changeCategories(newData.categories);
+        }
+    }, [token])
 
     return (
         <DataContext.Provider

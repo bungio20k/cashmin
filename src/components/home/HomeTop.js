@@ -4,11 +4,20 @@ import { AntDesign } from "@expo/vector-icons";
 import React, { useContext, useState } from "react";
 import styles from "../../styles/home/HomeTopStyle";
 import DataContext from "../../hooks/data/DataContext";
+import {
+  formatCurrency,
+  getSupportedCurrencies,
+} from "react-native-format-currency";
 
 const HomeTop = () => {
   const [hideMoney, setHideMoney] = useState(false);
   const { profile, wallets, settings } = useContext(DataContext);
-  const mainWalletBalance = wallets?.find((w) => w.isMain)?.balance || 0;
+  const mainWalletBalance =
+    wallets[0] != undefined ? wallets.find((w) => w.isMain).balance : 0;
+  const formattedBalance = formatCurrency({
+    amount: mainWalletBalance,
+    code: "VND",
+  })[1];
 
   return (
     <View style={styles.top}>
@@ -22,7 +31,7 @@ const HomeTop = () => {
         <View style={styles.content}>
           <Text style={styles.contentTitle}>Tổng số dư</Text>
           <Text style={styles.money}>
-            {hideMoney ? "*********" : mainWalletBalance} {settings.currency}
+            {hideMoney ? "***.***.***" : formattedBalance} {settings.currency}
           </Text>
         </View>
         <TouchableOpacity

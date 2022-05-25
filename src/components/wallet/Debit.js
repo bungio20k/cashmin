@@ -3,8 +3,10 @@ import styles from "../../styles/wallet/Debit";
 import { AntDesign } from "@expo/vector-icons";
 
 import { useNavigation } from "@react-navigation/native";
+import { useContext, useEffect } from "react";
+import DataContext from '../../hooks/data/DataContext';
 
-const walletData = [
+const debits = [
   {
     key: "1",
     name: "Nợ 1",
@@ -44,6 +46,8 @@ const walletData = [
 
 const Debit = () => {
   const navigation = useNavigation();
+  const { debits } = useContext(DataContext);
+
   return (
     <View style={styles.top}>
       <View style={styles.title}>
@@ -57,32 +61,20 @@ const Debit = () => {
       </View>
 
       <ScrollView nestedScrollEnabled>
-        {walletData.map((wallet) => (
-          <View style={styles.moneyContainer} key={wallet.key}>
-            <Text style={styles.contentTitle}>{wallet.name}</Text>
+        {debits.map((debit) => (
+          <View style={styles.moneyContainer} key={debit._id}>
+            <Text style={styles.contentTitle}>{debit.name}</Text>
             <Text
               style={[
                 styles.money,
-                { color: (wallet.amount.includes("-") && "red") || "green" },
+                { color: (debit.isDebt && "red") || "green" },
               ]}
             >
-              {wallet.amount}
+              {debit.amount}
             </Text>
           </View>
         ))}
       </ScrollView>
-      {/* <TouchableOpacity style={styles.walletContainer} onPress={() => navigation.navigate("Ví", { screen: "AddDebit" })}>
-        <View style={styles.content}>
-          {walletData.map(wallet => (
-            <View style={styles.moneyContainer} key={wallet.key}>
-              <Text style={styles.contentTitle}>{wallet.name}</Text>
-              <Text style={styles.money}>
-                {wallet.amount}
-              </Text>
-            </View>
-          ))}
-        </View>
-      </TouchableOpacity> */}
     </View>
   );
 };

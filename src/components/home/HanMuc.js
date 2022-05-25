@@ -12,10 +12,15 @@ const HanMuc = () => {
     <View style={styles.hanmucContainer}>
       <View style={styles.hanmucTop}>
         <Text style={styles.hanmucTitle}>Hạn mức chi</Text>
-        <AntDesign name="arrowright" size={24} color="#198155" onPress={() => navigation.navigate("Khác", { screen: "Limit" })} />
+        <AntDesign
+          name="arrowright"
+          size={24}
+          color="#198155"
+          onPress={() => navigation.navigate("Khác", { screen: "Limit" })}
+        />
       </View>
       <View style={styles.hanmucInfo}>
-        <Text style={styles.hanmucDate}>01/04 - 30/04</Text>
+        <Text style={styles.hanmucDate}>Hạn mức chi hôm nay</Text>
         <Text style={styles.hanmucMoney}>999.999.999 đ</Text>
       </View>
       <View style={styles.hanmucChart}>
@@ -30,7 +35,7 @@ const HanMuc = () => {
         ></View>
       </View>
       <View style={styles.hanmucInfoBottom}>
-        <Text style={styles.hanmucDateLeft}>Còn lại 15 ngày</Text>
+        <Text style={styles.hanmucDateLeft}>Còn lại</Text>
         <Text style={styles.hanmucMoneyLeft}>555.555.555 đ</Text>
       </View>
     </View>

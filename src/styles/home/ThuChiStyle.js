@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   thuchiTitle: {
     color: "#445",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "700",
     marginRight: 10,
   },
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
   },
   nameItem: {
     color: "#888",
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "400",
   },
   thuMoney: {
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     fontWeight: "400",
   },
   result: {
-    color: "#555",
+    color: "#444",
     fontSize: 16,
     fontWeight: "700",
     textAlign: "right",

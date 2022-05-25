@@ -5,7 +5,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
-import { TouchableHighlight } from "react-native";
+import { TouchableHighlight, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AccountScreen from "./AccountScreen";
 
@@ -106,14 +106,34 @@ export default function MoreScreen() {
       </View>
       <View style={styles.moreContainer}>
         <Text style={styles.containerTitle}>Thêm</Text>
-        <FlatList
-          data={[
-            "Dữ liệu",
-            "Đánh giá",
-            "Đóng góp ý kiến",
-            "Giới thiệu Cho bạn bè",
-            "Trợ giúp",
-          ]}
+        <ScrollView style={{ paddingHorizontal: 16 }}>
+          <TouchableHighlight
+            activeOpacity={0.8}
+            underlayColor="#ECFCE5"
+            onPress={() => alert("Pressed!")}
+            style={styles.moreItemContainer}
+          >
+            <Text style={styles.moreItem}>Giới thiệu</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            activeOpacity={0.8}
+            underlayColor="#ECFCE5"
+            onPress={() => alert("Pressed!")}
+            style={styles.moreItemContainer}
+          >
+            <Text style={styles.moreItem}>Điều khoản, chính sách</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            activeOpacity={0.8}
+            underlayColor="#ECFCE5"
+            onPress={() => alert("Pressed!")}
+            style={styles.moreItemContainer}
+          >
+            <Text style={styles.moreItem}>Đăng xuất</Text>
+          </TouchableHighlight>
+        </ScrollView>
+        {/* <FlatList
+          data={["Giới thiệu", "Điều khoản và chính sách", "Đăng xuất"]}
           renderItem={({ item }) => (
             <TouchableHighlight
               activeOpacity={0.8}
@@ -126,7 +146,7 @@ export default function MoreScreen() {
           )}
           keyExtractor={(item, index) => item + index}
           px="6"
-        />
+        /> */}
       </View>
     </View>
   );

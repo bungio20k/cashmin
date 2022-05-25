@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     lineHeight: 40,
-    fontWeight: "400",
+    fontWeight: "700",
     marginBottom: 16,
     marginTop: 60,
   },
@@ -37,13 +37,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "700",
     marginLeft: 8,
+    color: "#333",
   },
   featureItem: {
     alignItems: "center",
     paddingHorizontal: 10,
   },
   featureTitle: {
-    fontSize: 16,
+    fontSize: 14,
+    color: "#333",
   },
   moreContainer: {
     backgroundColor: "#ECFCE5",
@@ -68,7 +70,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "#999",
   },
   moreItem: {
-    fontSize: 18,
+    fontSize: 16,
   },
 });
 

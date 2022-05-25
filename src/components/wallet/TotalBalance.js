@@ -1,10 +1,13 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "../../styles/wallet/TotalBalane";
+import DataContext from '../../hooks/data/DataContext';
 
 const TotalBalance = () => {
     const [hideMoney, setHideMoney] = useState(false);
+    const { wallets, settings } = useContext(DataContext);
+    const mainWalletBalance = wallets.find((w) => w.isMain)?.balance;
 
     return (
         <View style={styles.top}>
@@ -12,13 +15,12 @@ const TotalBalance = () => {
                 <View style={styles.content}>
                     <Text style={styles.contentTitle}>Tổng số dư</Text>
                     <Text style={styles.money}>
-                        {hideMoney ? "***.***.*** đ" : "999.999.999đ"}
+                        {hideMoney ? "***.***.***" : mainWalletBalance} {settings.currency}
                     </Text>
                 </View>
                 <TouchableOpacity
                     onPress={() =>
                         setHideMoney((prev) => {
-                            console.log("hello");
                             return !prev;
                         })
                     }

@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     minHeight: 60,
   },
   title: {
-    fontSize: 34,
+    fontSize: 28,
     fontWeight: "700",
     color: "#198155",
     marginLeft: 12,

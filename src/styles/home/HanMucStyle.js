@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
   hanmucTitle: {
     color: "#445",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "700",
     marginRight: 10,
   },
@@ -52,20 +52,25 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   hanmucDate: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "400",
+    color: "#444",
+    marginLeft: 4,
   },
   hanmucMoney: {
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: "700",
+    color: "#333",
   },
   hanmucDateLeft: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "400",
+    color: "#444",
+    marginLeft: 4,
   },
   hanmucMoneyLeft: {
     fontSize: 16,
-    fontWeight: "400",
+    fontWeight: "700",
     color: "#198155",
   },
 });
