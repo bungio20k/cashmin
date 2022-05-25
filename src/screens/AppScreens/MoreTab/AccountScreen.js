@@ -7,8 +7,11 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import { Input } from "native-base";
 import { useState } from "react";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useContext } from "react";
+import AuthContext from "../../../hooks/login-signup/AuthContext";
 
 const AccountScreen = () => {
+  const { logout } = useContext(AuthContext);
   const tabBarHeight = useBottomTabBarHeight();
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
@@ -42,6 +45,7 @@ const AccountScreen = () => {
         <Button
           colorScheme="warning"
           endIcon={<AntDesign name="logout" size={16} color="white" />}
+          onPress={logout}
         >
           Đăng xuất
         </Button>

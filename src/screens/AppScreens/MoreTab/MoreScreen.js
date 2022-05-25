@@ -7,9 +7,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { TouchableHighlight, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import AccountScreen from "./AccountScreen";
+import { useContext } from "react";
+import AuthContext from "../../../hooks/login-signup/AuthContext";
 
 export default function MoreScreen() {
+  const { logout } = useContext(AuthContext);
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
@@ -126,10 +128,12 @@ export default function MoreScreen() {
           <TouchableHighlight
             activeOpacity={0.8}
             underlayColor="#ECFCE5"
-            onPress={() => alert("Pressed!")}
+            onPress={logout}
             style={styles.moreItemContainer}
           >
-            <Text style={styles.moreItem}>Đăng xuất</Text>
+            <Text style={[styles.moreItem, { fontWeight: "700" }]}>
+              Đăng xuất
+            </Text>
           </TouchableHighlight>
         </ScrollView>
         {/* <FlatList
