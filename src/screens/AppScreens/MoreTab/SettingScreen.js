@@ -1,21 +1,36 @@
-import { HStack, Select, Switch, VStack } from "native-base";
-import { View, Text, ScrollView } from "react-native";
+import { Button, HStack, Select, VStack } from "native-base";
+import { View, Text, ScrollView, Switch } from "react-native";
 import styles from "../../../styles/more_screen/settingSceenStyle";
 import { AntDesign } from "@expo/vector-icons";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import DataContext from "../../../hooks/data/DataContext";
 import { useState } from "react";
 
 const SettingScreen = () => {
   const { settings, setSettings } = useContext(DataContext);
   const [data, setData] = useState({ ...settings });
-  console.log(data);
+  const [disable, setDisable] = useState(true);
+  const toggleSwitch = (typ) =>
+    setData((previousState) => ({
+      ...previousState,
+      [typ]: !previousState[typ],
+    }));
 
   const tabBarHeight = useBottomTabBarHeight();
+
+  const changeHandle = (value, typ) => {
+    disable && value !== settings[typ] && setDisable(false);
+    setData((prev) => ({ ...prev, [typ]: value }));
+  };
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Cài đặt</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Cài đặt</Text>
+        <Button colorScheme="success" isDisabled={disable}>
+          Cập nhật
+        </Button>
+      </View>
       <ScrollView
         style={{
           width: "100%",
@@ -23,7 +38,18 @@ const SettingScreen = () => {
         }}
       >
         <View style={styles.itemContainer}>
-          <Text style={styles.itemTitle}>Chung</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              borderBottomWidth: 1,
+              borderBottomColor: "#888",
+              paddingBottom: 2,
+            }}
+          >
+            <Text style={styles.itemTitle}>Chung</Text>
+          </View>
           <VStack
             space={2}
             alignItems="stretch"
@@ -38,17 +64,16 @@ const SettingScreen = () => {
               <Text style={styles.subItemTitle}>Ngôn ngữ</Text>
               <Select
                 selectedValue={data.language}
-                w="110"
+                w="120"
                 placeholder="Ngôn ngữ"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
                 mt={1}
-                onValueChange={(itemValue) =>
-                  setData((prev) => ({ ...prev, language: itemValue }))
-                }
+                onValueChange={(value) => changeHandle(value, "language")}
                 borderRadius="full"
+                borderColor="transparent"
                 backgroundColor="#39A0ED"
                 color="white"
                 // fontSize="sm"
@@ -63,19 +88,18 @@ const SettingScreen = () => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Text style={styles.subItemTitle}>Định dạng thời gian</Text>
+              <Text style={styles.subItemTitle}>Kiểu thời gian</Text>
               <Select
                 selectedValue={data.dateFormat}
-                w="110"
+                w="120"
                 placeholder="Thời gian"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
-                onValueChange={(itemValue) =>
-                  setData((prev) => ({ ...prev, dateFormat: itemValue }))
-                }
+                onValueChange={(value) => changeHandle(value, "dateFormat")}
                 borderRadius="full"
+                borderColor="transparent"
                 backgroundColor="#39A0ED"
                 color="white"
                 style={{ height: 38 }}
@@ -92,16 +116,15 @@ const SettingScreen = () => {
               <Text style={styles.subItemTitle}>Đơn vị tiền</Text>
               <Select
                 selectedValue={data.currency}
-                w="110"
+                w="120"
                 placeholder="Đơn vị"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
-                onValueChange={(itemValue) =>
-                  setData((prev) => ({ ...prev, currency: itemValue }))
-                }
+                onValueChange={(value) => changeHandle(value, "currency")}
                 borderRadius="full"
+                borderColor="transparent"
                 backgroundColor="#39A0ED"
                 color="white"
                 style={{ height: 38 }}
@@ -119,15 +142,24 @@ const SettingScreen = () => {
               <Switch
                 size="lg"
                 value={data.hideMoney}
-                onValueChange={(itemvalue) =>
-                  setData((prev) => ({ ...prev, hideMoney: itemvalue }))
-                }
+                onValueChange={() => toggleSwitch("hideMoney")}
               />
             </HStack>
           </VStack>
         </View>
         <View style={styles.itemContainer}>
-          <Text style={styles.itemTitle}>Nhắc nhở</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              borderBottomWidth: 1,
+              borderBottomColor: "#888",
+              paddingBottom: 2,
+            }}
+          >
+            <Text style={styles.itemTitle}>Nhắc nhở</Text>
+          </View>
           <VStack
             space={1}
             // alignItems="center"
@@ -143,9 +175,7 @@ const SettingScreen = () => {
               <Switch
                 size="lg"
                 value={data.reminder}
-                onValueChange={(itemvalue) =>
-                  setData((prev) => ({ ...prev, reminder: itemvalue }))
-                }
+                onValueChange={() => toggleSwitch("reminder")}
               />
             </HStack>
             <HStack
@@ -155,17 +185,18 @@ const SettingScreen = () => {
             >
               <Text style={styles.subItemTitle}>Thời gian nhắc</Text>
               <Select
-                selectedValue={data.reminder || "0"}
-                w="110"
+                selectedValue={data.reminderTime || "0"}
+                w="120"
                 placeholder="Thời gian"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
-                onValueChange={(itemValue) =>
-                  setData((prev) => ({ ...prev, reminderTime: itemValue }))
-                }
+                onValueChange={(value) => {
+                  changeHandle(value, "reminderTime");
+                }}
                 borderRadius="full"
+                borderColor="transparent"
                 color="white"
                 backgroundColor="#39A0ED"
                 style={{ height: 38, color: "white" }}
@@ -182,27 +213,37 @@ const SettingScreen = () => {
           </VStack>
         </View>
         <View style={styles.itemContainer}>
-          <Text style={styles.itemTitle}>Báo cáo</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "space-between",
+              borderBottomWidth: 1,
+              borderBottomColor: "#888",
+              paddingBottom: 2,
+            }}
+          >
+            <Text style={styles.itemTitle}>Báo cáo</Text>
+          </View>
           <VStack space={4} justifyContent="center">
             <HStack
               space={4}
               justifyContent="space-between"
               alignItems="center"
             >
-              <Text style={styles.subItemTitle}>Ngày bắt đầu của tuần</Text>
+              <Text style={styles.subItemTitle}>Bắt đầu trong tuần</Text>
               <Select
                 selectedValue={data.weekStart}
-                w="110"
+                w="120"
                 placeholder="Ngày bắt đầu"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
                 mt={1}
-                onValueChange={(itemValue) =>
-                  setData((prev) => ({ ...prev, weekStart: itemValue }))
-                }
+                onValueChange={(value) => changeHandle(value, "weekStart")}
                 borderRadius="full"
+                borderColor="transparent"
                 backgroundColor="#39A0ED"
                 color="white"
                 style={{ height: 38 }}
@@ -216,20 +257,19 @@ const SettingScreen = () => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Text style={styles.subItemTitle}>Ngày bắt đầu của tháng</Text>
+              <Text style={styles.subItemTitle}>Bắt đầu trong tháng</Text>
               <Select
                 selectedValue={data.monthStart}
-                w="110"
+                w="120"
                 placeholder="Ngày bắt đầu"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
                 mt={1}
-                onValueChange={(itemValue) =>
-                  setData((prev) => ({ ...prev, monthStart: itemValue }))
-                }
+                onValueChange={(value) => changeHandle(value, "monthStart")}
                 borderRadius="full"
+                borderColor="transparent"
                 backgroundColor="#39A0ED"
                 color="white"
                 style={{ height: 38 }}
@@ -243,20 +283,19 @@ const SettingScreen = () => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Text style={styles.subItemTitle}>Ngày bắt đầu của năm</Text>
+              <Text style={styles.subItemTitle}>Bắt đầu trong năm</Text>
               <Select
                 selectedValue={data.yearStart}
-                w="110"
+                w="120"
                 placeholder="Ngày bắt đầu"
                 _selectedItem={{
                   bg: "teal.600",
                   endIcon: <AntDesign name="down" size={2} color="white" />,
                 }}
                 mt={1}
-                onValueChange={(itemValue) =>
-                  setData((prev) => ({ ...prev, yearStart: itemValue }))
-                }
+                onValueChange={(value) => changeHandle(value, "yearStart")}
                 borderRadius="full"
+                borderColor="transparent"
                 backgroundColor="#39A0ED"
                 color="white"
                 style={{ height: 38 }}

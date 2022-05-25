@@ -8,14 +8,23 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  title: {
+  header: {
     marginTop: STATUSBAR_HEIGHT,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    width: "100%",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  title: {
     fontSize: 28,
     fontWeight: "700",
     color: "#198155",
-    alignSelf: "flex-start",
-    marginBottom: 12,
-    marginLeft: 12,
+    // alignSelf: "flex-start",
+    // marginBottom: 4,
+
+    // marginLeft: 12,
   },
   itemContainer: {
     backgroundColor: "#ECFCE5",
@@ -37,12 +46,12 @@ const styles = StyleSheet.create({
   itemTitle: {
     fontSize: 18,
     fontWeight: "700",
-    borderBottomWidth: 1,
-    borderBottomColor: "black",
     lineHeight: 28,
+    color: "#444",
   },
   subItemTitle: {
     fontSize: 16,
+    color: "#444",
   },
 });
 export default styles;
