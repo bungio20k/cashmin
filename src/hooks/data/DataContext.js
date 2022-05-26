@@ -6,7 +6,7 @@ const DataContext = createContext({});
 
 const fetch = async (token) => {
   try {
-    const res = await axios.get("/all-data", {
+    const res = await axios.get("/users/user-info", {
       headers: {
         Authorization: "Bearer " + token,
       },
