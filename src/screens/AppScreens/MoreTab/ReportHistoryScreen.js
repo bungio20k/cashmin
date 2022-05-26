@@ -11,7 +11,6 @@ import {
 } from "react-native";
 
 import { HStack, Select, VStack } from "native-base";
-import { Picker } from "@react-native-picker/picker";
 import {
   VictoryChart,
   VictoryGroup,
@@ -23,6 +22,7 @@ import Theme from "src/theme/mainTheme";
 import Typo from "src/theme/mainTypo";
 import { HistoryListItem } from "src/components/history/HistoryListItem";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { formatMoney, checkDateInRange } from "src/utils";
 
 // Data (TODO: get from database)
 import DataContext from "src/hooks/data/DataContext";
@@ -187,13 +187,19 @@ var graphViewHeight;
 // Screen
 export default function ReportHistoryScreen() {
   const tabBarHeight = useBottomTabBarHeight();
-  const [selectedTime, setSelectedTime] = useState("week");
+  const [selectedTimeRange, setSelectedTimeRange] = useState("week");
   const [selectedWallet, setSelectedWallet] = useState("Ví 1");
 
-  const { wallets } = useContext(DataContext);
-  const currentWallet = wallets.find(
-    (wallet) => wallet.name === selectedWallet
-  );
+  const { wallets, settings } = useContext(DataContext);
+  const currentWallet = wallets.find(wallet => wallet.name === selectedWallet);
+
+  const transactionsInRange = currentWallet.transactions.filter(transaction => checkDateInRange(transaction.date, selectedTimeRange));
+  const incomeTransactions = transactionsInRange.filter(transaction => transaction.amount >= 0);
+  const expenseTransactions = transactionsInRange.filter(transaction => transaction.amount < 0);
+
+  const totalAmount = transactionsInRange.reduce((prev, curr) => prev + curr.amount, 0);
+  const totalIncomeAmount = incomeTransactions.reduce((prev, curr) => prev + curr.amount, 0);
+  const totalExpenseAmount = expenseTransactions.reduce((prev, curr) => prev + curr.amount, 0);
 
   return (
     <View style={[st.container, { marginBottom: tabBarHeight }]}>
@@ -212,9 +218,9 @@ export default function ReportHistoryScreen() {
               color="white"
               fontSize="16"
               borderRadius="full"
-              selectedValue={selectedTime}
+              selectedValue={selectedTimeRange}
               onValueChange={(itemValue) => {
-                setSelectedTime(itemValue);
+                setSelectedTimeRange(itemValue);
               }}
               _selectedItem={{
                 bg: "teal.600",
@@ -278,7 +284,9 @@ export default function ReportHistoryScreen() {
             <HStack space={6} justifyContent="center">
               <View style={st.incomeMoneyContainer}>
                 <Text style={st.moneyTitle}>Tổng thu</Text>
-                <Text style={st.incomeMoney}>1.600.000 VNĐ</Text>
+                <Text style={st.incomeMoney}>
+                  {formatMoney(totalIncomeAmount, settings.currency)}
+                </Text>
               </View>
               <View
                 style={{
@@ -289,12 +297,16 @@ export default function ReportHistoryScreen() {
               </View>
               <View style={st.expenseMoneyContainer}>
                 <Text style={st.moneyTitle}>Tổng chi</Text>
-                <Text style={st.expenseMoney}>800.000 VNĐ</Text>
+                <Text style={st.expenseMoney}>
+                  {formatMoney(totalExpenseAmount, settings.currency)}
+                </Text>
               </View>
             </HStack>
             <View style={st.totalContainer}>
               <Text style={st.moneyTitle}> Tổng thu - chi</Text>
-              <Text style={st.incomeMoney}>800.000 VNĐ</Text>
+              <Text style={totalAmount >= 0? st.incomeMoney : st.expenseMoney }>
+                {formatMoney(totalAmount, settings.currency)}
+              </Text>
             </View>
           </VStack>
         </View>
@@ -312,12 +324,9 @@ export default function ReportHistoryScreen() {
           <View style={st.historyListContainer}>
             <SafeAreaView>
               <ScrollView nestedScrollEnabled>
-                {currentWallet?.transactions?.map((item, index) => (
-                  <HistoryListItem data={item} key={index} />
+                {transactionsInRange.map((transaction, index) => (
+                  <HistoryListItem data={transaction} key={index} />
                 ))}
-                {/* {DATA.map((item, index) => (
-                  <HistoryListItem data={item} key={index} />
-                ))} */}
               </ScrollView>
             </SafeAreaView>
 

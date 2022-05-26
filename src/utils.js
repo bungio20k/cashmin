@@ -64,3 +64,32 @@ export const formatDate = (dateStr, format) => {
 
   return result;
 }
+
+
+// dateStr: String ("2022-05-22T06:31:09.969Z")
+// period: String ("week", "month", "year")
+// output: Boolean (true if in range, else false)
+export const checkDateInRange = (dateStr, period) => {
+  const date = (new Date(dateStr)).valueOf();
+  const dateNow = (new Date()).valueOf();
+
+  /*  1 week  =   604800000 milliseconds (7 days)
+      1 month =  2592000000 milliseconds (30 days)
+      1 year  = 31536000000 milliseconds (365 days) */
+  let range;
+  switch (period.toLowerCase()) {
+    case "week":
+      range = 604800000;
+      break;
+    case "month":
+      range = 2592000000;
+      break;
+    case "year":
+      range = 31536000000;
+      break;
+  }
+
+  const earliestDateInRange = dateNow - range;
+
+  return date >= earliestDateInRange;
+}
