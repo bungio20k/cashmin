@@ -1,15 +1,41 @@
-import { Modal, FormControl, Input, Button } from "native-base";
+import { Modal, FormControl, Input, Button, useToast, Box } from "native-base";
 import Theme from "../../theme/mainTheme";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
 import style from "../../styles/wallet/walletModal";
+import DataContext from "../../hooks/data/DataContext";
+import { View } from "react-native";
+import { Text } from "react-native";
+import ModalSelector from "react-native-modal-selector";
+import axios from "axios";
+import AuthContext from "../../hooks/login-signup/AuthContext";
 
 export default function AddModal(props) {
   const { showModal, setShowModal } = props;
+  const { categories, setWallets } = useContext(DataContext);
+  const { token } = useContext(AuthContext);
+  const toast = useToast();
   const [formData, setData] = useState({});
   const [errors, setErrors] = useState({});
+
+  const list = categories.map((item) => ({
+    key: item._id,
+    label: item.name,
+    value: item.icon,
+    component: (
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Ionicons name={item.icon} size={24} color="#198155" />
+        <Text style={{ fontSize: 16, marginLeft: 6 }}>{item.name}</Text>
+      </View>
+    ),
+  }));
 
   useEffect(() => {
     setData({});
@@ -33,8 +59,63 @@ export default function AddModal(props) {
       return false;
     }
 
-    console.log(formData);
+    // call HTTP
     setShowModal(false);
+    try {
+      const res = await axios.post("/wallets", formData, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      setWallets((prev) => [...prev, { ...res.data, ...formData }]);
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="emerald.500"
+              rounded="sm"
+              mb={5}
+              px="2"
+              py="2"
+              mr="2"
+              _text={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                letterSpacing: "lg",
+              }}
+            >
+              Thêm ví thành công!
+            </Box>
+          );
+        },
+        placement: "top-right",
+      });
+    } catch (error) {
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="red.600"
+              rounded="sm"
+              mb={5}
+              px="2"
+              py="2"
+              mr="2"
+              _text={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                letterSpacing: "lg",
+              }}
+            >
+              Có lỗi xảy ra, vui lòng thử lại!
+            </Box>
+          );
+        },
+        placement: "top-right",
+      });
+    }
   };
 
   return (
@@ -66,6 +147,7 @@ export default function AddModal(props) {
                 />
               }
               placeholder="Tên ví"
+              value={formData.name || ""}
               onChangeText={(value) => {
                 setData({
                   ...formData,
@@ -92,6 +174,7 @@ export default function AddModal(props) {
               width={style.input.width}
               alignSelf={style.input.alignSelf}
               margin={style.input.margin}
+              value={formData.balance || ""}
               InputLeftElement={
                 <FontAwesome
                   name="money"
@@ -119,7 +202,7 @@ export default function AddModal(props) {
           </FormControl>
 
           <FormControl>
-            <Input
+            {/* <Input
               variant={style.input.variant}
               borderWidth={style.input.borderWidth}
               borderColor={style.input.borderColor}
@@ -143,7 +226,82 @@ export default function AddModal(props) {
                 });
                 delete errors.category;
               }}
-            />
+            /> */}
+
+            <ModalSelector
+              data={list}
+              scrollViewAccessibilityLabel={"Scrollable options"}
+              cancelButtonAccessibilityLabel={"Cancel Button"}
+              onChange={(option) => {
+                setData((prev) => ({
+                  ...prev,
+                  categoryName: option.label,
+                  categoryIcon: option.value,
+                }));
+              }}
+              style={{
+                borderRadius: 24,
+                // backgroundColor: "#4FB286",
+                paddingHorizontal: 12,
+                borderColor: "#4FB286",
+                borderWidth: 2,
+                width: 280,
+                paddingVertical: 2,
+                marginLeft: 5,
+                marginVertical: 4,
+                // marginHorizontal: ,
+              }}
+              optionContainerStyle={{
+                backgroundColor: "#ECFCE5",
+                marginHorizontal: 30,
+              }}
+              cancelContainerStyle={{ marginHorizontal: 60 }}
+              cancelStyle={{
+                backgroundColor: "#FF9800",
+              }}
+              cancelTextStyle={{ color: "#ECFCE5" }}
+              optionStyle={{ flexDirection: "row", justifyContent: "center" }}
+            >
+              {formData?.categoryName ? (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    paddingVertical: 5,
+                  }}
+                >
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Ionicons
+                      name={formData.categoryIcon}
+                      size={28}
+                      color="#4FB286"
+                      style={{ marginRight: 12 }}
+                    />
+                    <Text style={{ fontSize: 15 }}>
+                      {formData.categoryName}
+                    </Text>
+                  </View>
+                  <Ionicons name="chevron-down" size={22} color="#999" />
+                </View>
+              ) : (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    paddingVertical: 9,
+                  }}
+                >
+                  <Ionicons
+                    name="menu-sharp"
+                    size={style.icon.size}
+                    color={style.icon.color}
+                    style={{ marginRight: 12, marginLeft: 4 }}
+                  />
+                  <Text style={{ fontSize: 16, color: "#999" }}>Hạng mục</Text>
+                </View>
+              )}
+            </ModalSelector>
           </FormControl>
 
           <FormControl>
@@ -156,6 +314,7 @@ export default function AddModal(props) {
               alignSelf={style.input.alignSelf}
               margin={style.input.margin}
               placeholder="Mô tả"
+              value={formData.desc || ""}
               InputLeftElement={
                 <FontAwesome
                   name="credit-card"

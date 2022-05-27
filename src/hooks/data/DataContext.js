@@ -4,7 +4,6 @@ import AuthContext from "../login-signup/AuthContext";
 
 const DataContext = createContext({});
 
-
 export const DataProvider = ({ children }) => {
   const [profile, changeProfile] = useState({});
   const [settings, changeSettings] = useState({});
@@ -34,9 +33,9 @@ export const DataProvider = ({ children }) => {
 
   useEffect(async () => {
     if (token != null) {
-      const newData = await fetch().catch(err => console.log(err));
+      const newData = await fetch().catch((err) => console.log(err));
       changeProfile(
-        newData.profile || { fullName: "", phoneNumber: "", birthday: "" }
+        newData?.profile || { fullName: "", phoneNumber: "", birthday: "" }
       );
       changeSettings(newData.settings);
       changeLimits(newData.limits);
