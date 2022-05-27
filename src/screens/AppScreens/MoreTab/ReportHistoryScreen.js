@@ -11,16 +11,11 @@ import {
 } from "react-native";
 
 import { HStack, Select, VStack } from "native-base";
-import {
-  VictoryChart,
-  VictoryGroup,
-  VictoryBar,
-  VictoryTheme,
-} from "victory-native";
+import ReportGraph from "src/components/report-history/ReportGraph";
 
 import Theme from "src/theme/mainTheme";
 import Typo from "src/theme/mainTypo";
-import { HistoryListItem } from "src/components/history/HistoryListItem";
+import { HistoryListItem } from "src/components/report-history/HistoryListItem";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { formatMoney, checkDateInRange } from "src/utils";
 
@@ -272,46 +267,26 @@ export default function ReportHistoryScreen() {
             </Select>
           </View>
 
-          <View style={st.graph}>
-            <VictoryChart
-              width={360}
-              domain={{
-                x: [0, graphData.in.length + graphData.out.length],
-                y: [0, 275],
-              }}
-            >
-              <VictoryGroup offset={15}>
-                <VictoryBar
-                  data={graphData.in}
-                  x="id"
-                  y="amount"
-                  style={{ data: { fill: "#009900" } }}
-                />
-                <VictoryBar
-                  data={graphData.out}
-                  x="id"
-                  y="amount"
-                  style={{ data: { fill: "#bf0000" } }}
-                />
-              </VictoryGroup>
-            </VictoryChart>
-          </View>
+          <ReportGraph 
+            style={st.graph} 
+            transactions={transactionsInRange}
+            timeRange={selectedTimeRange} />
 
           <VStack space={1} alignItems="center">
-            <HStack space={6} justifyContent="center">
+            <HStack space={16} justifyContent="center">
               <View style={st.incomeMoneyContainer}>
                 <Text style={st.moneyTitle}>Tổng thu</Text>
                 <Text style={st.incomeMoney}>
                   {formatMoney(totalIncomeAmount || 0, settings.currency)}
                 </Text>
               </View>
-              <View
+              {/* <View
                 style={{
                   justifyContent: "center",
                 }}
               >
                 <Text style={{ fontWeight: "700" }}>---</Text>
-              </View>
+              </View> */}
               <View style={st.expenseMoneyContainer}>
                 <Text style={st.moneyTitle}>Tổng chi</Text>
                 <Text style={st.expenseMoney}>
@@ -450,3 +425,5 @@ const st = StyleSheet.create({
     color: "#222",
   },
 });
+
+

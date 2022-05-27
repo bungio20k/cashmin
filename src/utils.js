@@ -1,5 +1,11 @@
 import { formatCurrency } from "react-native-format-currency";
 
+import dayjs from "dayjs";
+import isBetween from "dayjs/plugin/isBetween";
+
+dayjs.extend(isBetween);
+
+
 // HOW TO USE:
 // param or output: type (example of param or output)
 
@@ -67,29 +73,22 @@ export const formatDate = (dateStr, format) => {
 
 
 // dateStr: String ("2022-05-22T06:31:09.969Z")
-// period: String ("week", "month", "year")
-// output: Boolean (true if in range, else false)
-export const checkDateInRange = (dateStr, period) => {
-  const date = (new Date(dateStr)).valueOf();
-  const dateNow = (new Date()).valueOf();
+// timeRange: String ("week", "month", "year")
+// output: Boolean (true if date is in range counting from NOW, else false)
+export const checkDateInRange = (dateStr, timeRange) => {
+  const dateToCheck = dayjs(dateStr);
 
-  /*  1 week  =   604800000 milliseconds (7 days)
-      1 month =  2592000000 milliseconds (30 days)
-      1 year  = 31536000000 milliseconds (365 days) */
-  let range;
-  switch (period.toLowerCase()) {
-    case "week":
-      range = 604800000;
-      break;
-    case "month":
-      range = 2592000000;
-      break;
-    case "year":
-      range = 31536000000;
-      break;
-  }
+  const dateNow = dayjs();
+  const datePast = ((timeRange) => {
+    switch (timeRange) {
+      case "week":
+        return dateNow.subtract(7, "day");
+      case "month":
+        return dateNow.subtract(1, "month");
+      case "year":
+        return dateNow.subtract(1, "year");
+    }
+  })(timeRange);
 
-  const earliestDateInRange = dateNow - range;
-
-  return date >= earliestDateInRange;
+  return dateToCheck.isBetween(datePast, dateNow, "day", "(]");
 }
