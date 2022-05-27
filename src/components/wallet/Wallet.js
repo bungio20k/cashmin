@@ -6,7 +6,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
 import { useContext } from "react";
-import DataContext from '../../hooks/data/DataContext';
+import DataContext from "../../hooks/data/DataContext";
 import { formatAmount, formatCurrencyDisplay } from "src/utils";
 
 const Wallet = () => {

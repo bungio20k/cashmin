@@ -191,15 +191,32 @@ export default function ReportHistoryScreen() {
   const [selectedWallet, setSelectedWallet] = useState("Ví 1");
 
   const { wallets, settings } = useContext(DataContext);
-  const currentWallet = wallets.find(wallet => wallet.name === selectedWallet);
+  const currentWallet = wallets.find(
+    (wallet) => wallet.name === selectedWallet
+  );
 
-  const transactionsInRange = currentWallet.transactions.filter(transaction => checkDateInRange(transaction.date, selectedTimeRange));
-  const incomeTransactions = transactionsInRange.filter(transaction => transaction.amount >= 0);
-  const expenseTransactions = transactionsInRange.filter(transaction => transaction.amount < 0);
+  const transactionsInRange = currentWallet?.transactions?.filter(
+    (transaction) => checkDateInRange(transaction.date, selectedTimeRange)
+  );
+  const incomeTransactions = transactionsInRange?.filter(
+    (transaction) => transaction.amount >= 0
+  );
+  const expenseTransactions = transactionsInRange?.filter(
+    (transaction) => transaction.amount < 0
+  );
 
-  const totalAmount = transactionsInRange.reduce((prev, curr) => prev + curr.amount, 0);
-  const totalIncomeAmount = incomeTransactions.reduce((prev, curr) => prev + curr.amount, 0);
-  const totalExpenseAmount = expenseTransactions.reduce((prev, curr) => prev + curr.amount, 0);
+  const totalAmount = transactionsInRange?.reduce(
+    (prev, curr) => prev + curr.amount,
+    0
+  );
+  const totalIncomeAmount = incomeTransactions?.reduce(
+    (prev, curr) => prev + curr.amount,
+    0
+  );
+  const totalExpenseAmount = expenseTransactions?.reduce(
+    (prev, curr) => prev + curr.amount,
+    0
+  );
 
   return (
     <View style={[st.container, { marginBottom: tabBarHeight }]}>
@@ -285,7 +302,7 @@ export default function ReportHistoryScreen() {
               <View style={st.incomeMoneyContainer}>
                 <Text style={st.moneyTitle}>Tổng thu</Text>
                 <Text style={st.incomeMoney}>
-                  {formatMoney(totalIncomeAmount, settings.currency)}
+                  {formatMoney(totalIncomeAmount || 0, settings.currency)}
                 </Text>
               </View>
               <View
@@ -298,14 +315,14 @@ export default function ReportHistoryScreen() {
               <View style={st.expenseMoneyContainer}>
                 <Text style={st.moneyTitle}>Tổng chi</Text>
                 <Text style={st.expenseMoney}>
-                  {formatMoney(totalExpenseAmount, settings.currency)}
+                  {formatMoney(totalExpenseAmount || 0, settings.currency)}
                 </Text>
               </View>
             </HStack>
             <View style={st.totalContainer}>
               <Text style={st.moneyTitle}> Tổng thu - chi</Text>
-              <Text style={totalAmount >= 0? st.incomeMoney : st.expenseMoney }>
-                {formatMoney(totalAmount, settings.currency)}
+              <Text style={totalAmount >= 0 ? st.incomeMoney : st.expenseMoney}>
+                {formatMoney(totalAmount || 0, settings.currency)}
               </Text>
             </View>
           </VStack>
@@ -324,7 +341,7 @@ export default function ReportHistoryScreen() {
           <View style={st.historyListContainer}>
             <SafeAreaView>
               <ScrollView nestedScrollEnabled>
-                {transactionsInRange.map((transaction, index) => (
+                {transactionsInRange?.map((transaction, index) => (
                   <HistoryListItem data={transaction} key={index} />
                 ))}
               </ScrollView>
@@ -420,12 +437,14 @@ const st = StyleSheet.create({
     fontSize: 16,
     color: "green",
     fontWeight: "700",
+    textAlign: "center",
   },
 
   expenseMoney: {
     fontSize: 16,
     color: "red",
     fontWeight: "700",
+    textAlign: "center",
   },
   moneyTitle: {
     color: "#222",
