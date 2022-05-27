@@ -1,4 +1,4 @@
-import { Button, HStack, Select, VStack } from "native-base";
+import { Box, Button, HStack, Select, VStack } from "native-base";
 import { View, Text, ScrollView, Switch } from "react-native";
 import styles from "../../../styles/more_screen/settingSceenStyle";
 import { AntDesign } from "@expo/vector-icons";
@@ -6,11 +6,16 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { useContext, useEffect } from "react";
 import DataContext from "../../../hooks/data/DataContext";
 import { useState } from "react";
+import { useToast } from "native-base";
+import AuthContext from "../../../hooks/login-signup/AuthContext";
+import axios from "axios";
 
 const SettingScreen = () => {
+  const { token } = useContext(AuthContext);
   const { settings, setSettings } = useContext(DataContext);
   const [data, setData] = useState({ ...settings });
   const [disable, setDisable] = useState(true);
+  const toast = useToast();
   const toggleSwitch = (typ) =>
     setData((previousState) => ({
       ...previousState,
@@ -23,11 +28,76 @@ const SettingScreen = () => {
     disable && value !== settings[typ] && setDisable(false);
     setData((prev) => ({ ...prev, [typ]: value }));
   };
+  const updateSettings = async () => {
+    console.log(data);
+    try {
+      const res = await axios.put("/settings", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+      setSettings(data);
+      setDisable(true);
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="emerald.500"
+              rounded="sm"
+              mb={5}
+              px="2"
+              py="2"
+              mr="2"
+              _text={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                letterSpacing: "lg",
+              }}
+            >
+              Cập nhật thành công!
+            </Box>
+          );
+        },
+        placement: "top-right",
+      });
+    } catch (error) {
+      console.log(error);
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="red.600"
+              rounded="sm"
+              mb={5}
+              px="2"
+              py="2"
+              mr="2"
+              _text={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                letterSpacing: "lg",
+              }}
+            >
+              Có lỗi xảy ra, vui lòng thử lại!
+            </Box>
+          );
+        },
+        placement: "top-right",
+      });
+    }
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Cài đặt</Text>
-        <Button colorScheme="success" isDisabled={disable}>
+        <Button
+          colorScheme="success"
+          isDisabled={disable}
+          onPress={updateSettings}
+        >
           Cập nhật
         </Button>
       </View>
@@ -129,7 +199,7 @@ const SettingScreen = () => {
                 color="white"
                 style={{ height: 38 }}
               >
-                <Select.Item label="VNĐ" value="VNĐ" />
+                <Select.Item label="VNĐ" value="VNĐ(đ)" />
                 <Select.Item label="USD" value="USD" />
               </Select>
             </HStack>

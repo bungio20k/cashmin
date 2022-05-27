@@ -71,71 +71,145 @@ const AccountScreen = () => {
           Authorization: "Bearer " + token,
         },
       });
+      setProfile(data);
+      setDisabled1(true);
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="emerald.500"
+              rounded="sm"
+              mb={5}
+              px="2"
+              py="2"
+              mr="2"
+              _text={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                letterSpacing: "lg",
+              }}
+            >
+              Cập nhật thông tin thành công!
+            </Box>
+          );
+        },
+        placement: "top-right",
+      });
     } catch (error) {
-      console.error(error);
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="red.600"
+              rounded="sm"
+              mb={5}
+              px="2"
+              py="2"
+              mr="2"
+              _text={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                letterSpacing: "lg",
+              }}
+            >
+              Có lỗi xảy ra, vui lòng thử lại!
+            </Box>
+          );
+        },
+        placement: "top-right",
+      });
     }
-    setProfile(data);
-    setDisabled1(true);
-    toast.show({
-      render: () => {
-        return (
-          <Box
-            bg="emerald.500"
-            rounded="sm"
-            mb={5}
-            px="2"
-            py="1"
-            mr="2"
-            _text={{
-              fontSize: "md",
-              fontWeight: "medium",
-              color: "warmGray.50",
-              letterSpacing: "lg",
-            }}
-          >
-            Thành công!
-          </Box>
-        );
-      },
-      placement: "top-right",
-    });
   };
 
   const changePassword = async () => {
-    try {
-      const res = await axios.put("/account/password", passwords, {
-        headers: {
-          Authorization: "Bearer " + token,
+    if (passwords.newPassword.length < 6) {
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="#eab308"
+              rounded="sm"
+              mb={5}
+              px="2"
+              py="2"
+              mr="2"
+              _text={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                letterSpacing: "lg",
+              }}
+            >
+              Mật khẩu quá ngắn! Mật khẩu có tối thiểu 6 ký tự để đảm bảo an
+              toàn
+            </Box>
+          );
         },
+        placement: "top-right",
       });
-    } catch (error) {
-      console.error(error);
+    } else {
+      try {
+        const res = await axios.put("/account/password", passwords, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        setPasswords({ oldPassword: "", newPassword: "" });
+        setDisabled2(true);
+        toast.show({
+          render: () => {
+            return (
+              <Box
+                bg="emerald.500"
+                rounded="sm"
+                mb={5}
+                px="2"
+                py="2"
+                mr="2"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "medium",
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
+                }}
+              >
+                Thay đổi mật khẩu thành công!
+              </Box>
+            );
+          },
+          placement: "top-right",
+        });
+      } catch (error) {
+        // console.log(error.response.status);
+        toast.show({
+          render: () => {
+            return (
+              <Box
+                bg="red.600"
+                rounded="sm"
+                mb={5}
+                px="2"
+                py="2"
+                mr="2"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "medium",
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
+                }}
+              >
+                {error.response.status === 401
+                  ? "Mật khẩu cũ không đúng!"
+                  : "Lỗi hệ thống! Vui lòng thử lại."}
+              </Box>
+            );
+          },
+          placement: "top-right",
+        });
+      }
     }
-    setPasswords({ oldPassword: "", newPassword: "" });
-    setDisabled2(true);
-    toast.show({
-      render: () => {
-        return (
-          <Box
-            bg="emerald.500"
-            rounded="sm"
-            mb={5}
-            px="2"
-            py="1"
-            mr="2"
-            _text={{
-              fontSize: "md",
-              fontWeight: "medium",
-              color: "warmGray.50",
-              letterSpacing: "lg",
-            }}
-          >
-            Thành công!
-          </Box>
-        );
-      },
-      placement: "top-right",
-    });
   };
 
   useEffect(() => {
