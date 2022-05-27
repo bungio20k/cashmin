@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   StyleSheet,
   Text,
@@ -11,7 +11,6 @@ import {
 } from "react-native";
 
 import { HStack, Select, VStack } from "native-base";
-import { Picker } from "@react-native-picker/picker";
 import {
   VictoryChart,
   VictoryGroup,
@@ -23,25 +22,124 @@ import Theme from "src/theme/mainTheme";
 import Typo from "src/theme/mainTypo";
 import { HistoryListItem } from "src/components/history/HistoryListItem";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { formatMoney, checkDateInRange } from "src/utils";
+
 // Data (TODO: get from database)
+import DataContext from "src/hooks/data/DataContext";
 
 const DATA = [
-  { icon: "fast-food", name: "Ăn sáng", amount: "-10.000 VNĐ" },
-  { icon: "fast-food", name: "Ăn trưa", amount: "-25.000 VNĐ" },
-  { icon: "fast-food", name: "Ăn tối", amount: "-15.000 VNĐ" },
-  { icon: "cafe", name: "Cà phê", amount: "-25.000 VNĐ" },
-  { icon: "car", name: "Chạy xe ôm", amount: "+90.000 VNĐ" },
-  { icon: "basket", name: "Bán hàng", amount: "+125.000 VNĐ" },
-  { icon: "shirt", name: "Bán áo, quần", amount: "+225.000 VNĐ" },
-  { icon: "cafe", name: "Cà phê", amount: "-25.000 VNĐ" },
-  { icon: "car", name: "Xăng", amount: "-80.000 VNĐ" },
-  { icon: "car", name: "Sửa xe", amount: "-60.000 VNĐ" },
-  { icon: "car", name: "Rửa xe", amount: "-40.000 VNĐ" },
-  { icon: "home", name: "Tiền thuê trọ", amount: "-30.000 VNĐ" },
-  { icon: "home", name: "Đồ dùng sinh hoạt", amount: "-110.000 VNĐ" },
-  { icon: "home", name: "Bảo trì phòng", amount: "-50.000 VNĐ" },
-  { icon: "basket", name: "Đi chợ", amount: "-200.000 VNĐ" },
-  { icon: "shirt", name: "Shopping", amount: "-100.000 VNĐ" },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "fast-food",
+    categoryName: "Ăn sáng",
+    amount: -10000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "fast-food",
+    categoryName: "Ăn trưa",
+    amount: -25000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "fast-food",
+    categoryName: "Ăn tối",
+    amount: -15000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "cafe",
+    categoryName: "Cà phê",
+    amount: -25000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "car",
+    categoryName: "Chạy xe ôm",
+    amount: +90000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "basket",
+    categoryName: "Bán hàng",
+    amount: +125000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "shirt",
+    categoryName: "Bán áo, quần",
+    amount: +225000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "cafe",
+    categoryName: "Cà phê",
+    amount: -25000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "car",
+    categoryName: "Xăng",
+    amount: -80000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "car",
+    categoryName: "Sửa xe",
+    amount: -60000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "car",
+    categoryName: "Rửa xe",
+    amount: -40000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "home",
+    categoryName: "Tiền thuê trọ",
+    amount: -30000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "home",
+    categoryName: "Đồ dùng sinh hoạt",
+    amount: -110000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "home",
+    categoryName: "Bảo trì phòng",
+    amount: -50000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "basket",
+    categoryName: "Đi chợ",
+    amount: -200000,
+  },
+  {
+    desc: "aaaaaa",
+    date: new Date(2022, 0, 1),
+    categoryIcon: "shirt",
+    categoryName: "Shopping",
+    amount: -100000,
+  },
 ];
 
 const toGraphData = (data) => {
@@ -89,8 +187,20 @@ var graphViewHeight;
 // Screen
 export default function ReportHistoryScreen() {
   const tabBarHeight = useBottomTabBarHeight();
-  const [selectedTime, setSelectedTime] = useState("week");
-  const [selectedWallet, setSelectedWallet] = useState("Ví #1");
+  const [selectedTimeRange, setSelectedTimeRange] = useState("week");
+  const [selectedWallet, setSelectedWallet] = useState("Ví 1");
+
+  const { wallets, settings } = useContext(DataContext);
+  const currentWallet = wallets.find(wallet => wallet.name === selectedWallet);
+
+  const transactionsInRange = currentWallet.transactions.filter(transaction => checkDateInRange(transaction.date, selectedTimeRange));
+  const incomeTransactions = transactionsInRange.filter(transaction => transaction.amount >= 0);
+  const expenseTransactions = transactionsInRange.filter(transaction => transaction.amount < 0);
+
+  const totalAmount = transactionsInRange.reduce((prev, curr) => prev + curr.amount, 0);
+  const totalIncomeAmount = incomeTransactions.reduce((prev, curr) => prev + curr.amount, 0);
+  const totalExpenseAmount = expenseTransactions.reduce((prev, curr) => prev + curr.amount, 0);
+
   return (
     <View style={[st.container, { marginBottom: tabBarHeight }]}>
       <ScrollView nestedScrollEnabled>
@@ -108,9 +218,9 @@ export default function ReportHistoryScreen() {
               color="white"
               fontSize="16"
               borderRadius="full"
-              selectedValue={selectedTime}
+              selectedValue={selectedTimeRange}
               onValueChange={(itemValue) => {
-                setSelectedTime(itemValue);
+                setSelectedTimeRange(itemValue);
               }}
               _selectedItem={{
                 bg: "teal.600",
@@ -139,13 +249,13 @@ export default function ReportHistoryScreen() {
                 bg: "teal.600",
               }}
             >
-              <Select.Item label="Ví #1" value="Ví #1" />
-              <Select.Item label="Ví #2" value="Ví #2" />
-              <Select.Item label="Ví #3" value="Ví #3" />
+              <Select.Item label="Ví 1" value="Ví 1" />
+              <Select.Item label="Ví 2" value="Ví 2" />
+              <Select.Item label="Ví 3" value="Ví 3" />
             </Select>
           </View>
 
-          <View style={st.graph} >
+          <View style={st.graph}>
             <VictoryChart
               width={360}
               domain={{
@@ -174,7 +284,9 @@ export default function ReportHistoryScreen() {
             <HStack space={6} justifyContent="center">
               <View style={st.incomeMoneyContainer}>
                 <Text style={st.moneyTitle}>Tổng thu</Text>
-                <Text style={st.incomeMoney}>1.600.000 VNĐ</Text>
+                <Text style={st.incomeMoney}>
+                  {formatMoney(totalIncomeAmount, settings.currency)}
+                </Text>
               </View>
               <View
                 style={{
@@ -185,12 +297,16 @@ export default function ReportHistoryScreen() {
               </View>
               <View style={st.expenseMoneyContainer}>
                 <Text style={st.moneyTitle}>Tổng chi</Text>
-                <Text style={st.expenseMoney}>800.000 VNĐ</Text>
+                <Text style={st.expenseMoney}>
+                  {formatMoney(totalExpenseAmount, settings.currency)}
+                </Text>
               </View>
             </HStack>
             <View style={st.totalContainer}>
               <Text style={st.moneyTitle}> Tổng thu - chi</Text>
-              <Text style={st.incomeMoney}>800.000 VNĐ</Text>
+              <Text style={totalAmount >= 0? st.incomeMoney : st.expenseMoney }>
+                {formatMoney(totalAmount, settings.currency)}
+              </Text>
             </View>
           </VStack>
         </View>
@@ -208,8 +324,8 @@ export default function ReportHistoryScreen() {
           <View style={st.historyListContainer}>
             <SafeAreaView>
               <ScrollView nestedScrollEnabled>
-                {DATA.map((item, index) => (
-                  <HistoryListItem data={item} key={index} />
+                {transactionsInRange.map((transaction, index) => (
+                  <HistoryListItem data={transaction} key={index} />
                 ))}
               </ScrollView>
             </SafeAreaView>

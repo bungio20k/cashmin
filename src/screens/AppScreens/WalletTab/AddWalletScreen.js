@@ -12,30 +12,6 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 import DataContext from '../../../hooks/data/DataContext';
 
-const data = [
-  {
-    key: "1",
-    name: "Ví chính",
-    balance: "999.999.999đ",
-    category: "Chung",
-    desc: "Thẻ BIDV",
-  },
-  {
-    key: "2",
-    name: "Ví phụ 1",
-    balance: "999.999.999đ",
-    category: "Học phí",
-    desc: "Thẻ BIDV",
-  },
-  {
-    key: "3",
-    name: "Ví phụ 2",
-    balance: "999.999.999đ",
-    category: "Internet",
-    desc: "Thẻ BIDV",
-  },
-];
-
 const AddWalletScreen = () => {
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);

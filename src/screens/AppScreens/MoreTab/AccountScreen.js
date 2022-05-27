@@ -1,4 +1,13 @@
-import { Button, HStack, VStack } from "native-base";
+import {
+  Button,
+  Collapse,
+  HStack,
+  VStack,
+  Alert,
+  IconButton,
+  CloseIcon,
+  Box,
+} from "native-base";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import styles from "../../../styles/more_screen/accountScreenStyle";
 import { AntDesign } from "@expo/vector-icons";
@@ -11,9 +20,11 @@ import { useContext } from "react";
 import AuthContext from "../../../hooks/login-signup/AuthContext";
 import DataContext from "../../../hooks/data/DataContext";
 import Moment from "moment";
+import axios from "axios";
+import { useToast } from "native-base";
 
 const AccountScreen = () => {
-  const { logout } = useContext(AuthContext);
+  const { logout, token } = useContext(AuthContext);
   const { profile, setProfile } = useContext(DataContext);
   const [data, setData] = useState({ ...profile });
   const [passwords, setPasswords] = useState({
@@ -28,6 +39,7 @@ const AccountScreen = () => {
   const [showModal, setShowModal] = useState(false);
   const [disable1, setDisabled1] = useState(true);
   const [disable2, setDisabled2] = useState(true);
+  const toast = useToast();
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -51,12 +63,79 @@ const AccountScreen = () => {
     else setData((prev) => ({ ...prev, [typ]: value }));
   };
 
-  const updateProfile = () => {
+  const updateProfile = async () => {
     console.log(data);
+    try {
+      const res = await axios.put("/account/profile", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    setProfile(data);
+    setDisabled1(true);
+    toast.show({
+      render: () => {
+        return (
+          <Box
+            bg="emerald.500"
+            rounded="sm"
+            mb={5}
+            px="2"
+            py="1"
+            mr="2"
+            _text={{
+              fontSize: "md",
+              fontWeight: "medium",
+              color: "warmGray.50",
+              letterSpacing: "lg",
+            }}
+          >
+            Thành công!
+          </Box>
+        );
+      },
+      placement: "top-right",
+    });
   };
 
-  const changePassword = () => {
-    console.log(passwords);
+  const changePassword = async () => {
+    try {
+      const res = await axios.put("/account/password", passwords, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+    setPasswords({ oldPassword: "", newPassword: "" });
+    setDisabled2(true);
+    toast.show({
+      render: () => {
+        return (
+          <Box
+            bg="emerald.500"
+            rounded="sm"
+            mb={5}
+            px="2"
+            py="1"
+            mr="2"
+            _text={{
+              fontSize: "md",
+              fontWeight: "medium",
+              color: "warmGray.50",
+              letterSpacing: "lg",
+            }}
+          >
+            Thành công!
+          </Box>
+        );
+      },
+      placement: "top-right",
+    });
   };
 
   useEffect(() => {

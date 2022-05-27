@@ -11,26 +11,14 @@ const icons = [
   {
     key: index++,
     label: "",
+    value: "apps",
+    component: <Ionicons name="apps" size={24} color="#198155" />,
+  },
+  {
+    key: index++,
+    label: "",
     value: "fast-food",
     component: <Ionicons name="fast-food" size={24} color="#198155" />,
-  },
-  {
-    key: index++,
-    label: "",
-    value: "cafe",
-    component: <Ionicons name="cafe" size={24} color="#198155" />,
-  },
-  {
-    key: index++,
-    label: "",
-    value: "book",
-    component: <Ionicons name="book" size={24} color="#198155" />,
-  },
-  {
-    key: index++,
-    label: "",
-    value: "car",
-    component: <Ionicons name="car" size={24} color="#198155" />,
   },
   {
     key: index++,
@@ -41,33 +29,76 @@ const icons = [
   {
     key: index++,
     label: "",
+    value: "bulb",
+    component: <Ionicons name="bulb" size={24} color="#198155" />,
+  },
+  {
+    key: index++,
+    label: "",
+    value: "bicycle",
+    component: <Ionicons name="bicycle" size={24} color="#198155" />,
+  },
+  {
+    key: index++,
+    label: "",
+    value: "build",
+    component: <Ionicons name="build" size={24} color="#198155" />,
+  },
+  {
+    key: index++,
+    label: "",
     value: "basket",
     component: <Ionicons name="basket" size={24} color="#198155" />,
   },
   {
     key: index++,
     label: "",
-    value: "shirt",
-    component: <Ionicons name="shirt" size={24} color="#198155" />,
+    value: "analytics",
+    component: <Ionicons name="analytics" size={24} color="#198155" />,
   },
   {
     key: index++,
     label: "",
-    value: "cart",
-    component: <Ionicons name="cart" size={24} color="#198155" />,
+    value: "alert",
+    component: <Ionicons name="alert" size={24} color="#198155" />,
   },
   {
     key: index++,
     label: "",
-    value: "pricetags",
-    component: <Ionicons name="pricetags" size={24} color="#198155" />,
+    value: "bandage",
+    component: <Ionicons name="bandage" size={24} color="#198155" />,
   },
   {
     key: index++,
     label: "",
-    value: "ios-planet-sharp",
-    component: <Ionicons name="ios-planet-sharp" size={24} color="#198155" />,
-  },
+    value: "barbell",
+    component: <Ionicons name="barbell" size={24} color="#198155" />,
+  },{
+    key: index++,
+    label: "",
+    value: "beer",
+    component: <Ionicons name="beer" size={24} color="#198155" />,
+  },{
+    key: index++,
+    label: "",
+    value: "body",
+    component: <Ionicons name="body" size={24} color="#198155" />,
+  },{
+    key: index++,
+    label: "",
+    value: "book",
+    component: <Ionicons name="book" size={24} color="#198155" />,
+  },{
+    key: index++,
+    label: "",
+    value: "bus",
+    component: <Ionicons name="bus" size={24} color="#198155" />,
+  },{
+    key: index++,
+    label: "",
+    value: "cafe",
+    component: <Ionicons name="cafe" size={24} color="#198155" />,
+  }
 ];
 
 const Modals = ({
@@ -157,6 +188,7 @@ const Modals = ({
                 onPress={() => {
                   setShowAddModal(false);
                 }}
+                shadow="5"
               >
                 Hủy bỏ
               </Button>
@@ -167,6 +199,7 @@ const Modals = ({
                   backgroundColor: "#4FB286",
                 }}
                 onPress={() => setShowAddModal(false)}
+                shadow="5"
               >
                 Xác nhận
               </Button>
@@ -194,6 +227,7 @@ const Modals = ({
                   backgroundColor: "#D3180C",
                 }}
                 onPress={() => setShowDeleteModal(false)}
+                shadow="5"
               >
                 Hủy bỏ
               </Button>
@@ -204,6 +238,7 @@ const Modals = ({
                   backgroundColor: "#4FB286",
                 }}
                 onPress={() => setShowDeleteModal(false)}
+                shadow="5"
               >
                 Xác nhận
               </Button>

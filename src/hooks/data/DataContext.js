@@ -17,7 +17,7 @@ export const DataProvider = ({ children }) => {
 
   const fetch = async () => {
     try {
-      const res = await axios.get("/all-data", {
+      const res = await axios.get("/users/user-info", {
         headers: {
           Authorization: "Bearer " + token,
         },
