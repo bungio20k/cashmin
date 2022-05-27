@@ -1,5 +1,5 @@
 import { ScrollView, Text, TouchableOpacity, View, Button } from "react-native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Fab } from "native-base";
 import AddDebitModal from "src/components/wallet/AddDebitModal";
 import ModifyDebitModal from "src/components/wallet/ModifyDebitModal";
@@ -10,6 +10,7 @@ import DebitLongPress from "../../../components/wallet/DebitLongPress";
 import DebitItem from "../../../components/wallet/DebitItem";
 import Debit from "./../../../components/wallet/Debit";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import DataContext from "../../../hooks/data/DataContext";
 
 const data = [
   {
@@ -47,19 +48,20 @@ const AddDebitScreen = () => {
   const [hold, setHold] = useState(false);
   const [currentDebit, setCurrentDebit] = useState();
   const tabBarHeight = useBottomTabBarHeight();
+  const { debits } = useContext(DataContext);
 
   return (
     <>
       <View style={[style.container, { marginBottom: tabBarHeight }]}>
         <Text style={style.title}>Sổ ghi nợ</Text>
         <ScrollView>
-          {data.map((debit) => (
+          {debits.map((debit) => (
             <DebitItem
               debit={debit}
               setCurrentDebit={setCurrentDebit}
               setShowModal2={setShowModal2}
               setHold={setHold}
-              key={debit.key}
+              key={debit._id}
             />
             // <TouchableOpacity style={style.card} key={debit.key}
             //     onPress={() => {

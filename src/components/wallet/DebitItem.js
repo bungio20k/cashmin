@@ -19,7 +19,7 @@ const DebitItem = ({ debit, setCurrentDebit, setShowModal2, setHold }) => {
       }}
       delayLongPress={100}
     >
-      <Text style={[style.name, { color: (debit.debt && "red") || "green" }]}>
+      <Text style={[style.name, { color: (debit.isDebt && "red") || "green" }]}>
         {debit.name}
       </Text>
       <View style={style.textContainer}>
@@ -31,7 +31,7 @@ const DebitItem = ({ debit, setCurrentDebit, setShowModal2, setHold }) => {
         />
         <Text style={style.tit}>Số tiền</Text>
         <Text
-          style={[style.value, { color: (debit.debt && "red") || "green" }]}
+          style={[style.value, { color: (debit.isDebt && "red") || "green" }]}
         >
           {debit.amount}
         </Text>
@@ -44,7 +44,7 @@ const DebitItem = ({ debit, setCurrentDebit, setShowModal2, setHold }) => {
           style={style.icon}
         />
         <Text style={style.tit}>Hạng mục</Text>
-        <Text style={style.value}>{debit.category}</Text>
+        <Text style={style.value}>{debit.categoryName}</Text>
       </View>
       <View style={style.textContainer}>
         <MaterialIcons
@@ -60,9 +60,9 @@ const DebitItem = ({ debit, setCurrentDebit, setShowModal2, setHold }) => {
         <Ionicons name="time" size={28} color="#198155" style={style.icon} />
         <Text style={style.tit}>Ngày thanh toán</Text>
         <Text
-          style={[style.value, { color: (debit.debt && "red") || "green" }]}
+          style={[style.value, { color: (debit.isDebt && "red") || "green" }]}
         >
-          {debit.time}
+          {debit.deadline.toLocaleString()}
         </Text>
       </View>
       <Button style={{ marginLeft: 18 }} colorScheme="success">
