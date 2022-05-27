@@ -14,8 +14,8 @@ export default function LoginForm() {
   const [formData, setData] = useState({});
   const [errors, setErrors] = useState({});
   const [show, setShow] = useState(false);
-  const { setAuth, setToken } = useContext(AuthContext);
-
+  const { token, setAuth, setToken } = useContext(AuthContext);
+  
   const validate = async () => {
     if (formData.name === undefined || formData.name == "") {
       setErrors({
@@ -32,7 +32,6 @@ export default function LoginForm() {
       });
       return false;
     }
-
     // server authentication
     // ...
     axios
@@ -57,9 +56,8 @@ export default function LoginForm() {
           });
         }
       });
+    
   };
-
-  const onSubmit = () => validate();
 
   const navigation = useNavigation();
 
@@ -145,7 +143,8 @@ export default function LoginForm() {
         )}
       </FormControl>
 
-      <LoginButton onPress={onSubmit} />
+      <LoginButton onPress={() => validate()} />
+
       <Text style={[style.text, { alignSelf: "center", marginTop: 20 }]}>
         {" "}
         Hoặc đăng nhập bằng{" "}

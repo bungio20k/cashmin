@@ -47,7 +47,8 @@ export const AuthProvider = ({ children }) => {
     } catch (e) {
       console.error(e);
     }
-    setToken(null);
+    // setToken(null);
+    changeToken(null);
     changeAuth(false);
   };
 

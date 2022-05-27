@@ -4,21 +4,6 @@ import AuthContext from "../login-signup/AuthContext";
 
 const DataContext = createContext({});
 
-const fetch = async (token) => {
-  try {
-    const res = await axios.get("/all-data", {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    });
-
-    // console.log("Got all data");
-    // console.log(res.data);
-    return res.data;
-  } catch (err) {
-    console.log(err);
-  }
-};
 
 export const DataProvider = ({ children }) => {
   const [profile, changeProfile] = useState({});
@@ -28,11 +13,28 @@ export const DataProvider = ({ children }) => {
   const [debits, changeDebits] = useState([]);
   const [categories, changeCategories] = useState([]);
 
-  const { token } = useContext(AuthContext);
+  const { setAuth, token } = useContext(AuthContext);
+
+  const fetch = async () => {
+    try {
+      const res = await axios.get("/all-data", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+
+      // console.log("Got all data");
+      // console.log(res.data);
+      return res.data;
+    } catch (err) {
+      // outdated token
+      if (err.response.status == 403) setAuth(false);
+    }
+  };
 
   useEffect(async () => {
     if (token != null) {
-      const newData = await fetch(token);
+      const newData = await fetch().catch(err => console.log(err));
       changeProfile(
         newData.profile || { fullName: "", phoneNumber: "", birthday: "" }
       );
