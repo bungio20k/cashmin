@@ -1,10 +1,13 @@
 import { View, Text } from "react-native";
 import ModalSelector from "react-native-modal-selector";
-import React, { useState } from "react";
-import { Center, Modal, Input, Button } from "native-base";
+import React, { useContext, useState } from "react";
+import { Center, Modal, Input, Button, useToast, Box } from "native-base";
 import styles from "../../styles/category/ModalStyle";
 import { Entypo } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import axios from "axios";
+import AuthContext from "../../hooks/login-signup/AuthContext";
+import { useEffect } from "react";
 
 let index = 0;
 const icons = [
@@ -73,32 +76,37 @@ const icons = [
     label: "",
     value: "barbell",
     component: <Ionicons name="barbell" size={24} color="#198155" />,
-  },{
+  },
+  {
     key: index++,
     label: "",
     value: "beer",
     component: <Ionicons name="beer" size={24} color="#198155" />,
-  },{
+  },
+  {
     key: index++,
     label: "",
     value: "body",
     component: <Ionicons name="body" size={24} color="#198155" />,
-  },{
+  },
+  {
     key: index++,
     label: "",
     value: "book",
     component: <Ionicons name="book" size={24} color="#198155" />,
-  },{
+  },
+  {
     key: index++,
     label: "",
     value: "bus",
     component: <Ionicons name="bus" size={24} color="#198155" />,
-  },{
+  },
+  {
     key: index++,
     label: "",
     value: "cafe",
     component: <Ionicons name="cafe" size={24} color="#198155" />,
-  }
+  },
 ];
 
 const Modals = ({
@@ -109,8 +117,202 @@ const Modals = ({
   setShowDeleteModal,
   category,
   setCategory,
+  setCategories,
 }) => {
-  const [iconName, setIconName] = useState("fast-food");
+  // const [iconName, setIconName] = useState(category.icon || "fast-food");
+  const [initItem, setInitItem] = useState({ ...category });
+  const [disable, setDisable] = useState(true);
+  const { token } = useContext(AuthContext);
+  const toast = useToast();
+  const handleSubmit = async () => {
+    setDisable(true);
+    setShowAddModal(false);
+    if (isEdit) {
+      // update
+      try {
+        const res = await axios.put("/categories", category, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        setCategories((prev) => {
+          const item = prev.find((item) => item._id === category._id);
+          item.name = category.name;
+          item.icon = category.icon;
+          return [...prev];
+        });
+        toast.show({
+          render: () => {
+            return (
+              <Box
+                bg="emerald.500"
+                rounded="sm"
+                mb={5}
+                px="2"
+                py="2"
+                mr="2"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "medium",
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
+                }}
+              >
+                Cập nhật hạng mục thành công!
+              </Box>
+            );
+          },
+          placement: "top-right",
+        });
+      } catch (error) {
+        toast.show({
+          render: () => {
+            return (
+              <Box
+                bg="red.600"
+                rounded="sm"
+                mb={5}
+                px="2"
+                py="2"
+                mr="2"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "medium",
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
+                }}
+              >
+                Có lỗi xảy ra, vui lòng thử lại!
+              </Box>
+            );
+          },
+          placement: "top-right",
+        });
+      }
+    } else {
+      try {
+        const res = await axios.post("/categories", category, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        setCategories((prev) => [...prev, { ...res.data, ...category }]);
+        toast.show({
+          render: () => {
+            return (
+              <Box
+                bg="emerald.500"
+                rounded="sm"
+                mb={5}
+                px="2"
+                py="2"
+                mr="2"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "medium",
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
+                }}
+              >
+                Thêm hạng mục thành công!
+              </Box>
+            );
+          },
+          placement: "top-right",
+        });
+      } catch (error) {
+        toast.show({
+          render: () => {
+            return (
+              <Box
+                bg="red.600"
+                rounded="sm"
+                mb={5}
+                px="2"
+                py="2"
+                mr="2"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "medium",
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
+                }}
+              >
+                Có lỗi xảy ra, vui lòng thử lại!
+              </Box>
+            );
+          },
+          placement: "top-right",
+        });
+      }
+    }
+    // setShowAddModal(false);
+  };
+
+  const handleDelete = async () => {
+    setShowDeleteModal(false);
+    try {
+      const res = await axios.delete("/categories", {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+        data: {
+          _id: category._id,
+        },
+      });
+      setCategories((prev) => [
+        ...prev.filter((item) => item._id !== category._id),
+      ]);
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="emerald.500"
+              rounded="sm"
+              mb={5}
+              px="2"
+              py="2"
+              mr="2"
+              _text={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                letterSpacing: "lg",
+              }}
+            >
+              Xóa hạng mục thành công!
+            </Box>
+          );
+        },
+        placement: "top-right",
+      });
+    } catch (error) {
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="red.600"
+              rounded="sm"
+              mb={5}
+              px="2"
+              py="2"
+              mr="2"
+              _text={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                letterSpacing: "lg",
+              }}
+            >
+              Có lỗi xảy ra, vui lòng thử lại!
+            </Box>
+          );
+        },
+        placement: "top-right",
+      });
+    }
+  };
+
   return (
     <Center>
       <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)}>
@@ -138,9 +340,10 @@ const Modals = ({
               }
               placeholder="Ăn sáng"
               value={category.name}
-              onChange={(text) =>
-                setCategory((prev) => ({ ...prev, name: text }))
-              }
+              onChangeText={(text) => {
+                if (isEdit) setDisable(text === initItem.name);
+                setCategory((prev) => ({ ...prev, name: text }));
+              }}
             />
             <View style={styles.iconSelection}>
               <Text style={styles.iconText}>Icon</Text>
@@ -149,7 +352,8 @@ const Modals = ({
                 scrollViewAccessibilityLabel={"Scrollable options"}
                 cancelButtonAccessibilityLabel={"Cancel Button"}
                 onChange={(option) => {
-                  setIconName(option.value);
+                  if (isEdit) setDisable(option.value === initItem.icon);
+                  setCategory((prev) => ({ ...prev, icon: option.value }));
                 }}
                 style={{
                   borderRadius: 24,
@@ -169,7 +373,7 @@ const Modals = ({
               >
                 <View style={styles.selection}>
                   <Ionicons
-                    name={isEdit ? category.icon : iconName}
+                    name={category.icon || "fast-food"}
                     size={28}
                     color="#ECFCE5"
                     style={{ marginRight: 16 }}
@@ -198,8 +402,9 @@ const Modals = ({
                 style={{
                   backgroundColor: "#4FB286",
                 }}
-                onPress={() => setShowAddModal(false)}
+                onPress={handleSubmit}
                 shadow="5"
+                isDisabled={isEdit ? disable : category.name === ""}
               >
                 Xác nhận
               </Button>
@@ -237,7 +442,7 @@ const Modals = ({
                 style={{
                   backgroundColor: "#4FB286",
                 }}
-                onPress={() => setShowDeleteModal(false)}
+                onPress={handleDelete}
                 shadow="5"
               >
                 Xác nhận

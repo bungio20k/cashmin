@@ -6,8 +6,11 @@ import { FlatList } from "native-base";
 import CategoryItem from "src/components/category/CategoryItem";
 import Modals from "src/components/category/Modals";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
+import { useContext } from "react";
+import DataContext from "../../../hooks/data/DataContext";
 
 const CategoryScreen = () => {
+  const { categories, setCategories } = useContext(DataContext);
   const [isEdit, setIsEdit] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -32,21 +35,7 @@ const CategoryScreen = () => {
         </View>
       </View>
       <FlatList
-        data={[
-          { icon: "fast-food", name: "Ăn sáng" },
-          { icon: "fast-food", name: "Ăn trưa" },
-          { icon: "fast-food", name: "Ăn tối" },
-          { icon: "cafe", name: "Cà phê" },
-          { icon: "book", name: "Học phí" },
-          { icon: "car", name: "Xăng" },
-          { icon: "car", name: "Sửa xe" },
-          { icon: "car", name: "Rửa xe" },
-          { icon: "home", name: "Tiền thuê trọ" },
-          { icon: "home", name: "Đồ dùng sinh hoạt" },
-          { icon: "home", name: "Bảo trì phòng" },
-          { icon: "basket", name: "Đi chợ" },
-          { icon: "shirt", name: "Shopping" },
-        ]}
+        data={categories}
         renderItem={({ item }) => (
           <CategoryItem
             item={item}
@@ -67,6 +56,7 @@ const CategoryScreen = () => {
         setShowDeleteModal={setShowDeleteModal}
         category={category}
         setCategory={setCategory}
+        setCategories={setCategories}
       />
     </View>
   );

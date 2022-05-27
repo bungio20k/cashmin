@@ -25,7 +25,6 @@ const CategoryItem = ({
           style={{ marginRight: 16 }}
           onPress={() => {
             setCategory(item);
-            console.log(item);
             setIsEdit(true);
             setShowAddModal(true);
           }}
@@ -36,6 +35,7 @@ const CategoryItem = ({
           color="#D3180C"
           onPress={() => {
             setShowDeleteModal(true);
+            setCategory(item);
           }}
         />
       </View>

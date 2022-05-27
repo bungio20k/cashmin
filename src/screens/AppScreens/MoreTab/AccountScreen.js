@@ -64,7 +64,6 @@ const AccountScreen = () => {
   };
 
   const updateProfile = async () => {
-    console.log(data);
     try {
       const res = await axios.put("/account/profile", data, {
         headers: {
@@ -182,7 +181,6 @@ const AccountScreen = () => {
           placement: "top-right",
         });
       } catch (error) {
-        // console.log(error.response.status);
         toast.show({
           render: () => {
             return (
