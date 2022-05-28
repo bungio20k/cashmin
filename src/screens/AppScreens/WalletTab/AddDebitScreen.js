@@ -12,36 +12,6 @@ import Debit from "./../../../components/wallet/Debit";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import DataContext from "../../../hooks/data/DataContext";
 
-const data = [
-  {
-    key: "1",
-    name: "Nợ 1",
-    amount: "20.000đ",
-    debt: true, // phân biệt giữa khoản nợ và khoản cho nợ
-    category: "Chung",
-    desc: "Nợ anh A",
-    time: "22/05/2022",
-  },
-  {
-    key: "2",
-    name: "Cho nợ 2",
-    amount: "20.000đ",
-    debt: false,
-    category: "Ăn uống",
-    desc: "Anh A mượn",
-    time: "21/05/2022",
-  },
-  {
-    key: "3",
-    name: "Tiền mạng hàng tháng",
-    amount: "100.000đ",
-    debt: true,
-    category: "Internet",
-    desc: "Tiền mạng",
-    time: "23/05/2022",
-  },
-];
-
 const AddDebitScreen = () => {
   const [showModal1, setShowModal1] = useState(false);
   const [showModal2, setShowModal2] = useState(false);
