@@ -65,46 +65,54 @@ export default function ReportGraph(props) {
   const transactions = props.transactions;
   const timeRange = props.timeRange;
 
-  const totalBarsForRange = getTotalBarsForRange(timeRange);
   const tickValues = getTickValues(timeRange);
 
-  const transactionsInEachBar = getTransactionsInEachBar(transactions, tickValues, timeRange);
+  const transactionsInBarGroups = getTransactionsInBarGroups(transactions, tickValues, timeRange);
   
   const graphData = {
-    // in: toGraphData(transactionsInEachBar, "income"),
-    out: toGraphData(transactionsInEachBar, "expense"),
+    in: toGraphData(transactionsInBarGroups, tickValues, "income", timeRange),
+    out: toGraphData(transactionsInBarGroups, tickValues, "expense", timeRange),
   }
 
+  const maxBarHeight = getMaxBarHeight(transactionsInBarGroups);
+  const barWidth = getBarWidth(timeRange);
+
+  // console.log("===== graphData ===========");
+  // print(graphData);
+  // console.log("===== tickValues ==========");
+  // print(tickValues);
+
+  
 
   return (
     <View>
       <VictoryChart
         domain={{
-          x: [tickValues[0] - (tickValues[1] - tickValues[0])/5, tickValues[tickValues.length - 1]],
-          y: [0, getMaxTransactionAmount(transactions)],
+          x: [tickValues[0], tickValues[tickValues.length - 1]],
+          y: [0, maxBarHeight],
         }}
       >
-        <VictoryGroup offset={5}>
-          {/* <VictoryBar
+        <VictoryGroup 
+          offset={barWidth}
+          colorScale={["#009900", "#bf0000"]}
+        >
+          <VictoryBar
             data={graphData.in}
             x="x"
             y="y"
-            style={{ data: { fill: "#009900" } }}
-          /> */}
+            barWidth={barWidth}
+          />
           <VictoryBar
             data={graphData.out}
             x="x"
             y="y"
-            barWidth={8}
-            style={{ data: { fill: "#bf0000" } }}
+            barWidth={barWidth}
           />
         </VictoryGroup>
 
         <VictoryAxis
           tickValues={tickValues}
           tickFormat={tickValue => formatTickValue(tickValue, timeRange)}
-          offsetX={0}
-          axisLabelComponent={<VictoryLabel dy={0} />}
         />
 
         <VictoryAxis
@@ -118,29 +126,17 @@ export default function ReportGraph(props) {
 
 // --- Functions ---------
 
-const getMaxTransactionAmount = (transactions) => {
-  const maxTransaction = transactions.reduce((prevT, currT) => Math.abs(prevT.amount) > Math.abs(currT.amount)? prevT : currT);
-  return Math.abs(maxTransaction.amount) / 1000;
-}
+/*
+  "week": 7 pairs, 1 pair = 1 day
+  "month": 5 pairs, 1 pair = 6 days
+  "year": 12 pairs, 1 pair = 1 month
 
-const getTotalBarsForRange = (timeRange) => {
-  switch (timeRange) {
-    case "week":
-      return 7; // 7 pairs, 1 pair = 1 day
-    case "month":
-      return 5; // 5 pairs, 1 pair = 6 days
-    case "year":
-      return 12; // 12 pairs, 1 pair = 1 month
-  }
-};
-
+*/
 // Array of arrays ([[transactions], [transactions], ...])
-const getTransactionsInEachBar = (transactions, tickValues, timeRange) => {
-  const dateNow = tickValues[tickValues.length - 1];
+const getTransactionsInBarGroups = (transactions, tickValues, timeRange) => {
+  // console.log("===== getTransactionsInBarGroups ===========");
 
   const result = [];
-
-  console.log("getTransactionsInEachBar");
   for (let tickValue of tickValues.slice().reverse()) {
     // console.log(tickValue);
 
@@ -171,7 +167,7 @@ const getTransactionsInEachBar = (transactions, tickValues, timeRange) => {
     }
   }
   
-  console.log(result);
+  // console.log(result);
   return result;
 }
 
@@ -195,17 +191,17 @@ const getTickValues = (timeRange) => {
   switch (timeRange) {
     case "week":
       for (let tickValue = dateNow; tickValue.isAfter(datePast, "day"); tickValue = tickValue.subtract(1, "day"))
-        tickValues.unshift(tickValue);
-        break;
+        tickValues.unshift(tickValue.startOf("day"));
+      break;
         
     case "month":
       for (let tickValue = dateNow; tickValue.isAfter(datePast, "day"); tickValue = tickValue.subtract(6, "day"))
-      tickValues.unshift(tickValue);
+        tickValues.unshift(tickValue.startOf("day"));
       break;
 
     case "year":
       for (let tickValue = dateNow; tickValue.isAfter(datePast, "day"); tickValue = tickValue.subtract(1, "month"))
-        tickValues.unshift(tickValue);
+        tickValues.unshift(tickValue.startOf("day"));
       break;
   }
 
@@ -238,33 +234,143 @@ const formatTickValue = (tickValue, timeRange) => {
 
 
 // Array of array ([[transactions], [], [transactions], ...])
+// tickValues = array of dates (of the endpoint, subtract from it to get the startpoint)
 // typeOfTransaction = String ("income", "expense")
+// timeRange = String ("week", "month", "year")
 // Output: [[{}], [], [{}, {}], ...]             NO
 // Output: [{}, {}, {}, {}, ...]
-// where {} = { x: tickValue, y: amount }
-const toGraphData = (transactionsInEachBar, typeOfTransaction) => {
-  console.log("=================================");
+// where {} = { x: tickValue, y: totalAmountForGroup }
+const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, timeRange) => {
+  // console.log("======= toGraphData ==========================");
   const result = [];
 
-  for (let barGroup of transactionsInEachBar) {
-    console.log("barGroup ="); 
-    console.log(barGroup);
+  // console.log("  tickValues = ");
+  // print(tickValues);
 
+  for (let barGroup of transactionsInBarGroups) {
     for (let transaction of barGroup) {
       if ((typeOfTransaction === "income" && transaction.amount < 0) ||
           (typeOfTransaction === "expense" && transaction.amount > 0))
         continue;
 
-      const graphDataEntry = {
-        x: dayjs(transaction.date),
-        y: Math.abs(transaction.amount) / 1000,
+      // if data point already exists...
+      let graphDataIndexIfExists;
+      switch (timeRange) {
+        case "week":
+          graphDataIndexIfExists = result.findIndex(graphDataEntry => {
+            const result = dayjs(graphDataEntry.x).date() === dayjs(transaction.date).date();
+            // console.log(`${dayjs(graphDataEntry.x).date()} === ${dayjs(transaction.date).date()}? ${result}`);
+            return result;
+          });
+          break;
+          
+        case "month":
+          graphDataIndexIfExists = result.findIndex(graphDataEntry => {
+            const endDate = dayjs(graphDataEntry.x);
+            const startDate = endDate.subtract(5, "day");
+            
+            const actualDate = dayjs(transaction.date);
+
+            const result = actualDate.isBetween(startDate, endDate, "day", "[]");
+            // console.log(`    ${actualDate.toISOString()} is between ${startDate.toISOString()} ~ ${endDate.toISOString()}? ${result}`);
+            return result;
+          });
+          break;  
+          
+        case "year":
+          graphDataIndexIfExists = result.findIndex(graphDataEntry => {
+            const result = dayjs(graphDataEntry.x).month() === dayjs(transaction.date).month();
+            // console.log(`${dayjs(graphDataEntry.x).month()} === ${dayjs(transaction.date).month()}? ${result}`);
+            return result;
+          });
+          break;
       }
 
-      result.push(graphDataEntry)
+      // ... then add to it
+      if (graphDataIndexIfExists !== -1) {
+        result[graphDataIndexIfExists].y += Math.abs(transaction.amount) / 1000;
+        continue;
+      }
+
+      // ... else, add a data point
+      let graphDataEntry;
+      switch (timeRange) {
+        case "week":
+          graphDataEntry = {
+            x: dayjs(transaction.date).startOf("day"),
+            y: Math.abs(transaction.amount) / 1000
+          };
+          break;
+
+        case "month":
+          const actualDataEntryX = dayjs(transaction.date).startOf("day");
+
+          // find index of tickValue that this entry belongs to (endpoint) -> this entry X is BEFORE that endpoint
+          // then index-1 is the startpoint, EXCLUSIVE
+          // reminder that the range is 6 days (e.g: 23-28/5), but only subtract 5 (28 - 5 = 23)
+          const endDate = tickValues.find(tickValue => !actualDataEntryX.isAfter(tickValue));
+          const startDate = endDate.subtract(5, "day");
+
+          // console.log(`  graphX = ${actualDataEntryX.toISOString()} |  startDate = ${startDate.toISOString()} |  endDate = ${endDate?.toISOString()}`);
+
+          graphDataEntry = {
+            x: endDate,
+            y: Math.abs(transaction.amount) / 1000
+          };
+          break;
+
+        case "year":
+          graphDataEntry = {
+            // x: dayjs(transaction.date).startOf("month"),
+            x: dayjs(transaction.date).endOf("month"),
+            y: Math.abs(transaction.amount) / 1000
+          };
+          break;
+      }
+
+      result.push(graphDataEntry);
     }
   }
 
-  console.log(result);
-
   return result;
+}
+
+const getMaxBarHeight = (transactionsInBarGroups) => {
+  const maxBarHeights = [];
+
+  for (let barGroup of transactionsInBarGroups) {
+    let incomeSumOfBarGroup = 0;
+    let expenseSumOfBarGroup = 0;
+
+    for (let transaction of barGroup) {
+      if (transaction.amount > 0)
+        incomeSumOfBarGroup += transaction.amount;
+      else
+        expenseSumOfBarGroup += -transaction.amount;
+    }
+
+    maxBarHeights.push(Math.max(incomeSumOfBarGroup, expenseSumOfBarGroup));
+  }
+
+
+  return Math.max(...maxBarHeights) / 1000;
+}
+
+const getBarWidth = (timeRange) => {
+  switch (timeRange) {
+    case "week":
+      return 12;
+    
+    case "month":
+      return 10;
+
+    case "year":
+      return 8;
+  }
+}
+
+
+
+const print = (obj) => {
+  console.log(JSON.stringify(obj, null, 2));
 }
