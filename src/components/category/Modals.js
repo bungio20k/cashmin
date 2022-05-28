@@ -326,6 +326,9 @@ const Modals = ({
             </Text>
             <Text style={styles.label}>Tên hạng mục</Text>
             <Input
+              bg="white"
+              borderColor="#4fb286"
+              borderWidth={2}
               fontSize="xl"
               mt="1"
               mb="4"
@@ -358,6 +361,9 @@ const Modals = ({
                 style={{
                   borderRadius: 24,
                   backgroundColor: "#4FB286",
+                  // backgroundColor: "white",
+                  // borderWidth: 2,
+                  // borderColor: "#4FB286",
                   paddingHorizontal: 12,
                 }}
                 optionContainerStyle={{

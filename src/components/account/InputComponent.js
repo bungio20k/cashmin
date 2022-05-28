@@ -17,7 +17,9 @@ const InputComponent = ({ label, value, handleChange, type = "text" }) => {
           placeholder={label}
           value={value}
           variant="rounded"
-          backgroundColor="#fbfbfb"
+          backgroundColor="white"
+          borderWidth={2}
+          borderColor="#4fb286"
           fontSize="md"
           onChangeText={handleChange}
         />
@@ -37,7 +39,9 @@ const InputComponent = ({ label, value, handleChange, type = "text" }) => {
           placeholder={label}
           value={value}
           variant="rounded"
-          backgroundColor="#fbfbfb"
+          backgroundColor="white"
+          borderWidth={2}
+          borderColor="#4fb286"
           fontSize="md"
           onChangeText={handleChange}
         />

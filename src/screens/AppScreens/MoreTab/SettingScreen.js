@@ -212,6 +212,7 @@ const SettingScreen = () => {
               <Switch
                 size="lg"
                 value={data.hideMoney}
+                thumbColor="#39A0ED"
                 onValueChange={() => toggleSwitch("hideMoney")}
               />
             </HStack>
@@ -244,6 +245,7 @@ const SettingScreen = () => {
               <Text style={styles.subItemTitle}>Nhắc nhở nhập liệu</Text>
               <Switch
                 size="lg"
+                thumbColor="#39A0ED"
                 value={data.reminder}
                 onValueChange={() => toggleSwitch("reminder")}
               />

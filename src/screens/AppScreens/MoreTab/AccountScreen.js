@@ -284,7 +284,9 @@ const AccountScreen = () => {
                 <Input
                   fontSize="md"
                   my="2"
-                  bg="#fbfbfb"
+                  bg="white"
+                  borderColor="#4fb286"
+                  borderWidth={2}
                   w={{
                     md: "100%",
                   }}
