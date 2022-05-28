@@ -20,6 +20,8 @@ import DataContext from "../../hooks/data/DataContext";
 import { AntDesign } from "@expo/vector-icons";
 import { useState, useContext } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export default function ModifyDebitModal(props) {
   const { showModal, setShowModal, currentDebit, setCurrentDebit } = props;
@@ -82,43 +84,33 @@ export default function ModifyDebitModal(props) {
         <Modal.CloseButton />
         <Modal.Header>Khoản nợ hiện tại</Modal.Header>
         <Modal.Body>
-          <FormControl isRequired isInvalid={"name" in errors}>
-            <FormControl.Label>Tên khoản nợ</FormControl.Label>
-            <Input
-              value={currentDebit?.name}
-              onChangeText={(text) => {
-                setCurrentDebit((prev) => ({ ...prev, name: text }));
-                delete errors.name;
-              }}
-            />
-            {"name" in errors ? (
-              <FormControl.ErrorMessage marginTop="0">
-                {errors.name}
-              </FormControl.ErrorMessage>
-            ) : (
-              <></>
-            )}
-          </FormControl>
-          <FormControl isRequired isInvalid={"amount" in errors}>
-            <FormControl.Label>Số tiền</FormControl.Label>
-            <Input
-              value={String(currentDebit?.amount || "")}
-              onChangeText={(text) => {
-                setCurrentDebit((prev) => ({ ...prev, amount: text }));
-                delete errors.amount;
-              }}
-            />
-            {"amount" in errors ? (
-              <FormControl.ErrorMessage marginTop="0">
-                {errors.amount}
-              </FormControl.ErrorMessage>
-            ) : (
-              <></>
-            )}
-          </FormControl>
           <FormControl>
-            <FormControl.Label>Nợ/ Cho nợ</FormControl.Label>
-            <Select
+            <FormControl.Label>Thể loại</FormControl.Label>
+            <Radio.Group
+              name="type"
+              value={currentDebit?.isDebt}
+              onChange={(nextValue) => {
+                setCurrentDebit((prev) => ({ ...prev, isDebt: nextValue }));
+              }}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+              accessibilityLabel="favorite number"
+              my="1"
+              // size="sm"
+            >
+              <Radio value={true} my={1} colorScheme="success">
+                <Text style={{ fontSize: 14 }}>Khoản nợ</Text>
+              </Radio>
+              <Radio value={false} my={1} colorScheme="success">
+                <Text style={{ fontSize: 14, marginRight: 12 }}>
+                  Khoản cho nợ
+                </Text>
+              </Radio>
+            </Radio.Group>
+            {/* <Select
               selectedValue={currentDebit?.isDebt}
               accessibilityLabel="Choose Service"
               placeholder="Choose Service"
@@ -132,8 +124,68 @@ export default function ModifyDebitModal(props) {
             >
               <Select.Item label="Nợ" value={true} />
               <Select.Item label="Cho nợ" value={false} />
-            </Select>
+            </Select> */}
             {/* <Input defaultValue={currentDebit?.debt.toString()} /> */}
+          </FormControl>
+          <FormControl isRequired isInvalid={"name" in errors}>
+            <FormControl.Label>Tên khoản nợ</FormControl.Label>
+            <Input
+              value={currentDebit?.name}
+              variant="rounded"
+              bg="white"
+              borderWidth={2}
+              borderColor="#4fb286"
+              placeholder="Tên khoản nợ"
+              onChangeText={(text) => {
+                setCurrentDebit((prev) => ({ ...prev, name: text }));
+                delete errors.name;
+              }}
+              InputLeftElement={
+                <FontAwesome5
+                  name="money-check-alt"
+                  size={18}
+                  color="#999"
+                  style={{ marginLeft: 12 }}
+                />
+              }
+            />
+            {"name" in errors ? (
+              <FormControl.ErrorMessage marginTop="0">
+                {errors.name}
+              </FormControl.ErrorMessage>
+            ) : (
+              <></>
+            )}
+          </FormControl>
+          <FormControl isRequired isInvalid={"amount" in errors}>
+            <FormControl.Label>Số tiền</FormControl.Label>
+            <Input
+              value={String(currentDebit?.amount || "")}
+              variant="rounded"
+              bg="white"
+              borderWidth={2}
+              borderColor="#4fb286"
+              placeholder="Số tiền"
+              onChangeText={(text) => {
+                setCurrentDebit((prev) => ({ ...prev, amount: text }));
+                delete errors.amount;
+              }}
+              InputLeftElement={
+                <MaterialIcons
+                  name="attach-money"
+                  size={24}
+                  color="#999"
+                  style={{ marginLeft: 12 }}
+                />
+              }
+            />
+            {"amount" in errors ? (
+              <FormControl.ErrorMessage marginTop="0">
+                {errors.amount}
+              </FormControl.ErrorMessage>
+            ) : (
+              <></>
+            )}
           </FormControl>
           <FormControl>
             <FormControl.Label>Hạng mục</FormControl.Label>
@@ -151,12 +203,12 @@ export default function ModifyDebitModal(props) {
               }}
               style={{
                 borderRadius: 24,
-                // backgroundColor: "#4FB286",
+                backgroundColor: "white",
                 paddingHorizontal: 12,
-                // borderColor: "#4FB286",
-                // borderWidth: 2,
-                borderColor: "#ccc",
-                borderWidth: 1,
+                borderColor: "#4FB286",
+                borderWidth: 2,
+                // borderColor: "#ccc",
+                // borderWidth: 1,
                 // width: 280,
                 // paddingVertical: 2,
                 // marginLeft: 5,
@@ -190,7 +242,7 @@ export default function ModifyDebitModal(props) {
                       color="#4FB286"
                       style={{ marginRight: 12 }}
                     />
-                    <Text style={{ fontSize: 15 }}>
+                    <Text style={{ fontSize: 13 }}>
                       {currentDebit.categoryName}
                     </Text>
                   </View>
@@ -210,7 +262,7 @@ export default function ModifyDebitModal(props) {
                     color="#999"
                     style={{ marginRight: 12, marginLeft: 4 }}
                   />
-                  <Text style={{ fontSize: 16, color: "#999" }}>Hạng mục</Text>
+                  <Text style={{ fontSize: 13, color: "#999" }}>Hạng mục</Text>
                 </View>
               )}
             </ModalSelector>
@@ -221,14 +273,19 @@ export default function ModifyDebitModal(props) {
             <TouchableOpacity onPress={showDatepicker}>
               <Input
                 type="date"
-                InputRightElement={
+                variant="rounded"
+                bg="white"
+                borderWidth={2}
+                borderColor="#4fb286"
+                InputLeftElement={
                   <AntDesign
                     name="calendar"
                     size={24}
                     color="#7a7975"
                     onPress={showDatepicker}
                     style={{
-                      marginRight: 8,
+                      // marginRight: 8,
+                      marginLeft: 13,
                     }}
                   />
                 }
@@ -240,7 +297,13 @@ export default function ModifyDebitModal(props) {
             <FormControl>
               <FormControl.Label>Mô tả</FormControl.Label>
               <TextArea
+                bg="white"
                 defaultValue={currentDebit?.desc}
+                h={20}
+                borderRadius="20"
+                borderWidth={2}
+                borderColor="#4fb286"
+                placeholder="Mô tả"
                 onChangeText={(text) => {
                   setCurrentDebit((prev) => ({ ...prev, desc: text }));
                 }}

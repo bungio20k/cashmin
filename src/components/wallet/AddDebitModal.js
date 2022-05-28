@@ -19,6 +19,9 @@ import AuthContext from "../../hooks/login-signup/AuthContext";
 import DataContext from "../../hooks/data/DataContext";
 import { Ionicons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Moment from "moment";
 
 export default function AddDebitModal(props) {
@@ -136,6 +139,15 @@ export default function AddDebitModal(props) {
           placement: "top-right",
         });
       }
+      setFormData({
+        name: "",
+        isDebt: true,
+        amount: "",
+        categoryName: "",
+        categoryIcon: "",
+        desc: "",
+        deadline: new Date(),
+      });
     }
   };
 
@@ -145,15 +157,82 @@ export default function AddDebitModal(props) {
         <Modal.CloseButton />
         <Modal.Header>Khoản nợ hiện tại</Modal.Header>
         <Modal.Body>
+          <FormControl>
+            <FormControl.Label>Thể loại</FormControl.Label>
+            {/* <Input /> */}
+            <Radio.Group
+              name="type"
+              value={formData.isDebt}
+              onChange={(nextValue) => {
+                setFormData((prev) => ({ ...prev, isDebt: nextValue }));
+              }}
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+              accessibilityLabel="favorite number"
+              my="1"
+              // size="sm"
+            >
+              <Radio value={true} my={1} colorScheme="success">
+                <Text style={{ fontSize: 14 }}>Khoản nợ</Text>
+              </Radio>
+              <Radio value={false} my={1} colorScheme="success">
+                <Text style={{ fontSize: 14, marginRight: 12 }}>
+                  Khoản cho nợ
+                </Text>
+              </Radio>
+            </Radio.Group>
+            {/* <Select
+              selectedValue={formData.isDebt}
+              bg="white"
+              borderWidth={2}
+              borderColor="#4fb286"
+              borderRadius="full"
+              accessibilityLabel="Choose Service"
+              placeholder="Choose Service"
+              _selectedItem={{
+                bg: "teal.500",
+              }}
+              mt={1}
+              value={formData.isDebt}
+              onValueChange={(nextValue) => {
+                setFormData((prev) => ({ ...prev, isDebt: nextValue }));
+              }}
+              InputLeftElement={
+                <MaterialCommunityIcons
+                  name="cash-plus"
+                  size={24}
+                  color="#999"
+                />
+              }
+            >
+              <Select.Item label="Nợ" value={true} />
+              <Select.Item label="Cho nợ" value={false} />
+            </Select> */}
+          </FormControl>
           <FormControl isRequired isInvalid={"name" in errors}>
             <FormControl.Label>Tên khoản nợ</FormControl.Label>
             <Input
               variant="rounded"
+              bg="white"
+              borderWidth={2}
+              borderColor="#4fb286"
+              placeholder="Tên khoản nợ"
               onChangeText={(text) => {
                 setFormData((prev) => ({ ...prev, name: text }));
                 delete errors.name;
               }}
               value={formData.name}
+              InputLeftElement={
+                <FontAwesome5
+                  name="money-check-alt"
+                  size={18}
+                  color="#999"
+                  style={{ marginLeft: 12 }}
+                />
+              }
             />
             {"name" in errors ? (
               <FormControl.ErrorMessage marginLeft="4" marginTop="0">
@@ -167,11 +246,23 @@ export default function AddDebitModal(props) {
             <FormControl.Label>Số tiền</FormControl.Label>
             <Input
               variant="rounded"
+              bg="white"
+              borderWidth={2}
+              borderColor="#4fb286"
+              placeholder="Số tiền"
               onChangeText={(text) => {
                 setFormData((prev) => ({ ...prev, amount: text }));
                 delete errors.amount;
               }}
               value={formData.amount}
+              InputLeftElement={
+                <MaterialIcons
+                  name="attach-money"
+                  size={24}
+                  color="#999"
+                  style={{ marginLeft: 12 }}
+                />
+              }
             />
             {"amount" in errors ? (
               <FormControl.ErrorMessage marginLeft="4" marginTop="0">
@@ -180,27 +271,6 @@ export default function AddDebitModal(props) {
             ) : (
               <></>
             )}
-          </FormControl>
-          <FormControl>
-            <FormControl.Label>Nợ/ Cho nợ</FormControl.Label>
-            {/* <Input /> */}
-            <Select
-              selectedValue={formData.isDebt}
-              borderRadius="full"
-              accessibilityLabel="Choose Service"
-              placeholder="Choose Service"
-              _selectedItem={{
-                bg: "teal.500",
-              }}
-              mt={1}
-              value={formData.isDebt}
-              onValueChange={(nextValue) => {
-                setFormData((prev) => ({ ...prev, isDebt: nextValue }));
-              }}
-            >
-              <Select.Item label="Nợ" value={true} />
-              <Select.Item label="Cho nợ" value={false} />
-            </Select>
           </FormControl>
           <FormControl>
             <FormControl.Label>Hạng mục</FormControl.Label>
@@ -218,12 +288,11 @@ export default function AddDebitModal(props) {
               }}
               style={{
                 borderRadius: 24,
-                // backgroundColor: "#4FB286",
+                backgroundColor: "white",
                 paddingHorizontal: 12,
-                // borderColor: "#4FB286",
-                // borderWidth: 2,
-                borderColor: "#ccc",
-                borderWidth: 1,
+                borderColor: "#4FB286",
+                borderWidth: 2,
+                // borderWidth: 1,
                 // width: 280,
                 // paddingVertical: 2,
                 // marginLeft: 5,
@@ -277,7 +346,7 @@ export default function AddDebitModal(props) {
                     color="#999"
                     style={{ marginRight: 12, marginLeft: 4 }}
                   />
-                  <Text style={{ fontSize: 16, color: "#999" }}>Hạng mục</Text>
+                  <Text style={{ fontSize: 13, color: "#999" }}>Hạng mục</Text>
                 </View>
               )}
             </ModalSelector>
@@ -289,14 +358,18 @@ export default function AddDebitModal(props) {
               <Input
                 type="date"
                 variant="rounded"
-                InputRightElement={
+                bg="white"
+                borderWidth={2}
+                borderColor="#4fb286"
+                InputLeftElement={
                   <AntDesign
                     name="calendar"
                     size={24}
                     color="#7a7975"
                     onPress={showDatepicker}
                     style={{
-                      marginRight: 8,
+                      // marginRight: 8,
+                      marginLeft: 13,
                     }}
                   />
                 }
@@ -316,6 +389,9 @@ export default function AddDebitModal(props) {
             <TextArea
               h={20}
               borderRadius="20"
+              borderWidth={2}
+              borderColor="#4fb286"
+              placeholder="Mô tả"
               onChangeText={(text) => {
                 setFormData((prev) => ({ ...prev, desc: text }));
               }}

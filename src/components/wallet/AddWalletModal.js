@@ -136,6 +136,7 @@ export default function AddModal(props) {
         <Modal.Body>
           <FormControl isRequired isInvalid={"name" in errors}>
             <Input
+              bg="white"
               variant={style.input.variant}
               borderWidth={style.input.borderWidth}
               borderColor={style.input.borderColor}
@@ -172,6 +173,7 @@ export default function AddModal(props) {
 
           <FormControl isRequired isInvalid={"balance" in errors}>
             <Input
+              bg="white"
               variant={style.input.variant}
               borderWidth={style.input.borderWidth}
               borderColor={style.input.borderColor}
@@ -247,6 +249,7 @@ export default function AddModal(props) {
               style={{
                 borderRadius: 24,
                 paddingHorizontal: 12,
+                backgroundColor: "white",
                 borderColor: "#4FB286",
                 borderWidth: 2,
                 width: 280,
@@ -308,6 +311,7 @@ export default function AddModal(props) {
 
           <FormControl>
             <Input
+              bg="white"
               variant={style.input.variant}
               borderWidth={style.input.borderWidth}
               borderColor={style.input.borderColor}

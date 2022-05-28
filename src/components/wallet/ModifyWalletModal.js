@@ -123,6 +123,7 @@ export default function ModifyWalletModal(props) {
         <Modal.Body>
           <FormControl isRequired isInvalid={"name" in errors}>
             <Input
+              bg="white"
               variant={style.input.variant}
               borderWidth={style.input.borderWidth}
               borderColor={style.input.borderColor}
@@ -159,6 +160,7 @@ export default function ModifyWalletModal(props) {
 
           <FormControl isRequired isInvalid={"balance" in errors}>
             <Input
+              bg="white"
               variant={style.input.variant}
               borderWidth={style.input.borderWidth}
               borderColor={style.input.borderColor}
@@ -233,7 +235,7 @@ export default function ModifyWalletModal(props) {
               }}
               style={{
                 borderRadius: 24,
-                // backgroundColor: "#4FB286",
+                backgroundColor: "white",
                 paddingHorizontal: 12,
                 borderColor: "#4FB286",
                 borderWidth: 2,
@@ -297,6 +299,7 @@ export default function ModifyWalletModal(props) {
 
           <FormControl>
             <Input
+              bg="white"
               variant={style.input.variant}
               borderWidth={style.input.borderWidth}
               borderColor={style.input.borderColor}
