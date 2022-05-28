@@ -9,6 +9,17 @@ dayjs.extend(isBetween);
 // HOW TO USE:
 // param or output: type (example of param or output)
 
+
+// --- Debug util ----------
+// Faster than typing console.log.....
+export const print = (obj, label) => {
+  if (typeof label !== "undefined")
+    console.log(label);
+
+  console.log(JSON.stringify(obj, null, 2));
+}
+
+
 // --- Money utils ---------
 
 // amount: Number
@@ -16,7 +27,7 @@ dayjs.extend(isBetween);
 // output: String ("100000 ₫")
 export const formatMoney = (amount, currency) => {
   const formattedAmount = formatCurrency({
-    "amount": amount, 
+    "amount": amount? amount : 0, 
     "code": currency
   })[1];
 

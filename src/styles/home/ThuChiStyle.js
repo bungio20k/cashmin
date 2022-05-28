@@ -33,14 +33,25 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   thuchiContent: {
+    flex: 1,
     flexDirection: "row",
+    justifyContent: "space-between"
   },
   thuchiChart: {
     flexDirection: "row",
-    alignItems: "flex-end",
-    marginRight: 16,
+    alignItems: "flex-end"
   },
-  thuchiDesc: { flex: 1 },
+  thuchiColumn: {
+    flexDirection: "column",
+    width: 56,
+    marginHorizontal: 4
+  },
+  thuchiAmountLabel: {
+    height: "20%", 
+    fontWeight: "700",
+    textAlign: "center"
+  },
+  thuchiDesc: { flex: 0.75 },
   nameItemWrapper: {
     flexDirection: "row",
     alignItems: "center",

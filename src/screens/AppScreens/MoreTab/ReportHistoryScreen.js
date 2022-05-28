@@ -5,8 +5,6 @@ import {
   View,
   ScrollView,
   StatusBar,
-  FlatList,
-  Button,
   SafeAreaView,
 } from "react-native";
 
@@ -17,169 +15,11 @@ import Theme from "src/theme/mainTheme";
 import Typo from "src/theme/mainTypo";
 import { HistoryListItem } from "src/components/report-history/HistoryListItem";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-import { formatMoney, checkDateInRange } from "src/utils";
+import { formatMoney, checkDateInRange, print } from "src/utils";
 
-// Data (TODO: get from database)
 import DataContext from "src/hooks/data/DataContext";
 
-const DATA = [
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "fast-food",
-    categoryName: "Ăn sáng",
-    amount: -10000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "fast-food",
-    categoryName: "Ăn trưa",
-    amount: -25000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "fast-food",
-    categoryName: "Ăn tối",
-    amount: -15000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "cafe",
-    categoryName: "Cà phê",
-    amount: -25000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "car",
-    categoryName: "Chạy xe ôm",
-    amount: +90000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "basket",
-    categoryName: "Bán hàng",
-    amount: +125000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "shirt",
-    categoryName: "Bán áo, quần",
-    amount: +225000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "cafe",
-    categoryName: "Cà phê",
-    amount: -25000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "car",
-    categoryName: "Xăng",
-    amount: -80000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "car",
-    categoryName: "Sửa xe",
-    amount: -60000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "car",
-    categoryName: "Rửa xe",
-    amount: -40000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "home",
-    categoryName: "Tiền thuê trọ",
-    amount: -30000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "home",
-    categoryName: "Đồ dùng sinh hoạt",
-    amount: -110000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "home",
-    categoryName: "Bảo trì phòng",
-    amount: -50000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "basket",
-    categoryName: "Đi chợ",
-    amount: -200000,
-  },
-  {
-    desc: "aaaaaa",
-    date: new Date(2022, 0, 1),
-    categoryIcon: "shirt",
-    categoryName: "Shopping",
-    amount: -100000,
-  },
-];
 
-const toGraphData = (data) => {
-  // TODO:
-};
-
-const graphData = {
-  in: [
-    {
-      id: 1,
-      amount: 10,
-    },
-    {
-      id: 3,
-      amount: 50,
-    },
-    {
-      id: 5,
-      amount: 100,
-    },
-    {
-      id: 7,
-      amount: 15,
-    },
-  ],
-  out: [
-    {
-      id: 2,
-      amount: 15,
-    },
-    {
-      id: 4,
-      amount: 100,
-    },
-    {
-      id: 6,
-      amount: 10,
-    },
-  ],
-};
-
-var graphViewY;
-var graphViewHeight;
-
-// Screen
 export default function ReportHistoryScreen() {
   const tabBarHeight = useBottomTabBarHeight();
   const [selectedTimeRange, setSelectedTimeRange] = useState("week");
@@ -190,9 +30,14 @@ export default function ReportHistoryScreen() {
     (wallet) => wallet.name === selectedWallet
   );
 
-  const transactionsInRange = currentWallet?.transactions?.filter(
+  console.log(currentWallet);
+
+  const transactionsInRange = currentWallet?.transactions.filter(
     (transaction) => checkDateInRange(transaction.date, selectedTimeRange)
   );
+
+  // console.log(transactionsInRange);
+
   const incomeTransactions = transactionsInRange?.filter(
     (transaction) => transaction.amount >= 0
   );
@@ -270,6 +115,7 @@ export default function ReportHistoryScreen() {
           <ReportGraph 
             style={st.graph} 
             transactions={transactionsInRange}
+            currency={settings.currency}
             timeRange={selectedTimeRange} />
 
           <VStack space={1} alignItems="center">
@@ -280,13 +126,6 @@ export default function ReportHistoryScreen() {
                   {formatMoney(totalIncomeAmount || 0, settings.currency)}
                 </Text>
               </View>
-              {/* <View
-                style={{
-                  justifyContent: "center",
-                }}
-              >
-                <Text style={{ fontWeight: "700" }}>---</Text>
-              </View> */}
               <View style={st.expenseMoneyContainer}>
                 <Text style={st.moneyTitle}>Tổng chi</Text>
                 <Text style={st.expenseMoney}>
@@ -321,15 +160,6 @@ export default function ReportHistoryScreen() {
                 ))}
               </ScrollView>
             </SafeAreaView>
-
-            {/* <FlatList
-            data={DATA}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item }) => {
-              return <HistoryListItem data={item} />;
-            }}
-            contentContainerStyle={st.historyList}
-          ></FlatList> */}
           </View>
           <View style={st.historyEmpty}></View>
         </View>
@@ -425,5 +255,3 @@ const st = StyleSheet.create({
     color: "#222",
   },
 });
-
-
