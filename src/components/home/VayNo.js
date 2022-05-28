@@ -4,129 +4,35 @@ import React from "react";
 import VayNoItem from "./VayNoItem";
 import styles from "../../styles/home/VayNoStyle";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-
-const data = [
-  {
-    name: "Nợ A",
-    money: "+9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "-9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "-9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "+9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "-9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "+9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "-9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "-9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "+9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "+9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "-9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "+9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "-9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "-9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "+9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "+9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "-9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "-9.000.000",
-    time: "30/04/2022",
-  },
-  {
-    name: "Nợ A",
-    money: "+9.000.000",
-    time: "30/04/2022",
-  },
-];
+import DataContext from "../../hooks/data/DataContext";
+import { useContext } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { LimitScreen } from "src/screens/AppScreens/MoreTab/LimitScreen";
+import { AddDebitScreen } from "src/screens/AppScreens/WalletTab/AddDebitScreen";
 
 const VayNo = () => {
   const tabBarHeight = useBottomTabBarHeight();
+  const navigation = useNavigation();
+  const { debits } = useContext(DataContext);
   return (
     <View style={[styles.vaynoContainer, { marginBottom: tabBarHeight + 10 }]}>
       <View style={styles.vaynoTop}>
         <Text style={styles.vaynoTitle}>Tình hình vay nợ</Text>
 
-        <AntDesign name="arrowright" size={24} color="#198155" />
+        <AntDesign
+          name="arrowright"
+          size={24}
+          color="#198155"
+          onPress={() => navigation.navigate("Ví", { screen: "AddDebit" })}
+        />
       </View>
       <SafeAreaView>
         <ScrollView nestedScrollEnabled>
-          {data.map((item, index) => (
-            <VayNoItem item={item} key={index} />
+          {debits.map((item) => (
+            <VayNoItem item={item} key={item._id} />
           ))}
         </ScrollView>
       </SafeAreaView>
-      {/* <SafeAreaView style={styles.vaynoList}>
-        <FlatList
-          data={data}
-          keyExtractor={(item, index) => index}
-          renderItem={({ item }) => <VayNoItem item={item} />}
-          nestedScrollEnabled
-        />
-      </SafeAreaView> */}
     </View>
   );
 };

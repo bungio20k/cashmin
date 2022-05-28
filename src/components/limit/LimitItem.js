@@ -58,7 +58,8 @@ const LimitItem = ({ item, setShowModal, setLimit }) => {
           color: progress === 100 ? "#D3180C" : "#198155",
         }}
       >
-        {item.money} / {item.total}
+        {/* {item.money} / {item.total} */}
+        Chưa đặt hạn mức
       </Text>
       <View
         style={{

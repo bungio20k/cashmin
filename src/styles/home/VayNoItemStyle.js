@@ -2,9 +2,9 @@ import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   vaynoItem: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 16,
+    // flexDirection: "row",
+    // justifyContent: "space-between",
+    paddingVertical: 8,
     paddingHorizontal: 8,
     backgroundColor: "#efefef",
     borderRadius: 10,
