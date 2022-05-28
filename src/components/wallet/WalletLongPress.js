@@ -11,7 +11,7 @@ import AuthContext from "../../hooks/login-signup/AuthContext";
 export default function WalletLongPress(props) {
   const { hold, setHold, currentWallet, setShowModal2 } = props;
   const [alert, setAlert] = useState(false);
-  const { setWallets } = useContext(DataContext);
+  const { setWallets, wallets } = useContext(DataContext);
   const { token } = useContext(AuthContext);
   const toast = useToast();
 
@@ -31,6 +31,12 @@ export default function WalletLongPress(props) {
       setWallets((prev) => [
         ...prev.filter((item) => item._id !== currentWallet._id),
       ]);
+      if (currentWallet.isMain) {
+        setWallets((prev) => {
+          if (prev.length != 0) prev[0].isMain = true;
+          return prev;
+        })
+      }
       toast.show({
         render: () => {
           return (

@@ -142,14 +142,14 @@ const getTransactionsInBarGroups = (transactions, tickValues, timeRange) => {
 
     switch (timeRange) {
       case "week":
-        result.unshift(transactions.filter((transaction) => {
+        result.unshift(transactions?.filter((transaction) => {
           const transactionDate = dayjs(transaction.date);
           return transactionDate.isSame(tickValue, "day");
         }));
         break;
         
       case "month":
-        result.unshift(transactions.filter((transaction) => {
+        result.unshift(transactions?.filter((transaction) => {
           const tRight = tickValue;
           const tLeft = tickValue.subtract(6, "day");
           
@@ -159,7 +159,7 @@ const getTransactionsInBarGroups = (transactions, tickValues, timeRange) => {
         break;
         
       case "year":
-        result.unshift(transactions.filter((transaction) => {
+        result.unshift(transactions?.filter((transaction) => {
           const transactionDate = dayjs(transaction.date);
           return transactionDate.isSame(tickValue, "month");
         }));

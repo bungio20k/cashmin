@@ -24,7 +24,8 @@ export default function RegisterForm() {
 
   const [formData, setData] = useState({});
   const [errors, setErrors] = useState({});
-  const [show, setShow] = useState(false);
+  const [show1, setShow1] = useState(false);
+  const [show2, setShow2] = useState(false);
 
   const validate = async () => {
     if (formData.name === undefined || formData.name == "") {
@@ -194,7 +195,7 @@ export default function RegisterForm() {
           alignSelf={style.input.alignSelf}
           margin={style.input.margin}
           placeholder="Mật khẩu"
-          type={show ? "text" : "password"}
+          type={show1 ? "text" : "password"}
           InputLeftElement={
             <FontAwesome
               name="lock"
@@ -205,11 +206,11 @@ export default function RegisterForm() {
           }
           InputRightElement={
             <Ionicons
-              name={show ? "eye" : "eye-off"}
+              name={show1 ? "eye" : "eye-off"}
               size={style.icon.size}
               color={style.icon.color}
               style={style.right_icon}
-              onPress={() => setShow(!show)}
+              onPress={() => setShow1(!show1)}
             />
           }
           onChangeText={(value) => {
@@ -243,7 +244,7 @@ export default function RegisterForm() {
           alignSelf={style.input.alignSelf}
           margin={style.input.margin}
           placeholder="Nhập lại mật khẩu"
-          type={show ? "text" : "password"}
+          type={show2 ? "text" : "password"}
           InputLeftElement={
             <FontAwesome
               name="lock"
@@ -254,11 +255,11 @@ export default function RegisterForm() {
           }
           InputRightElement={
             <Ionicons
-              name={show ? "eye" : "eye-off"}
+              name={show2 ? "eye" : "eye-off"}
               size={style.icon.size}
               color={style.icon.color}
               style={style.right_icon}
-              onPress={() => setShow(!show)}
+              onPress={() => setShow2(!show2)}
             />
           }
           onChangeText={(value) => {

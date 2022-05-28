@@ -12,7 +12,6 @@ const HomeTop = () => {
   const mainWalletBalance = wallets.find((w) => w.isMain)?.balance || 0;
   const formattedAmount = formatAmount(mainWalletBalance, settings.currency);
   const formattedCurrency = formatCurrencyDisplay(settings.currency);
-  console.log(profile);
 
   return (
     <View style={styles.top}>
