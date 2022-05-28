@@ -39,6 +39,7 @@ export default function AddDebitModal(props) {
     desc: "",
     deadline: new Date(),
   });
+  const [errors, setErrors] = useState({});
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -74,62 +75,67 @@ export default function AddDebitModal(props) {
   }));
 
   const handleSubmit = async () => {
-    setShowModal(false);
-    console.log(formData);
-    try {
-      const res = await axios.post("/debits", formData, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-      setDebits((prev) => [...prev, { ...res.data, ...formData }]);
-      toast.show({
-        render: () => {
-          return (
-            <Box
-              bg="emerald.500"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
-            >
-              Thêm khoản ghi nợ thành công!
-            </Box>
-          );
-        },
-        placement: "top-right",
-      });
-    } catch (error) {
-      toast.show({
-        render: () => {
-          return (
-            <Box
-              bg="red.600"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
-            >
-              Có lỗi xảy ra, vui lòng thử lại!
-            </Box>
-          );
-        },
-        placement: "top-right",
-      });
+    if (formData.name === "") {
+      setErrors({ ...errors, name: "Tên ghi nợ không được để trống" });
+    } else if (formData.amount === "") {
+      setErrors({ ...errors, amount: "Số tiền không được để trống" });
+    } else {
+      setShowModal(false);
+      try {
+        const res = await axios.post("/debits", formData, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        setDebits((prev) => [...prev, { ...res.data, ...formData }]);
+        toast.show({
+          render: () => {
+            return (
+              <Box
+                bg="emerald.500"
+                rounded="sm"
+                mb={5}
+                px="2"
+                py="2"
+                mr="2"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "medium",
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
+                }}
+              >
+                Thêm khoản ghi nợ thành công!
+              </Box>
+            );
+          },
+          placement: "top-right",
+        });
+      } catch (error) {
+        toast.show({
+          render: () => {
+            return (
+              <Box
+                bg="red.600"
+                rounded="sm"
+                mb={5}
+                px="2"
+                py="2"
+                mr="2"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "medium",
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
+                }}
+              >
+                Có lỗi xảy ra, vui lòng thử lại!
+              </Box>
+            );
+          },
+          placement: "top-right",
+        });
+      }
     }
   };
 
@@ -139,25 +145,41 @@ export default function AddDebitModal(props) {
         <Modal.CloseButton />
         <Modal.Header>Khoản nợ hiện tại</Modal.Header>
         <Modal.Body>
-          <FormControl>
+          <FormControl isRequired isInvalid={"name" in errors}>
             <FormControl.Label>Tên khoản nợ</FormControl.Label>
             <Input
               variant="rounded"
               onChangeText={(text) => {
                 setFormData((prev) => ({ ...prev, name: text }));
+                delete errors.name;
               }}
               value={formData.name}
             />
+            {"name" in errors ? (
+              <FormControl.ErrorMessage marginLeft="4" marginTop="0">
+                {errors.name}
+              </FormControl.ErrorMessage>
+            ) : (
+              <></>
+            )}
           </FormControl>
-          <FormControl>
+          <FormControl isRequired isInvalid={"amount" in errors}>
             <FormControl.Label>Số tiền</FormControl.Label>
             <Input
               variant="rounded"
               onChangeText={(text) => {
                 setFormData((prev) => ({ ...prev, amount: text }));
+                delete errors.amount;
               }}
               value={formData.amount}
             />
+            {"amount" in errors ? (
+              <FormControl.ErrorMessage marginLeft="4" marginTop="0">
+                {errors.amount}
+              </FormControl.ErrorMessage>
+            ) : (
+              <></>
+            )}
           </FormControl>
           <FormControl>
             <FormControl.Label>Nợ/ Cho nợ</FormControl.Label>
@@ -259,7 +281,7 @@ export default function AddDebitModal(props) {
                 </View>
               )}
             </ModalSelector>
-          </FormControl>{" "}
+          </FormControl>
           <FormControl>
             <FormControl.Label> Thời hạn thanh toán</FormControl.Label>
             {/* <Input /> */}

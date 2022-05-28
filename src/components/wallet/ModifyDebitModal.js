@@ -6,24 +6,53 @@ import {
   Radio,
   Select,
   TextArea,
+  useToast,
+  Box,
 } from "native-base";
 import Theme from "../../theme/mainTheme";
 import { View, TouchableOpacity, Text } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import ModalSelector from "react-native-modal-selector";
+import axios from "axios";
+import AuthContext from "../../hooks/login-signup/AuthContext";
+import DataContext from "../../hooks/data/DataContext";
 
 import { AntDesign } from "@expo/vector-icons";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { Ionicons } from "@expo/vector-icons";
+
 export default function ModifyDebitModal(props) {
-  const { showModal, setShowModal, currentDebit } = props;
+  const { showModal, setShowModal, currentDebit, setCurrentDebit } = props;
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
+  const { categories, setDebits } = useContext(DataContext);
+  const { token } = useContext(AuthContext);
+  const toast = useToast();
+  const [errors, setErrors] = useState({});
+
+  const list = categories.map((item) => ({
+    key: item._id,
+    label: item.name,
+    value: item.icon,
+    component: (
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+        }}
+      >
+        <Ionicons name={item.icon} size={24} color="#198155" />
+        <Text style={{ fontSize: 16, marginLeft: 6 }}>{item.name}</Text>
+      </View>
+    ),
+  }));
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
     setShow(false);
-    setDate(currentDate);
+    setCurrentDebit((prev) => ({ ...prev, date: currentDate }));
   };
 
   const showMode = (currentMode) => {
@@ -35,40 +64,156 @@ export default function ModifyDebitModal(props) {
     showMode("date");
   };
 
+  const handleSubmit = async () => {
+    if (currentDebit.name === "") {
+      setErrors({ ...errors, name: "Tên ghi nợ không được để trống" });
+    } else if (currentDebit.amount === "") {
+      setErrors({ ...errors, amount: "Số tiền không được để trống" });
+    } else {
+      setShowModal(false);
+      // call HTTP API to update debit
+      console.log(currentDebit);
+    }
+  };
+
   return (
     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="xl">
       <Modal.Content>
         <Modal.CloseButton />
         <Modal.Header>Khoản nợ hiện tại</Modal.Header>
         <Modal.Body>
-          <FormControl>
+          <FormControl isRequired isInvalid={"name" in errors}>
             <FormControl.Label>Tên khoản nợ</FormControl.Label>
-            <Input defaultValue={currentDebit?.name} />
+            <Input
+              value={currentDebit?.name}
+              onChangeText={(text) => {
+                setCurrentDebit((prev) => ({ ...prev, name: text }));
+                delete errors.name;
+              }}
+            />
+            {"name" in errors ? (
+              <FormControl.ErrorMessage marginTop="0">
+                {errors.name}
+              </FormControl.ErrorMessage>
+            ) : (
+              <></>
+            )}
           </FormControl>
-          <FormControl>
+          <FormControl isRequired isInvalid={"amount" in errors}>
             <FormControl.Label>Số tiền</FormControl.Label>
-            <Input defaultValue={currentDebit?.amount} />
+            <Input
+              value={String(currentDebit?.amount || "")}
+              onChangeText={(text) => {
+                setCurrentDebit((prev) => ({ ...prev, amount: text }));
+                delete errors.amount;
+              }}
+            />
+            {"amount" in errors ? (
+              <FormControl.ErrorMessage marginTop="0">
+                {errors.amount}
+              </FormControl.ErrorMessage>
+            ) : (
+              <></>
+            )}
           </FormControl>
           <FormControl>
             <FormControl.Label>Nợ/ Cho nợ</FormControl.Label>
-
             <Select
-              selectedValue={(currentDebit?.debt && "0") || "0"}
+              selectedValue={currentDebit?.isDebt}
               accessibilityLabel="Choose Service"
               placeholder="Choose Service"
               _selectedItem={{
                 bg: "teal.500",
               }}
               mt={1}
+              onValueChange={(value) => {
+                setCurrentDebit((prev) => ({ ...prev, isDebt: value }));
+              }}
             >
-              <Select.Item label="Nợ" value="0" />
-              <Select.Item label="Cho nợ" value="1" />
+              <Select.Item label="Nợ" value={true} />
+              <Select.Item label="Cho nợ" value={false} />
             </Select>
             {/* <Input defaultValue={currentDebit?.debt.toString()} /> */}
           </FormControl>
           <FormControl>
             <FormControl.Label>Hạng mục</FormControl.Label>
-            <Input defaultValue={currentDebit?.category} />
+            {/* <Input defaultValue={currentDebit?.category} /> */}
+            <ModalSelector
+              data={list}
+              scrollViewAccessibilityLabel={"Scrollable options"}
+              cancelButtonAccessibilityLabel={"Cancel Button"}
+              onChange={(option) => {
+                setCurrentDebit((prev) => ({
+                  ...prev,
+                  categoryName: option.label,
+                  categoryIcon: option.value,
+                }));
+              }}
+              style={{
+                borderRadius: 24,
+                // backgroundColor: "#4FB286",
+                paddingHorizontal: 12,
+                // borderColor: "#4FB286",
+                // borderWidth: 2,
+                borderColor: "#ccc",
+                borderWidth: 1,
+                // width: 280,
+                // paddingVertical: 2,
+                // marginLeft: 5,
+                marginVertical: 4,
+                // marginHorizontal: ,
+              }}
+              optionContainerStyle={{
+                backgroundColor: "#ECFCE5",
+                marginHorizontal: 30,
+              }}
+              cancelContainerStyle={{ marginHorizontal: 60 }}
+              cancelStyle={{
+                backgroundColor: "#FF9800",
+              }}
+              cancelTextStyle={{ color: "#ECFCE5" }}
+              optionStyle={{ flexDirection: "row", justifyContent: "center" }}
+            >
+              {currentDebit?.categoryName ? (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    paddingVertical: 5,
+                  }}
+                >
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Ionicons
+                      name={currentDebit.categoryIcon}
+                      size={28}
+                      color="#4FB286"
+                      style={{ marginRight: 12 }}
+                    />
+                    <Text style={{ fontSize: 15 }}>
+                      {currentDebit.categoryName}
+                    </Text>
+                  </View>
+                  <Ionicons name="chevron-down" size={22} color="#999" />
+                </View>
+              ) : (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    paddingVertical: 9,
+                  }}
+                >
+                  <Ionicons
+                    name="menu-sharp"
+                    size={24}
+                    color="#999"
+                    style={{ marginRight: 12, marginLeft: 4 }}
+                  />
+                  <Text style={{ fontSize: 16, color: "#999" }}>Hạng mục</Text>
+                </View>
+              )}
+            </ModalSelector>
           </FormControl>
           <FormControl>
             <FormControl.Label>Thời hạn thanh toán</FormControl.Label>
@@ -88,15 +233,18 @@ export default function ModifyDebitModal(props) {
                   />
                 }
                 placeholder="Thời gian"
-                value={
-                  (date && date.toLocaleString()) || new Date().toLocaleString()
-                }
+                value={currentDebit?.deadline.toLocaleString()}
                 editable={false}
               />
             </TouchableOpacity>
             <FormControl>
               <FormControl.Label>Mô tả</FormControl.Label>
-              <TextArea defaultValue={currentDebit?.desc} />
+              <TextArea
+                defaultValue={currentDebit?.desc}
+                onChangeText={(text) => {
+                  setCurrentDebit((prev) => ({ ...prev, desc: text }));
+                }}
+              />
             </FormControl>
           </FormControl>
         </Modal.Body>
@@ -118,9 +266,7 @@ export default function ModifyDebitModal(props) {
               size="lg"
               backgroundColor={Theme.darkGreen}
               shadow="9"
-              onPress={() => {
-                setShowModal(false);
-              }}
+              onPress={handleSubmit}
             >
               Lưu
             </Button>

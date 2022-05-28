@@ -33,7 +33,7 @@ const Debit = () => {
                 { color: (debit.isDebt && "red") || "green" },
               ]}
             >
-              {formatAmount(debit.amount, settings.currency)}
+              {formatAmount(debit.amount || 0, settings.currency)}
               {formatCurrencyDisplay(settings.currency)}
             </Text>
           </View>

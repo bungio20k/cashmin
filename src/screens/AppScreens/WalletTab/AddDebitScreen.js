@@ -89,6 +89,7 @@ const AddDebitScreen = () => {
           showModal={showModal2}
           setShowModal={setShowModal2}
           currentDebit={currentDebit}
+          setCurrentDebit={setCurrentDebit}
         />
         <DebitLongPress
           hold={hold}
