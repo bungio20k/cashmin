@@ -193,7 +193,7 @@ export default function ModifyWalletModal(props) {
             )}
           </FormControl>
 
-          <FormControl>
+          <FormControl style={{ alignItems: "center" }}>
             {/* <Input
               variant={style.input.variant}
               borderWidth={style.input.borderWidth}
@@ -239,7 +239,6 @@ export default function ModifyWalletModal(props) {
                 borderWidth: 2,
                 width: 280,
                 paddingVertical: 2,
-                marginLeft: 5,
                 marginVertical: 4,
                 // marginHorizontal: ,
               }}

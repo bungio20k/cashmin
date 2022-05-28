@@ -19,7 +19,7 @@ export default function AddModal(props) {
   const toast = useToast();
 
   const [formData, setData] = useState({
-    isMain: wallets.length == 0
+    isMain: wallets.length == 0,
   });
   const [errors, setErrors] = useState({});
 
@@ -42,7 +42,7 @@ export default function AddModal(props) {
 
   useEffect(() => {
     setData({
-      isMain: wallets.length == 0
+      isMain: wallets.length == 0,
     });
     setErrors({});
   }, [showModal]);
@@ -206,7 +206,7 @@ export default function AddModal(props) {
             )}
           </FormControl>
 
-          <FormControl>
+          <FormControl style={{ alignItems: "center" }}>
             {/* <Input
               variant={style.input.variant}
               borderWidth={style.input.borderWidth}
@@ -246,15 +246,12 @@ export default function AddModal(props) {
               }}
               style={{
                 borderRadius: 24,
-                // backgroundColor: "#4FB286",
                 paddingHorizontal: 12,
                 borderColor: "#4FB286",
                 borderWidth: 2,
                 width: 280,
                 paddingVertical: 2,
-                marginLeft: 5,
                 marginVertical: 4,
-                // marginHorizontal: ,
               }}
               optionContainerStyle={{
                 backgroundColor: "#ECFCE5",
