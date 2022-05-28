@@ -93,6 +93,9 @@ const ModalEdit = ({ showModal, setShowModal, limit, setLimit }) => {
           <Text style={styles.title}>Đặt hạn mức chi</Text>
           <Text style={styles.label}>Nhập hạn mức chi mới</Text>
           <Input
+            bg="white"
+            borderColor="#4fb286"
+            borderWidth={2}
             fontSize="xl"
             mt="1"
             mb="4"
