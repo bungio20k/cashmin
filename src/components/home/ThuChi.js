@@ -1,15 +1,51 @@
 import { Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import React from "react";
-import styles from "../../styles/home/ThuChiStyle";
+import React, { useState, useContext } from "react";
+import styles from "src/styles/home/ThuChiStyle";
 import { Select } from "native-base";
-import { useState } from "react";
+import ThuChiGraph from "./ThuChiGraph";
+import DataContext from "src/hooks/data/DataContext";
+import dayjs from "dayjs";
+import { print, formatMoney } from "src/utils";
 
 // Navigation
 import { useNavigation } from "@react-navigation/native";
 
 const ThuChi = () => {
   const navigation = useNavigation();
+  const { wallets, settings } = useContext(DataContext);
+
+  const currentWallet = wallets.find(wallet => wallet.isMain);
+  const transactionsToday = currentWallet?.transactions?.filter(transaction => dayjs(transaction.date).isSame(dayjs(), "day"));
+
+  const getTransactionsForType = (transactions, type) => {
+    if (typeof transactions === "undefined")
+      return;
+
+    if (type === "income")
+      return transactions.filter(transaction => transaction.amount > 0);
+    else if (type === "expense")
+      return transactions.filter(transaction => transaction.amount < 0);
+  };
+
+  let incomeAmount = getTransactionsForType(transactionsToday, "income")?.reduce(
+    (sum, currT) => sum += currT.amount,
+    0
+  );
+  let expenseAmount = getTransactionsForType(transactionsToday, "expense")?.reduce(
+    (sum, currT) => sum += Math.abs(currT.amount),
+    0
+  );
+
+  if (typeof incomeAmount === "undefined") incomeAmount = 0;
+  if (typeof expenseAmount === "undefined") expenseAmount = 0;
+
+  const totalAmount = incomeAmount - expenseAmount;
+
+  const formattedIncome = formatMoney(incomeAmount, settings.currency);
+  const formattedExpense = formatMoney(expenseAmount, settings.currency);
+  const formattedTotal = formatMoney(totalAmount, settings.currency);
+
 
   return (
     <View style={styles.thuchiContainer}>
@@ -27,23 +63,8 @@ const ThuChi = () => {
         />
       </View>
       <View style={styles.thuchiContent}>
-        <View style={styles.thuchiChart}>
-          <View
-            style={{
-              width: 36,
-              height: "100%",
-              backgroundColor: "#198155",
-              marginHorizontal: 4,
-            }}
-          ></View>
-          <View
-            style={{
-              width: 36,
-              height: "20%",
-              backgroundColor: "#D3180C",
-            }}
-          ></View>
-        </View>
+        <ThuChiGraph incomeAmount={incomeAmount} expenseAmount={expenseAmount} currency={settings.currency} />
+
         <View style={styles.thuchiDesc}>
           <View style={styles.thuItem}>
             <View style={styles.nameItemWrapper}>
@@ -58,7 +79,7 @@ const ThuChi = () => {
               ></View>
               <Text style={styles.nameItem}>Thu</Text>
             </View>
-            <Text style={styles.thuMoney}>1.000.000.000 đ</Text>
+            <Text style={styles.thuMoney}>{formattedIncome}</Text>
           </View>
           <View style={styles.chiItem}>
             <View style={styles.nameItemWrapper}>
@@ -73,9 +94,9 @@ const ThuChi = () => {
               ></View>
               <Text style={styles.nameItem}>Chi</Text>
             </View>
-            <Text style={styles.chiMoney}>1 đ</Text>
+            <Text style={styles.chiMoney}>{formattedExpense}</Text>
           </View>
-          <Text style={styles.result}>999.999.999 đ</Text>
+          <Text style={styles.result}>{formattedTotal}</Text>
         </View>
       </View>
     </View>

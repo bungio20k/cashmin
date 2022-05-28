@@ -1,18 +1,14 @@
 import React, { useState, useContext } from "react";
-import {
-  StyleSheet,
-  Text,
-  View
-} from "react-native";
+import { View } from "react-native";
 
 import { 
   VictoryAxis,
   VictoryBar,
   VictoryChart,
-  VictoryGroup,
-  VictoryLabel
+  VictoryGroup
 } from "victory-native";
 
+import { print } from "src/utils";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 
@@ -20,50 +16,11 @@ dayjs.extend(isBetween);
 
 
 
-
-const graphData = {
-  in: [
-    {
-      id: 1,
-      amount: 10,
-    },
-    {
-      id: 3,
-      amount: 50,
-    },
-    {
-      id: 5,
-      amount: 100,
-    },
-    {
-      id: 7,
-      amount: 15,
-    },
-  ],
-  out: [
-    {
-      id: 2,
-      amount: 15,
-    },
-    {
-      id: 4,
-      amount: 100,
-    },
-    {
-      id: 6,
-      amount: 10,
-    },
-  ],
-};
-
-
-
-
-
 export default function ReportGraph(props) {
 
-  const transactions = props.transactions;
-  const timeRange = props.timeRange;
+  const { transactions, currency, timeRange } = props;
+
+  // console.log(transactions);
 
   const tickValues = getTickValues(timeRange);
 
@@ -74,6 +31,7 @@ export default function ReportGraph(props) {
     out: toGraphData(transactionsInBarGroups, tickValues, "expense", timeRange),
   }
 
+  const maxBarHeightDefault = 100;
   const maxBarHeight = getMaxBarHeight(transactionsInBarGroups);
   const barWidth = getBarWidth(timeRange);
 
@@ -82,14 +40,13 @@ export default function ReportGraph(props) {
   // console.log("===== tickValues ==========");
   // print(tickValues);
 
-  
 
   return (
     <View>
       <VictoryChart
         domain={{
           x: [tickValues[0], tickValues[tickValues.length - 1]],
-          y: [0, maxBarHeight],
+          y: [0, maxBarHeight? maxBarHeight : maxBarHeightDefault],
         }}
       >
         <VictoryGroup 
@@ -117,6 +74,7 @@ export default function ReportGraph(props) {
 
         <VictoryAxis
           dependentAxis
+          tickFormat={tickValue => `${tickValue}${currency === "VND"? "k": ""}`}
         />
       </VictoryChart>
     </View>
@@ -367,10 +325,4 @@ const getBarWidth = (timeRange) => {
     case "year":
       return 8;
   }
-}
-
-
-
-const print = (obj) => {
-  console.log(JSON.stringify(obj, null, 2));
 }
