@@ -14,18 +14,16 @@ const styles = StyleSheet.create({
     marginTop: STATUSBAR_HEIGHT,
     position: "relative",
     // minHeight: 60,
-    marginBottom: 16,
+    marginBottom: 4,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   title: {
     fontSize: 28,
     fontWeight: "700",
     color: "#198155",
     marginLeft: 12,
-  },
-  addIcon: {
-    position: "absolute",
-    top: 4,
-    right: 20,
   },
 });
 

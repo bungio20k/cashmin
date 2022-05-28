@@ -1,10 +1,88 @@
 import { View, Text } from "react-native";
-import React from "react";
-import { Modal, Input, Button } from "native-base";
+import React, { useContext, useState } from "react";
+import { Modal, Input, Button, useToast, Box } from "native-base";
 import styles from "../../styles/limit/ModalStyle";
 import { Entypo } from "@expo/vector-icons";
+import AuthContext from "../../hooks/login-signup/AuthContext";
+import DataContext from "../../hooks/data/DataContext";
+import axios from "axios";
 
 const ModalEdit = ({ showModal, setShowModal, limit, setLimit }) => {
+  const { token } = useContext(AuthContext);
+  const { setLimits } = useContext(DataContext);
+  const [disable, setDisable] = useState(true);
+  const toast = useToast();
+
+  const handleSubmit = async () => {
+    setLimit({});
+    setShowModal(false);
+    const typ =
+      (limit.type === "Trong ngày" && "daily") ||
+      (limit.type === "Trong tuần" && "weekly") ||
+      (limit.type === "Trong tháng" && "monthly");
+    const data = {
+      [typ]: {
+        isActive: limit.isActive,
+        limit: limit.limit,
+      },
+    };
+    try {
+      const res = await axios.put("/limits", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setLimits((prev) => ({ ...prev, ...data }));
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="emerald.500"
+              rounded="sm"
+              mb={5}
+              px="2"
+              py="2"
+              mr="2"
+              _text={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                letterSpacing: "lg",
+              }}
+            >
+              Cập nhật hạn mức thành công!
+            </Box>
+          );
+        },
+        placement: "top-right",
+      });
+    } catch (error) {
+      toast.show({
+        render: () => {
+          return (
+            <Box
+              bg="red.600"
+              rounded="sm"
+              mb={5}
+              px="2"
+              py="2"
+              mr="2"
+              _text={{
+                fontSize: "md",
+                fontWeight: "medium",
+                color: "warmGray.50",
+                letterSpacing: "lg",
+              }}
+            >
+              Có lỗi xảy ra, vui lòng thử lại!
+            </Box>
+          );
+        },
+        placement: "top-right",
+      });
+    }
+  };
+
   return (
     <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
       <Modal.Content
@@ -28,8 +106,11 @@ const ModalEdit = ({ showModal, setShowModal, limit, setLimit }) => {
               />
             }
             placeholder="200.000 đ"
-            value={limit}
-            onChange={(value) => setLimit(value)}
+            value={(limit.limit && String(limit.limit)) || ""}
+            onChangeText={(value) => {
+              setDisable(value === "");
+              setLimit({ ...limit, limit: Number(value) });
+            }}
           />
 
           <View style={styles.actions}>
@@ -52,10 +133,8 @@ const ModalEdit = ({ showModal, setShowModal, limit, setLimit }) => {
               style={{
                 backgroundColor: "#4FB286",
               }}
-              onPress={() => {
-                setLimit("");
-                setShowModal(false);
-              }}
+              onPress={handleSubmit}
+              isDisabled={disable}
             >
               Xác nhận
             </Button>
