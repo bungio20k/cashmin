@@ -9,13 +9,17 @@ import { TouchableHighlight, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
 import AuthContext from "../../../hooks/login-signup/AuthContext";
+import DataContext from "../../../hooks/data/DataContext";
 
 export default function MoreScreen() {
   const { logout } = useContext(AuthContext);
+  const { profile, username } = useContext(DataContext);
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Xin chào Nguyễn Văn A</Text>
+      <Text style={styles.title}>
+        Xin chào {profile?.fullName || username}!
+      </Text>
       {/* <Input
         w={{
           base: "95%",

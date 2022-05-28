@@ -14,7 +14,8 @@ const styles = StyleSheet.create({
     lineHeight: 40,
     fontWeight: "700",
     marginBottom: 16,
-    marginTop: 60,
+    marginTop: 50,
+    color: "#333",
   },
   featureContainer: {
     backgroundColor: "#ECFCE5",

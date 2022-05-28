@@ -8,15 +8,18 @@ import { formatAmount, formatCurrencyDisplay } from "src/utils";
 
 const HomeTop = () => {
   const [hideMoney, setHideMoney] = useState(false);
-  const { profile, wallets, settings } = useContext(DataContext);
+  const { profile, wallets, settings, username } = useContext(DataContext);
   const mainWalletBalance = wallets.find((w) => w.isMain)?.balance || 0;
   const formattedAmount = formatAmount(mainWalletBalance, settings.currency);
   const formattedCurrency = formatCurrencyDisplay(settings.currency);
+  console.log(profile);
 
   return (
     <View style={styles.top}>
       <View style={styles.title}>
-        <Text style={styles.name}>Chào {profile?.fullname || "bạn"} !</Text>
+        <Text style={styles.name}>
+          Chào {profile?.fullName || username || "bạn"} !
+        </Text>
         {/* <View style={styles.iconWrapper}>
           <Ionicons name="notifications" size={24} color="#ECFCE5" />
         </View> */}

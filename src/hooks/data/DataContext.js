@@ -11,6 +11,7 @@ export const DataProvider = ({ children }) => {
   const [wallets, changeWallets] = useState([]);
   const [debits, changeDebits] = useState([]);
   const [categories, changeCategories] = useState([]);
+  const [username, setUsername] = useState("");
 
   const { setAuth, token } = useContext(AuthContext);
 
@@ -42,12 +43,14 @@ export const DataProvider = ({ children }) => {
       changeWallets(newData.wallets);
       changeDebits(newData.debits);
       changeCategories(newData.categories);
+      setUsername(newData.username);
     }
   }, [token]);
 
   return (
     <DataContext.Provider
       value={{
+        username,
         profile,
         setProfile: (value) => changeProfile(value),
         settings,
