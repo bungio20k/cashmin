@@ -14,10 +14,13 @@ import AuthContext from "../../hooks/login-signup/AuthContext";
 
 export default function AddModal(props) {
   const { showModal, setShowModal } = props;
-  const { categories, setWallets } = useContext(DataContext);
+  const { categories, setWallets, wallets } = useContext(DataContext);
   const { token } = useContext(AuthContext);
   const toast = useToast();
-  const [formData, setData] = useState({});
+
+  const [formData, setData] = useState({
+    isMain: wallets.length == 0
+  });
   const [errors, setErrors] = useState({});
 
   const list = categories.map((item) => ({
@@ -38,7 +41,9 @@ export default function AddModal(props) {
   }));
 
   useEffect(() => {
-    setData({});
+    setData({
+      isMain: wallets.length == 0
+    });
     setErrors({});
   }, [showModal]);
 

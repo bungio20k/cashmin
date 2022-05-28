@@ -15,7 +15,6 @@ export default function WalletLongPress(props) {
   const { token } = useContext(AuthContext);
   const toast = useToast();
 
-  console.log(currentWallet);
   const handleDelete = async () => {
     setHold(false);
     setAlert(false);

@@ -12,7 +12,6 @@ import { formatAmount, formatCurrencyDisplay } from "src/utils";
 const Wallet = () => {
   const navigation = useNavigation();
   const { wallets, settings } = useContext(DataContext);
-
   return (
     <View style={styles.top}>
       <View style={styles.title}>
