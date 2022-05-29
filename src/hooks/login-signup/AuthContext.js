@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
 
   const logout = async () => {
     try {
-      await AsyncStorage.removeItem("@accessToken");
+      await AsyncStorage.clear();
     } catch (e) {
       console.error(e);
     }

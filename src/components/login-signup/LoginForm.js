@@ -9,12 +9,14 @@ import style from "../../styles/login-signup/LoginStyle";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import AuthContext from "../../hooks/login-signup/AuthContext";
+import DataContext from "../../hooks/data/DataContext";
 
 export default function LoginForm() {
   const [formData, setData] = useState({});
   const [errors, setErrors] = useState({});
   const [show, setShow] = useState(false);
   const { token, setAuth, setToken } = useContext(AuthContext);
+  // const { setUsername, setProfile, setSettings, setLimits, setWallets, setDebits, setCategories } = useContext(DataContext);
 
   const validate = async () => {
     if (formData.name === undefined || formData.name == "") {

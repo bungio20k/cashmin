@@ -123,77 +123,100 @@ export const DataProvider = ({ children }) => {
     const [wallets, changeWallets] = useState([]);
     const [debits, changeDebits] = useState([]);
     const [categories, changeCategories] = useState(defaultCategories);
-    const [username, setUsername] = useState("");
+    const [username, changeUsername] = useState("");
+
+    const setUsername = async (value) => {
+        changeUsername(value);
+        try { await AsyncStorage.setItem('username', JSON.stringify(value)); }
+        catch (err) { console.log(err); }
+    }
+
+    const setProfile = async (value) => {
+        changeProfile(value);
+        try { await AsyncStorage.setItem('profile', JSON.stringify(value)); }
+        catch (err) { console.log(err); }
+    }
+
+    const setSettings = async (value) => {
+        changeSettings(value);
+        try { await AsyncStorage.setItem('settings', JSON.stringify(value)); }
+        catch (err) { console.log(err); }
+    }
+
+    const setLimits = async (value) => {
+        changeLimits(value);
+        try { await AsyncStorage.setItem('limits', JSON.stringify(value)); }
+        catch (err) { console.log(err); }
+    }
+
+    const setWallets = async (value) => {
+        changeWallets(value);
+        try { await AsyncStorage.setItem('wallets', JSON.stringify(value)); }
+        catch (err) { console.log(err); }
+    }
+
+    const setDebits = async (value) => {
+        changeDebits(value);
+        try { await AsyncStorage.setItem('debits', JSON.stringify(value)); }
+        catch (err) { console.log(err); }
+    }
+
+    const setCategories = async (value) => {
+        changeProfile(value);
+        try { await AsyncStorage.setItem('categories', JSON.stringify(value)); }
+        catch (err) { console.log(err); }
+    }
 
     const { token } = useContext(AuthContext);
 
     useEffect(async () => {
-        let localProfile = JSON.parse(await AsyncStorage.getItem('profile'));
-        if (localProfile == null) {
-            await AsyncStorage.setItem('profile', JSON.stringify(defaultProfile));
-            localProfile = defaultProfile;
-        }
-
-        let localSettings = JSON.parse(await AsyncStorage.getItem('settings'));
-        if (localSettings == null) {
-            await AsyncStorage.setItem('settings', JSON.stringify(defaultSettings));
-            localSettings = defaultSettings;
-        }
-
-        let localLimits = JSON.parse(await AsyncStorage.getItem('limits'));
-        if (localLimits == null) {
-            await AsyncStorage.setItem('limits', JSON.stringify(defaultLimits));
-            localLimits = defaultLimits;
-        }
-
-        let localWallets = JSON.parse(await AsyncStorage.getItem('wallets'));
-        if (localWallets == null) {
-            await AsyncStorage.setItem('wallets', "[]");
-            localWallets = [];
-        }
-
-        let localDebits = JSON.parse(await AsyncStorage.getItem('debits'));
-        if (localDebits == null) {
-            await AsyncStorage.setItem('debits', "[]");
-            localDebits = [];
-        }
-
-        let localCategories = JSON.parse(await AsyncStorage.getItem('categories'));
-        if (localCategories == null) {
-            await AsyncStorage.setItem('categories', JSON.stringify(defaultCategories));
-            localCategories = defaultCategories;
-        }
-
-        let localUsername = await AsyncStorage.getItem('username');
-        if (localUsername == null) {
-            await AsyncStorage.setItem('username', "");
-            localUsername = "";
-        }
-
-        // provide data as a provider
-        changeProfile(localProfile);
-        changeSettings(localSettings);
-        changeLimits(localLimits);
-        changeWallets(localWallets);
-        changeDebits(localDebits);
-        changeCategories(localCategories);
-        setUsername(localUsername);
-
-        // try to sync data
         if (token != null) {
-            const res = await axios.post('/users/user-info', {
-                profile: localProfile,
-                settings: localSettings,
-                limits: localLimits,
-                wallets: localWallets,
-                debits: localDebits,
-                categories: localCategories
-            }, {
-                headers: {
-                    Authorization: "Bearer " + token,
+            if (await AsyncStorage.getItem('profile') == null) {
+                // fetch data
+                try {
+                    const res = await axios.get("/users/user-info", {
+                        headers: {
+                            Authorization: "Bearer " + token,
+                        },
+                    });
+                    console.log(res.data);
+                    setUsername(res.data.username);
+                    setProfile(res.data.profile);
+                    setSettings(res.data.settings);
+                    setLimits(res.data.limits);
+                    setWallets(res.data.wallets);
+                    setDebits(res.data.debits);
+                    setCategories(res.data.categories);
                 }
-            })
-            console.log(res);
+                catch (err) {
+                    // no network
+                    setUsername("");
+                    setProfile(defaultProfile);
+                    setSettings(defaultSettings);
+                    setLimits(defaultLimits);
+                    setWallets([]);
+                    setDebits([]);
+                    setCategories(defaultCategories);
+                }
+
+            }
+            else {
+                // sync data
+                const res = await axios.post('/users/user-info', {
+                    profile: localProfile,
+                    settings: localSettings,
+                    limits: localLimits,
+                    wallets: localWallets,
+                    debits: localDebits,
+                    categories: localCategories
+                }, {
+                    headers: {
+                        Authorization: "Bearer " + token,
+                    }
+                })
+                console.log(res);
+            }
+
         }
 
     }, [token]);
@@ -202,66 +225,19 @@ export const DataProvider = ({ children }) => {
         <DataContext.Provider
             value={{
                 username,
+                setUsername,
                 profile,
-                setProfile: async (value) => {
-                    changeProfile(value);
-                    try {
-                        await AsyncStorage.setItem('profile', JSON.stringify(value));
-                    }
-                    catch (err) {
-                        console.log(err);
-                    }
-                },
+                setProfile,
                 settings,
-                setSettings: async (value) => {
-                    changeSettings(value);
-                    try {
-                        await AsyncStorage.setItem('settings', JSON.stringify(value));
-                    }
-                    catch (err) {
-                        console.log(err);
-                    }
-                },
+                setSettings,
                 limits,
-                setLimits: async (value) => {
-                    changeLimits(value);
-                    try {
-                        await AsyncStorage.setItem('limits', JSON.stringify(value));
-                    }
-                    catch (err) {
-                        console.log(err);
-                    }
-                },
+                setLimits,
                 wallets,
-                setWallets: async (value) => {
-                    changeWallets(value);
-                    try {
-                        await AsyncStorage.setItem('wallets', JSON.stringify(value));
-                    }
-                    catch (err) {
-                        console.log(err);
-                    }
-                },
+                setWallets,
                 debits,
-                setDebits: async (value) => {
-                    changeDebits(value);
-                    try {
-                        await AsyncStorage.setItem('debits', JSON.stringify(value));
-                    }
-                    catch (err) {
-                        console.log(err);
-                    }
-                },
+                setDebits,
                 categories,
-                setCategories: async (value) => {
-                    changeProfile(value);
-                    try {
-                        await AsyncStorage.setItem('categories', JSON.stringify(value));
-                    }
-                    catch (err) {
-                        console.log(err);
-                    }
-                },
+                setCategories,
             }}
         >
             {children}
