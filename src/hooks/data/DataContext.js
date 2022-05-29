@@ -38,12 +38,12 @@ export const DataProvider = ({ children }) => {
       changeProfile(
         newData?.profile || { fullName: "", phoneNumber: "", birthday: "" }
       );
-      changeSettings(newData.settings);
-      changeLimits(newData.limits);
-      changeWallets(newData.wallets);
-      changeDebits(newData.debits);
-      changeCategories(newData.categories);
-      setUsername(newData.username);
+      changeSettings(newData?.settings);
+      changeLimits(newData?.limits);
+      changeWallets(newData?.wallets);
+      changeDebits(newData?.debits);
+      changeCategories(newData?.categories);
+      setUsername(newData?.username);
     }
   }, [token]);
 

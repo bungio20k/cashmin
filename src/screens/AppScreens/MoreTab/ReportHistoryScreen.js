@@ -21,11 +21,14 @@ import DataContext from "src/hooks/data/DataContext";
 
 
 export default function ReportHistoryScreen() {
+  const { wallets, settings } = useContext(DataContext);
+
+  const mainWalletName = wallets.find(wallet => wallet.isMain)?.name;
+
   const tabBarHeight = useBottomTabBarHeight();
   const [selectedTimeRange, setSelectedTimeRange] = useState("week");
-  const [selectedWallet, setSelectedWallet] = useState("Ví 1");
+  const [selectedWallet, setSelectedWallet] = useState(mainWalletName);
 
-  const { wallets, settings } = useContext(DataContext);
   const walletNamesIDs = wallets.map(
     wallet => ({
       name: wallet.name,
@@ -90,7 +93,7 @@ export default function ReportHistoryScreen() {
               <Select.Item label="Năm" value="year" />
             </Select>
             <Select
-              w="90"
+              w="120"
               py="0"
               px="2"
               marginX="1"
@@ -111,9 +114,6 @@ export default function ReportHistoryScreen() {
               {walletNamesIDs.map(walletNameId => 
                 <Select.Item label={walletNameId.name} value={walletNameId.name} key={walletNameId.id} />
               )}
-              {/* <Select.Item label="Ví 1" value="Ví 1" />
-              <Select.Item label="Ví 2" value="Ví 2" />
-              <Select.Item label="Ví 3" value="Ví 3" /> */}
             </Select>
           </View>
 
