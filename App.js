@@ -12,10 +12,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { BASE_URL } from "@env";
 import axios from "axios";
 
-axios.defaults.baseURL = `http://${BASE_URL}:3001/api/v1`;
-// axios.defaults.baseURL = `http://192.168.137.1:3001/api/v1`;
+// axios.defaults.baseURL = `http://${BASE_URL}:3001/api/v1`;
+axios.defaults.baseURL = `http://192.168.137.1:3001/api/v1`;
+
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
+  // AsyncStorage.clear();
   return (
     <AuthProvider>
       <NativeBaseProvider>

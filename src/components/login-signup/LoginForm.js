@@ -15,7 +15,7 @@ export default function LoginForm() {
   const [errors, setErrors] = useState({});
   const [show, setShow] = useState(false);
   const { token, setAuth, setToken } = useContext(AuthContext);
-  
+
   const validate = async () => {
     if (formData.name === undefined || formData.name == "") {
       setErrors({
@@ -56,7 +56,7 @@ export default function LoginForm() {
           });
         }
       });
-    
+
   };
 
   const navigation = useNavigation();
