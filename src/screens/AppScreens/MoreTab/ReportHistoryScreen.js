@@ -26,11 +26,13 @@ export default function ReportHistoryScreen() {
   const [selectedWallet, setSelectedWallet] = useState("Ví 1");
 
   const { wallets, settings } = useContext(DataContext);
-  const currentWallet = wallets.find(
-    (wallet) => wallet.name === selectedWallet
+  const walletNamesIDs = wallets.map(
+    wallet => ({
+      name: wallet.name,
+      id: wallet._id
+    })
   );
-
-  console.log(currentWallet);
+  const currentWallet = wallets.find(wallet => wallet.name === selectedWallet);
 
   const transactionsInRange = currentWallet?.transactions.filter(
     (transaction) => checkDateInRange(transaction.date, selectedTimeRange)
@@ -106,9 +108,12 @@ export default function ReportHistoryScreen() {
                 bg: "teal.600",
               }}
             >
-              <Select.Item label="Ví 1" value="Ví 1" />
+              {walletNamesIDs.map(walletNameId => 
+                <Select.Item label={walletNameId.name} value={walletNameId.name} key={walletNameId.id} />
+              )}
+              {/* <Select.Item label="Ví 1" value="Ví 1" />
               <Select.Item label="Ví 2" value="Ví 2" />
-              <Select.Item label="Ví 3" value="Ví 3" />
+              <Select.Item label="Ví 3" value="Ví 3" /> */}
             </Select>
           </View>
 
