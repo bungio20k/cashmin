@@ -1,79 +1,3 @@
-// import axios from "axios";
-// import { createContext, useContext, useEffect, useState } from "react";
-// import AuthContext from "../login-signup/AuthContext";
-
-// const DataContext = createContext({});
-
-// export const DataProvider = ({ children }) => {
-//   const [profile, changeProfile] = useState({});
-//   const [settings, changeSettings] = useState({});
-//   const [limits, changeLimits] = useState({});
-//   const [wallets, changeWallets] = useState([]);
-//   const [debits, changeDebits] = useState([]);
-//   const [categories, changeCategories] = useState([]);
-//   const [username, setUsername] = useState("");
-
-//   const { setAuth, token } = useContext(AuthContext);
-
-//   const fetch = async () => {
-//     try {
-//       const res = await axios.get("/users/user-info", {
-//         headers: {
-//           Authorization: "Bearer " + token,
-//         },
-//       });
-//       return res.data;
-//     } catch (err) {
-//       // outdated token
-//       if (err.response.status == 403) setAuth(false);
-//       else {
-//         // network error
-//       }
-//     }
-//   };
-
-//   useEffect(async () => {
-//     if (token != null) {
-//       const newData = await fetch().catch((err) => console.log(err));
-//       changeProfile(
-//         newData?.profile || { fullName: "", phoneNumber: "", birthday: "" }
-//       );
-
-//       changeSettings(newData.settings);
-//       changeLimits(newData.limits);
-//       changeWallets(newData.wallets);
-//       changeDebits(newData.debits);
-//       changeCategories(newData.categories);
-//       setUsername(newData.username);
-
-//     }
-//   }, [token]);
-
-//   return (
-//     <DataContext.Provider
-//       value={{
-//         username,
-//         profile,
-//         setProfile: (value) => changeProfile(value),
-//         settings,
-//         setSettings: (value) => changeSettings(value),
-//         limits,
-//         setLimits: (value) => changeLimits(value),
-//         wallets,
-//         setWallets: (value) => changeWallets(value),
-//         debits,
-//         setDebits: (value) => changeDebits(value),
-//         categories,
-//         setCategories: (value) => changeCategories(value),
-//       }}
-//     >
-//       {children}
-//     </DataContext.Provider>
-//   );
-// };
-
-// export default DataContext;
-
 import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 import AuthContext from "../login-signup/AuthContext";
@@ -162,7 +86,7 @@ export const DataProvider = ({ children }) => {
     }
 
     const setCategories = async (value) => {
-        changeProfile(value);
+        changeCategories(value);
         try { await AsyncStorage.setItem('categories', JSON.stringify(value)); }
         catch (err) { console.log(err); }
     }
@@ -179,7 +103,6 @@ export const DataProvider = ({ children }) => {
                             Authorization: "Bearer " + token,
                         },
                     });
-                    console.log(res.data);
                     setUsername(res.data.username);
                     setProfile(res.data.profile);
                     setSettings(res.data.settings);
@@ -189,37 +112,92 @@ export const DataProvider = ({ children }) => {
                     setCategories(res.data.categories);
                 }
                 catch (err) {
-                    // no network
-                    setUsername("");
-                    setProfile(defaultProfile);
-                    setSettings(defaultSettings);
-                    setLimits(defaultLimits);
-                    setWallets([]);
-                    setDebits([]);
-                    setCategories(defaultCategories);
+                    // outdated token
+                    if (err.response.status == 403) setAuth(false);
+                    else {
+                        // no network
+                        setUsername("");
+                        setProfile(defaultProfile);
+                        setSettings(defaultSettings);
+                        setLimits(defaultLimits);
+                        setWallets([]);
+                        setDebits([]);
+                        setCategories(defaultCategories);
+                    }
                 }
 
             }
             else {
-                // sync data
-                const res = await axios.post('/users/user-info', {
-                    profile: localProfile,
-                    settings: localSettings,
-                    limits: localLimits,
-                    wallets: localWallets,
-                    debits: localDebits,
-                    categories: localCategories
-                }, {
-                    headers: {
-                        Authorization: "Bearer " + token,
-                    }
-                })
-                console.log(res);
+                changeUsername(await AsyncStorage.getItem('username'));
+                changeProfile(JSON.parse(await AsyncStorage.getItem('profile')));
+                changeSettings(JSON.parse(await AsyncStorage.getItem('settings')));
+                changeLimits(JSON.parse(await AsyncStorage.getItem('limits')));
+                changeWallets(JSON.parse(await AsyncStorage.getItem('wallets')));
+                changeDebits(JSON.parse(await AsyncStorage.getItem('debits')));
+                changeCategories(JSON.parse(await AsyncStorage.getItem('categories')));
             }
-
         }
-
     }, [token]);
+
+    // useEffect(async () => {
+    //     // sync profile
+    //     const res = await axios.post(
+    //         '/users/user-info',
+    //         { typ: "profile", data: profile },
+    //         { headers: { Authorization: "Bearer " + token } }
+    //     )
+    //     console.log(res);
+    // }, [profile]);
+
+    // useEffect(async () => {
+    //     // sync settings
+    //     const res = await axios.post(
+    //         '/users/user-info',
+    //         { typ: "settings", data: settings },
+    //         { headers: { Authorization: "Bearer " + token } }
+    //     )
+    //     console.log(res);
+    // }, [settings]);
+
+    // useEffect(async () => {
+    //     // sync limits
+    //     const res = await axios.post(
+    //         '/users/user-info',
+    //         { typ: 'limits', data: limits },
+    //         { headers: { Authorization: "Bearer " + token } }
+    //     )
+    //     console.log(res);
+    // }, [limits]);
+
+    useEffect(async () => {
+        // sync wallets
+        const res = await axios.post(
+            '/users/user-info',
+            { typ: 'wallets', data: wallets },
+            { headers: { Authorization: "Bearer " + token } }
+        )
+        console.log(res);
+    }, [wallets]);
+
+    // useEffect(async () => {
+    //     // sync debits
+    //     const res = await axios.post(
+    //         '/users/user-info',
+    //         { typ: 'debits', data: debits },
+    //         { headers: { Authorization: "Bearer " + token } }
+    //     )
+    //     console.log(res);
+    // }, [debits]);
+
+    // useEffect(async () => {
+    //     // sync categories
+    //     const res = await axios.post(
+    //         '/users/user-info',
+    //         { typ: 'categories', data: categories },
+    //         { headers: { Authorization: "Bearer " + token } }
+    //     )
+    //     console.log(res);
+    // }, [categories]);
 
     return (
         <DataContext.Provider
