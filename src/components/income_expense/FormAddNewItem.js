@@ -29,7 +29,7 @@ const FormAddNewItem = () => {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { categories, setDebits, wallets } = useContext(DataContext);
+  const { categories, setDebits, wallets, setWallets } = useContext(DataContext);
   const { token } = useContext(AuthContext);
   const toast = useToast();
   const [errors, setErrors] = useState({});
@@ -43,7 +43,7 @@ const FormAddNewItem = () => {
   });
 
   const list = categories.map((item) => ({
-    key: item._id,
+    key: item.id,
     label: item.name,
     value: item.icon,
     component: (
@@ -95,37 +95,22 @@ const FormAddNewItem = () => {
     console.log(data);
 
     try {
-      const res = await axios.post("/transactions", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log(res.data);
+      const index = wallets.findIndex(w => w.id == formData.walletId);
+      if (index != -1) {
+        let modified = [...wallets];
+        modified[index].transactions.push(data);
+        const res = await axios.put("/wallets", {data: modified}, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setWallets(modified);
+      }
+        
       setShowModal(true);
     } catch (error) {
-      toast.show({
-        render: () => {
-          return (
-            <Box
-              bg="red.600"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
-            >
-              Có lỗi xảy ra, vui lòng thử lại!
-            </Box>
-          );
-        },
-        placement: "top-right",
-      });
+      // offline
+      console.log(error);
     }
 
     setFormData({
@@ -350,8 +335,8 @@ const FormAddNewItem = () => {
               {wallets.map((item) => (
                 <Select.Item
                   label={item.name}
-                  value={item._id}
-                  key={item._id}
+                  value={item.id}
+                  key={item.id}
                 />
               ))}
             </Select>
