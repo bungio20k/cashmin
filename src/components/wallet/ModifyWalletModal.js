@@ -8,17 +8,18 @@ import DataContext from "../../hooks/data/DataContext";
 import AuthContext from "../../hooks/login-signup/AuthContext";
 import { Text, View } from "react-native";
 import ModalSelector from "react-native-modal-selector";
+import axios from "axios";
 
 export default function ModifyWalletModal(props) {
   const { showModal, setShowModal, currentWallet } = props;
   const [formData, setData] = useState({});
   const [errors, setErrors] = useState({});
-  const { categories, setWallets } = useContext(DataContext);
+  const { categories, setWallets, wallets } = useContext(DataContext);
   const { token } = useContext(AuthContext);
   const toast = useToast();
 
   const list = categories.map((item) => ({
-    key: item._id,
+    key: item.id,
     label: item.name,
     value: item.icon,
     component: (
@@ -55,66 +56,50 @@ export default function ModifyWalletModal(props) {
       });
       return false;
     }
-    console.log(formData);
     // call HTTP
     setShowModal(false);
     try {
-      //   const res = await axios.update("/wallets", formData, {
-      //     headers: {
-      //       Authorization: "Bearer " + token,
-      //     },
-      //   });
-      //   setWallets((prev) => [...prev, { ...res.data, ...formData }]);
+      const index = wallets.findIndex(w => w.id == currentWallet.id)
+      let modified = [...wallets];
+      if (index != -1) modified[index] = formData;
+      setWallets(modified);
+      
+      
       toast.show({
         render: () => {
           return (
             <Box
-              bg="emerald.500"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
+            bg="emerald.500"
+            rounded="sm"
+            mb={5}
+            px="2"
+            py="2"
+            mr="2"
+            _text={{
                 fontSize: "md",
                 fontWeight: "medium",
                 color: "warmGray.50",
                 letterSpacing: "lg",
               }}
-            >
+              >
               Cập nhật ví thành công!
             </Box>
           );
         },
         placement: "top-right",
       });
-    } catch (error) {
-      toast.show({
-        render: () => {
-          return (
-            <Box
-              bg="red.600"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
-            >
-              Có lỗi xảy ra, vui lòng thử lại!
-            </Box>
-          );
-        },
-        placement: "top-right",
-      });
-    }
-  };
 
+      const res = await axios.put("/wallets", { data: modified }, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+
+    } catch (error) { 
+      console.log(error);
+    } // offline
+  };
+  
   return (
     <Modal isOpen={showModal} onClose={() => setShowModal(false)} size="xl">
       <Modal.Content maxWidth="400px">

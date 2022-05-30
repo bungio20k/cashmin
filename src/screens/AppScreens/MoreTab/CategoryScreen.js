@@ -14,7 +14,7 @@ const CategoryScreen = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [category, setCategory] = useState({ name: "", icon: "fast-food" });
+  const [category, setCategory] = useState({ name: "", icon: "fast-food", id: categories[categories.length - 1] + 1 || 0 });
   const tabBarHeight = useBottomTabBarHeight();
 
   return (

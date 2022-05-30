@@ -25,7 +25,7 @@ const Debit = () => {
 
       <ScrollView nestedScrollEnabled>
         {debits.map((debit) => (
-          <View style={styles.moneyContainer} key={debit._id}>
+          <View style={styles.moneyContainer} key={debit.id}>
             <Text style={styles.contentTitle}>{debit.name}</Text>
             <Text
               style={[

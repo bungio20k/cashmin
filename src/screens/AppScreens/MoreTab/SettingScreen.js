@@ -29,7 +29,6 @@ const SettingScreen = () => {
     setData((prev) => ({ ...prev, [typ]: value }));
   };
   const updateSettings = async () => {
-    console.log(data);
     try {
       const res = await axios.put("/settings", data, {
         headers: {
@@ -61,32 +60,7 @@ const SettingScreen = () => {
         },
         placement: "top-right",
       });
-    } catch (error) {
-      console.log(error);
-      toast.show({
-        render: () => {
-          return (
-            <Box
-              bg="red.600"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
-            >
-              Có lỗi xảy ra, vui lòng thử lại!
-            </Box>
-          );
-        },
-        placement: "top-right",
-      });
-    }
+    } catch (error) {} // offline
   };
 
   return (

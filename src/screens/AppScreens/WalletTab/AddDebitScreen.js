@@ -31,26 +31,8 @@ const AddDebitScreen = () => {
               setCurrentDebit={setCurrentDebit}
               setShowModal2={setShowModal2}
               setHold={setHold}
-              key={debit._id}
+              key={debit.id}
             />
-            // <TouchableOpacity style={style.card} key={debit.key}
-            //     onPress={() => {
-            //         setCurrentDebit(debit);
-            //         setShowModal2(true);
-            //     }}
-            //     onLongPress={() => {
-            //         setCurrentDebit(debit);
-            //         setHold(true);
-            //     }}
-            //     delayLongPress={100}
-            // >
-            //     <Text style={style.name}>{debit.name}</Text>
-            //     <Text style={style.balance}>Số tiền: {debit.amount}</Text>
-            //     <Text style={style.category}>Hạng mục: {debit.category}</Text>
-            //     <Text style={style.desc}>Mô tả: {debit.desc}</Text>
-            //     {debit.periodic && <Text style={style.desc}>Định kỳ: {debit.periodic.period}</Text>}
-            //     <Button title="Thanh toán" />
-            // </TouchableOpacity>
           ))}
         </ScrollView>
 

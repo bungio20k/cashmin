@@ -9,7 +9,7 @@ import {
   Box,
   useToast,
 } from "native-base";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import Theme from "../../theme/mainTheme";
 import { View, TouchableOpacity, Text } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -30,7 +30,7 @@ export default function AddDebitModal(props) {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
-  const { categories, setDebits } = useContext(DataContext);
+  const { categories, setDebits, debits } = useContext(DataContext);
   const { token } = useContext(AuthContext);
   const toast = useToast();
   const [formData, setFormData] = useState({
@@ -43,6 +43,20 @@ export default function AddDebitModal(props) {
     deadline: new Date(),
   });
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    setFormData({
+      name: "",
+      isDebt: true,
+      amount: "",
+      categoryName: "",
+      categoryIcon: "",
+      desc: "",
+      deadline: new Date(),
+      id: debits[debits.length - 1]?.id + 1 || 0
+    });
+    setErrors({});
+  }, [showModal]);
 
   const onChange = (event, selectedDate) => {
     const currentDate = selectedDate;
@@ -85,12 +99,12 @@ export default function AddDebitModal(props) {
     } else {
       setShowModal(false);
       try {
-        const res = await axios.post("/debits", formData, {
+        const res = await axios.put("/debits", [...debits, formData], {
           headers: {
             Authorization: "Bearer " + token,
           },
         });
-        setDebits((prev) => [...prev, { ...res.data, ...formData }]);
+        setDebits([...debits, formData]);
         toast.show({
           render: () => {
             return (
@@ -114,31 +128,8 @@ export default function AddDebitModal(props) {
           },
           placement: "top-right",
         });
-      } catch (error) {
-        toast.show({
-          render: () => {
-            return (
-              <Box
-                bg="red.600"
-                rounded="sm"
-                mb={5}
-                px="2"
-                py="2"
-                mr="2"
-                _text={{
-                  fontSize: "md",
-                  fontWeight: "medium",
-                  color: "warmGray.50",
-                  letterSpacing: "lg",
-                }}
-              >
-                Có lỗi xảy ra, vui lòng thử lại!
-              </Box>
-            );
-          },
-          placement: "top-right",
-        });
-      }
+      } catch (error) { } // no internet
+
       setFormData({
         name: "",
         isDebt: true,
@@ -173,7 +164,7 @@ export default function AddDebitModal(props) {
               }}
               accessibilityLabel="favorite number"
               my="1"
-              // size="sm"
+            // size="sm"
             >
               <Radio value={true} my={1} colorScheme="success">
                 <Text style={{ fontSize: 14 }}>Khoản nợ</Text>
