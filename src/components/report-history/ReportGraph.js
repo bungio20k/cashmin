@@ -20,20 +20,22 @@ export default function ReportGraph(props) {
 
   const { transactions, currency, timeRange } = props;
 
-  // console.log(transactions);
+  const thousandModifier = currency === "VND"? 1000 : 1;  
 
   const tickValues = getTickValues(timeRange);
 
   const transactionsInBarGroups = getTransactionsInBarGroups(transactions, tickValues, timeRange);
   
   const graphData = {
-    in: toGraphData(transactionsInBarGroups, tickValues, "income", timeRange),
-    out: toGraphData(transactionsInBarGroups, tickValues, "expense", timeRange),
+    in: toGraphData(transactionsInBarGroups, tickValues, "income", timeRange, thousandModifier),
+    out: toGraphData(transactionsInBarGroups, tickValues, "expense", timeRange, thousandModifier),
   }
 
   const maxBarHeightDefault = 100;
-  const maxBarHeight = getMaxBarHeight(transactionsInBarGroups);
+  const maxBarHeight = getMaxBarHeight(transactionsInBarGroups, thousandModifier);
   const barWidth = getBarWidth(timeRange);
+
+
 
   // console.log("===== graphData ===========");
   // print(graphData);
@@ -195,10 +197,11 @@ const formatTickValue = (tickValue, timeRange) => {
 // tickValues = array of dates (of the endpoint, subtract from it to get the startpoint)
 // typeOfTransaction = String ("income", "expense")
 // timeRange = String ("week", "month", "year")
+// thousandModifier = 1000 or 1
 // Output: [[{}], [], [{}, {}], ...]             NO
 // Output: [{}, {}, {}, {}, ...]
 // where {} = { x: tickValue, y: totalAmountForGroup }
-const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, timeRange) => {
+const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, timeRange, thousandModifier) => {
   // console.log("======= toGraphData ==========================");
   const result = [];
 
@@ -246,7 +249,7 @@ const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, tim
 
       // ... then add to it
       if (graphDataIndexIfExists !== -1) {
-        result[graphDataIndexIfExists].y += Math.abs(transaction.amount) / 1000;
+        result[graphDataIndexIfExists].y += Math.abs(transaction.amount) / thousandModifier;
         continue;
       }
 
@@ -256,7 +259,7 @@ const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, tim
         case "week":
           graphDataEntry = {
             x: dayjs(transaction.date).startOf("day"),
-            y: Math.abs(transaction.amount) / 1000
+            y: Math.abs(transaction.amount) / thousandModifier
           };
           break;
 
@@ -273,7 +276,7 @@ const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, tim
 
           graphDataEntry = {
             x: endDate,
-            y: Math.abs(transaction.amount) / 1000
+            y: Math.abs(transaction.amount) / thousandModifier
           };
           break;
 
@@ -281,7 +284,7 @@ const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, tim
           graphDataEntry = {
             // x: dayjs(transaction.date).startOf("month"),
             x: dayjs(transaction.date).endOf("month"),
-            y: Math.abs(transaction.amount) / 1000
+            y: Math.abs(transaction.amount) / thousandModifier
           };
           break;
       }
@@ -293,7 +296,7 @@ const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, tim
   return result;
 }
 
-const getMaxBarHeight = (transactionsInBarGroups) => {
+const getMaxBarHeight = (transactionsInBarGroups, thousandModifier) => {
   const maxBarHeights = [];
 
   for (let barGroup of transactionsInBarGroups) {
@@ -311,7 +314,7 @@ const getMaxBarHeight = (transactionsInBarGroups) => {
   }
 
 
-  return Math.max(...maxBarHeights) / 1000;
+  return Math.max(...maxBarHeights) / thousandModifier;
 }
 
 const getBarWidth = (timeRange) => {
