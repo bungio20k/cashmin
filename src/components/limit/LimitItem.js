@@ -35,33 +35,8 @@ const LimitItem = ({ title, item, setShowModal, setLimit }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setLimits((prev) => ({ ...prev, ...data }));
-    } catch (error) {
-      ôcn;
-      toast.show({
-        render: () => {
-          return (
-            <Box
-              bg="red.700"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
-            >
-              Có lỗi xảy ra, vui lòng thử lại!
-            </Box>
-          );
-        },
-        placement: "top-right",
-      });
-    }
+      setLimits({ ...limit, ...data });
+    } catch (error) {} // offline
   };
   return (
     <View

@@ -29,7 +29,7 @@ export default function ModifyDebitModal(props) {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [showModal1, setShowModal1] = useState(false);
-  const { categories, setDebits } = useContext(DataContext);
+  const { categories, setDebits, debits } = useContext(DataContext);
   const { token } = useContext(AuthContext);
   const toast = useToast();
   const [errors, setErrors] = useState({});
@@ -74,7 +74,42 @@ export default function ModifyDebitModal(props) {
     } else {
       setShowModal(false);
       // call HTTP API to update debit
-      console.log(currentDebit);
+      try {
+        const index = debits.findIndex(db => db.id == currentDebit.id)
+        let modified = [...debits];
+        if (index != -1) modified[index] = currentDebit;
+        const res = await axios.put("/debits", modified, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
+        setDebits(modified);
+        toast.show({
+          render: () => {
+            return (
+              <Box
+                bg="emerald.500"
+                rounded="sm"
+                mb={5}
+                px="2"
+                py="2"
+                mr="2"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "medium",
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
+                }}
+              >
+                Cập nhật nợ thành công!
+              </Box>
+            );
+          },
+          placement: "top-right",
+        });
+      } catch (error) {
+        console.log(error);
+      } // offline
     }
   };
 
@@ -99,7 +134,7 @@ export default function ModifyDebitModal(props) {
               }}
               accessibilityLabel="favorite number"
               my="1"
-              // size="sm"
+            // size="sm"
             >
               <Radio value={true} my={1} colorScheme="success">
                 <Text style={{ fontSize: 14 }}>Khoản nợ</Text>

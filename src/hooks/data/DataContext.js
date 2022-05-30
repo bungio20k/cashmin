@@ -29,15 +29,15 @@ const defaultLimits = {
     }
 }
 const defaultCategories = [
-    { name: 'Chung', icon: 'apps' },
-    { name: 'Ăn uống', icon: 'fast-food' },
-    { name: 'Thuê nhà', icon: 'home' },
-    { name: 'Điện nước', icon: 'bulb' },
-    { name: 'Đi lại', icon: 'bicycle' },
-    { name: 'Sửa chữa', icon: 'build' },
-    { name: 'Mua sắm', icon: 'basket' },
-    { name: 'Tiết kiệm', icon: 'analytics' },
-    { name: 'Dự phòng', icon: 'alert' },
+    { id: 1, name: 'Chung', icon: 'apps' },
+    { id: 2, name: 'Ăn uống', icon: 'fast-food' },
+    { id: 3, name: 'Thuê nhà', icon: 'home' },
+    { id: 4, name: 'Điện nước', icon: 'bulb' },
+    { id: 5, name: 'Đi lại', icon: 'bicycle' },
+    { id: 6, name: 'Sửa chữa', icon: 'build' },
+    { id: 7, name: 'Mua sắm', icon: 'basket' },
+    { id: 8, name: 'Tiết kiệm', icon: 'analytics' },
+    { id: 9, name: 'Dự phòng', icon: 'alert' },
 ]
 
 export const DataProvider = ({ children }) => {
@@ -127,7 +127,7 @@ export const DataProvider = ({ children }) => {
                 }
 
             }
-            else {
+            else { // get data from local storage
                 changeUsername(await AsyncStorage.getItem('username'));
                 changeProfile(JSON.parse(await AsyncStorage.getItem('profile')));
                 changeSettings(JSON.parse(await AsyncStorage.getItem('settings')));
@@ -138,66 +138,6 @@ export const DataProvider = ({ children }) => {
             }
         }
     }, [token]);
-
-    // useEffect(async () => {
-    //     // sync profile
-    //     const res = await axios.post(
-    //         '/users/user-info',
-    //         { typ: "profile", data: profile },
-    //         { headers: { Authorization: "Bearer " + token } }
-    //     )
-    //     console.log(res);
-    // }, [profile]);
-
-    // useEffect(async () => {
-    //     // sync settings
-    //     const res = await axios.post(
-    //         '/users/user-info',
-    //         { typ: "settings", data: settings },
-    //         { headers: { Authorization: "Bearer " + token } }
-    //     )
-    //     console.log(res);
-    // }, [settings]);
-
-    // useEffect(async () => {
-    //     // sync limits
-    //     const res = await axios.post(
-    //         '/users/user-info',
-    //         { typ: 'limits', data: limits },
-    //         { headers: { Authorization: "Bearer " + token } }
-    //     )
-    //     console.log(res);
-    // }, [limits]);
-
-    useEffect(async () => {
-        // sync wallets
-        const res = await axios.post(
-            '/users/user-info',
-            { typ: 'wallets', data: wallets },
-            { headers: { Authorization: "Bearer " + token } }
-        )
-        console.log(res);
-    }, [wallets]);
-
-    // useEffect(async () => {
-    //     // sync debits
-    //     const res = await axios.post(
-    //         '/users/user-info',
-    //         { typ: 'debits', data: debits },
-    //         { headers: { Authorization: "Bearer " + token } }
-    //     )
-    //     console.log(res);
-    // }, [debits]);
-
-    // useEffect(async () => {
-    //     // sync categories
-    //     const res = await axios.post(
-    //         '/users/user-info',
-    //         { typ: 'categories', data: categories },
-    //         { headers: { Authorization: "Bearer " + token } }
-    //     )
-    //     console.log(res);
-    // }, [categories]);
 
     return (
         <DataContext.Provider

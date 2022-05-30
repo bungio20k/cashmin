@@ -43,6 +43,7 @@ export default function AddModal(props) {
   useEffect(() => {
     setData({
       isMain: wallets.length == 0,
+      id: wallets[wallets.length - 1]?.id + 1 || 0
     });
     setErrors({});
   }, [showModal]);
@@ -67,12 +68,12 @@ export default function AddModal(props) {
     // call HTTP
     setShowModal(false);
     try {
-      const res = await axios.post("/wallets", formData, {
+      const res = await axios.put("/wallets", {data: [...wallets, formData]}, {
         headers: {
           Authorization: "Bearer " + token,
         },
       });
-      setWallets((prev) => [...prev, { ...res.data, ...formData }]);
+      setWallets([...wallets, formData]);
       toast.show({
         render: () => {
           return (
@@ -96,31 +97,7 @@ export default function AddModal(props) {
         },
         placement: "top-right",
       });
-    } catch (error) {
-      toast.show({
-        render: () => {
-          return (
-            <Box
-              bg="red.600"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
-            >
-              Có lỗi xảy ra, vui lòng thử lại!
-            </Box>
-          );
-        },
-        placement: "top-right",
-      });
-    }
+    } catch (error) {} // offline
   };
 
   return (

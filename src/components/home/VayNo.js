@@ -29,7 +29,7 @@ const VayNo = () => {
       <SafeAreaView>
         <ScrollView nestedScrollEnabled>
           {debits.map((item) => (
-            <VayNoItem item={item} key={item._id} />
+            <VayNoItem item={item} key={item.id} />
           ))}
         </ScrollView>
       </SafeAreaView>

@@ -8,6 +8,7 @@ import { Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import AuthContext from "../../hooks/login-signup/AuthContext";
 import { useEffect } from "react";
+import DataContext from "../../hooks/data/DataContext";
 
 let index = 0;
 const icons = [
@@ -123,24 +124,27 @@ const Modals = ({
   const [initItem, setInitItem] = useState({ ...category });
   const [disable, setDisable] = useState(true);
   const { token } = useContext(AuthContext);
+  const { categories } = useContext(DataContext);
+
   const toast = useToast();
   const handleSubmit = async () => {
     setDisable(true);
     setShowAddModal(false);
     if (isEdit) {
       // update
+      console.log(categories);
+      console.log(category);
+      const index = categories.findIndex(c => c.id == category.id);
+      console.log(index);
+      let modified = [...categories];
+      if (index != -1) modified[index] = category;
       try {
-        const res = await axios.put("/categories", category, {
+        const res = await axios.put("/categories", modified, {
           headers: {
             Authorization: "Bearer " + token,
           },
         });
-        setCategories((prev) => {
-          const item = prev.find((item) => item._id === category._id);
-          item.name = category.name;
-          item.icon = category.icon;
-          return [...prev];
-        });
+        setCategories(modified);
         toast.show({
           render: () => {
             return (
@@ -165,38 +169,17 @@ const Modals = ({
           placement: "top-right",
         });
       } catch (error) {
-        toast.show({
-          render: () => {
-            return (
-              <Box
-                bg="red.600"
-                rounded="sm"
-                mb={5}
-                px="2"
-                py="2"
-                mr="2"
-                _text={{
-                  fontSize: "md",
-                  fontWeight: "medium",
-                  color: "warmGray.50",
-                  letterSpacing: "lg",
-                }}
-              >
-                Có lỗi xảy ra, vui lòng thử lại!
-              </Box>
-            );
-          },
-          placement: "top-right",
-        });
-      }
+        console.log(error);
+      } // offline
     } else {
       try {
-        const res = await axios.post("/categories", category, {
+        category.id = categories[categories.length - 1].id + 1 || 0;
+        const res = await axios.put("/categories", [...categories, category], {
           headers: {
             Authorization: "Bearer " + token,
           },
         });
-        setCategories((prev) => [...prev, { ...res.data, ...category }]);
+        setCategories([...categories, category]);
         toast.show({
           render: () => {
             return (
@@ -221,30 +204,8 @@ const Modals = ({
           placement: "top-right",
         });
       } catch (error) {
-        toast.show({
-          render: () => {
-            return (
-              <Box
-                bg="red.600"
-                rounded="sm"
-                mb={5}
-                px="2"
-                py="2"
-                mr="2"
-                _text={{
-                  fontSize: "md",
-                  fontWeight: "medium",
-                  color: "warmGray.50",
-                  letterSpacing: "lg",
-                }}
-              >
-                Có lỗi xảy ra, vui lòng thử lại!
-              </Box>
-            );
-          },
-          placement: "top-right",
-        });
-      }
+        console.log(error)
+      } // offline
     }
     // setShowAddModal(false);
   };
@@ -252,17 +213,13 @@ const Modals = ({
   const handleDelete = async () => {
     setShowDeleteModal(false);
     try {
-      const res = await axios.delete("/categories", {
+      const deleted = categories.filter(c => c.id != category.id);
+      const res = await axios.put("/categories", deleted, {
         headers: {
           Authorization: "Bearer " + token,
-        },
-        data: {
-          _id: category._id,
-        },
+        }
       });
-      setCategories((prev) => [
-        ...prev.filter((item) => item._id !== category._id),
-      ]);
+      setCategories(deleted);
       toast.show({
         render: () => {
           return (
@@ -286,31 +243,7 @@ const Modals = ({
         },
         placement: "top-right",
       });
-    } catch (error) {
-      toast.show({
-        render: () => {
-          return (
-            <Box
-              bg="red.600"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
-            >
-              Có lỗi xảy ra, vui lòng thử lại!
-            </Box>
-          );
-        },
-        placement: "top-right",
-      });
-    }
+    } catch (error) {} // offline
   };
 
   return (

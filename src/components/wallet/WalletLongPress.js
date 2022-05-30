@@ -19,24 +19,18 @@ export default function WalletLongPress(props) {
     setHold(false);
     setAlert(false);
     try {
-      const res = await axios.delete("/wallets", {
+      const deleted = wallets.filter(w => w.id != currentWallet.id);
+      if (currentWallet.isMain) {
+        if (deleted.length != 0) deleted[0].isMain = true;
+      }
+      const res = await axios.put("/wallets", { data: deleted }, {
         headers: {
           Authorization: "Bearer " + token,
-        },
-        data: {
-          walletId: currentWallet._id,
-          isMain: currentWallet.isMain,
-        },
-      });
-      setWallets((prev) => [
-        ...prev.filter((item) => item._id !== currentWallet._id),
-      ]);
-      if (currentWallet.isMain) {
-        setWallets((prev) => {
-          if (prev.length != 0) prev[0].isMain = true;
-          return prev;
-        })
+        }
       }
+      );
+      setWallets(deleted);
+
       toast.show({
         render: () => {
           return (
@@ -60,31 +54,7 @@ export default function WalletLongPress(props) {
         },
         placement: "top-right",
       });
-    } catch (error) {
-      toast.show({
-        render: () => {
-          return (
-            <Box
-              bg="red.600"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
-            >
-              Có lỗi xảy ra, vui lòng thử lại!
-            </Box>
-          );
-        },
-        placement: "top-right",
-      });
-    }
+    } catch (error) { } // offline
   };
   return (
     <>
