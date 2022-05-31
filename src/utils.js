@@ -40,7 +40,7 @@ export const formatMoney = (amount, currency) => {
 // amount: Number
 // currency: String ("VND", "USD")
 // output: Number (100000)
-export const formatAmount = (amount, currency) => {
+export const formatAmountOnly = (amount, currency) => {
   const formattedAmount = formatCurrency({
     "amount": amount, 
     "code": currency
@@ -50,8 +50,8 @@ export const formatAmount = (amount, currency) => {
 }
 
 // currency: String ("VND", "USD")
-// output: String ("₫")
-export const formatCurrencyDisplay = (currency) => {
+// output: String ("₫", "$")
+export const formatCurrencyOnly = (currency) => {
   return currency === "VND"? "₫" : "$";
 }
 

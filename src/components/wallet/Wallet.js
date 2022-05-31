@@ -7,11 +7,12 @@ import { useNavigation } from "@react-navigation/native";
 
 import { useContext } from "react";
 import DataContext from "../../hooks/data/DataContext";
-import { formatAmount, formatCurrencyDisplay } from "src/utils";
+import { formatMoney, formatAmountOnly, formatCurrencyOnly } from "src/utils";
 
 const Wallet = () => {
   const navigation = useNavigation();
   const { wallets, settings } = useContext(DataContext);
+
   return (
     <View style={styles.top}>
       <View style={styles.title}>
@@ -26,11 +27,10 @@ const Wallet = () => {
 
       <ScrollView nestedScrollEnabled>
         {wallets.map((wallet) => (
-          <View style={styles.moneyContainer} key={wallet.id}>
+          <View style={styles.moneyContainer} key={wallet._id}>
             <Text style={styles.contentTitle}>{wallet.name} </Text>
             <Text style={styles.money}>
-              {formatAmount(wallet.balance, settings.currency)}
-              {formatCurrencyDisplay(settings.currency)}
+              {formatMoney(wallet.balance, settings.currency) }
             </Text>
           </View>
         ))}

@@ -18,7 +18,7 @@ const AddWalletScreen = () => {
   const [hold, setHold] = useState(false);
   const [currentWallet, setCurrentWallet] = useState();
   const tabBarHeight = useBottomTabBarHeight();
-  const { wallets } = useContext(DataContext); 
+  const { wallets, settings } = useContext(DataContext); 
   return (
     <View style={[style.container, { marginBottom: tabBarHeight }]}>
       <Text style={style.title}>Thêm/Xóa ví</Text>
@@ -26,10 +26,11 @@ const AddWalletScreen = () => {
         {wallets.map((wallet) => (
           <WalletItem
             wallet={wallet}
+            settings={settings}
             setCurrentWallet={setCurrentWallet}
             setShowModal2={setShowModal2}
             setHold={setHold}
-            key={wallet.id}
+            key={wallet._id}
           />
         ))}
       </ScrollView>

@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { View, Text } from "react-native";
 import st from "src/styles/home/ThuChiStyle";
-import { formatCurrencyDisplay } from "src/utils";
+import { formatCurrencyOnly } from "src/utils";
 
 import { print } from "src/utils";
 
@@ -35,7 +35,7 @@ export default function ThuChiGraph(props) {
   const [ incomeBarHeight, expenseBarHeight ] = scaleBarHeights(incomeAmount, expenseAmount);
 
   const formatLabels = (incomeAmount, expenseAmount, currency) => {
-    const formattedCurrencyDisplay = formatCurrencyDisplay(currency);
+    const formattedCurrencyDisplay = formatCurrencyOnly(currency);
     const thousandModifier = currency === "VND"? 1000 : 1;
     const k = thousandModifier === 1000? "k" : "";
 
