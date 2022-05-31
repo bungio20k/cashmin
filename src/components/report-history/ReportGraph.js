@@ -36,13 +36,6 @@ export default function ReportGraph(props) {
   const barWidth = getBarWidth(timeRange);
 
 
-
-  // console.log("===== graphData ===========");
-  // print(graphData);
-  // console.log("===== tickValues ==========");
-  // print(tickValues);
-
-
   return (
     <View>
       <VictoryChart
@@ -101,29 +94,38 @@ const getTransactionsInBarGroups = (transactions, tickValues, timeRange) => {
     // console.log(tickValue);
 
     switch (timeRange) {
-      case "week":
-        result.unshift(transactions?.filter((transaction) => {
+      case "week": {
+        const transaction = transactions?.filter((transaction) => {
           const transactionDate = dayjs(transaction.date);
           return transactionDate.isSame(tickValue, "day");
-        }));
+        });
+        if (transaction)
+          result.unshift(transaction);
         break;
-        
-      case "month":
-        result.unshift(transactions?.filter((transaction) => {
+      }
+
+      case "month": {
+        const transaction = transactions?.filter((transaction) => {
           const tRight = tickValue;
           const tLeft = tickValue.subtract(6, "day");
           
           const transactionDate = dayjs(transaction.date);
           return transactionDate.isBetween(tLeft, tRight, "day", "(]");
-        }));
+        });
+        if (transaction)
+          result.unshift(transaction);
         break;
+      }
         
-      case "year":
-        result.unshift(transactions?.filter((transaction) => {
+      case "year": {
+        const transaction = transactions?.filter((transaction) => {
           const transactionDate = dayjs(transaction.date);
           return transactionDate.isSame(tickValue, "month");
-        }));
+        })
+        if (transaction)
+          result.unshift(transaction);
         break;
+      }
     }
   }
   
@@ -132,6 +134,8 @@ const getTransactionsInBarGroups = (transactions, tickValues, timeRange) => {
 }
 
 const getTickValues = (timeRange) => {
+  const MAX_TICK_VALUES = 5;
+
   const dateNow = dayjs();
   let datePast;
   switch (timeRange) {
@@ -145,6 +149,7 @@ const getTickValues = (timeRange) => {
       datePast = dateNow.subtract(1, "year");
       break;
   }
+
 
   const tickValues = [];
 
@@ -164,6 +169,10 @@ const getTickValues = (timeRange) => {
         tickValues.unshift(tickValue.startOf("day"));
       break;
   }
+
+  // idk random fix to make it work lmao
+  if (timeRange === "month" && tickValues.length > MAX_TICK_VALUES)
+    tickValues.shift();
 
   return tickValues;
 }
@@ -297,7 +306,7 @@ const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, tim
 }
 
 const getMaxBarHeight = (transactionsInBarGroups, thousandModifier) => {
-  const maxBarHeights = [];
+  const maxBarHeights = [100 * thousandModifier];
 
   for (let barGroup of transactionsInBarGroups) {
     let incomeSumOfBarGroup = 0;

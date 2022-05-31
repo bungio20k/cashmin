@@ -22,6 +22,8 @@ import { Ionicons } from "@expo/vector-icons";
 import ModalSelector from "react-native-modal-selector";
 import axios from "axios";
 
+import { formatDate } from "src/utils";
+
 const FormAddNewItem = () => {
   const tabBarHeight = useBottomTabBarHeight();
   const [type, setType] = useState("0");
@@ -29,7 +31,7 @@ const FormAddNewItem = () => {
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { categories, setDebits, wallets, setWallets } = useContext(DataContext);
+  const { categories, setDebits, wallets, setWallets, settings } = useContext(DataContext);
   const { token } = useContext(AuthContext);
   const toast = useToast();
   const [errors, setErrors] = useState({});
@@ -298,7 +300,7 @@ const FormAddNewItem = () => {
                   />
                 }
                 placeholder="Thời gian"
-                value={formData.date.toLocaleString()}
+                value={formatDate(formData.date, settings.dateFormat)}
                 editable={false}
               />
             </TouchableOpacity>
@@ -332,7 +334,7 @@ const FormAddNewItem = () => {
                 />
               }
             >
-              {wallets.map((item) => (
+              {wallets?.map((item) => (
                 <Select.Item
                   label={item.name}
                   value={item.id}

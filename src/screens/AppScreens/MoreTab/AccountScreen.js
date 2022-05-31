@@ -190,9 +190,9 @@ const AccountScreen = () => {
 
   useEffect(() => {
     setDisabled1(
-      profile.fullName === data.fullName &&
-        profile.phoneNumber === data.phoneNumber &&
-        profile.birthday === data.birthday
+      profile?.fullName === data.fullName &&
+        profile?.phoneNumber === data.phoneNumber &&
+        profile?.birthday === data.birthday
     );
   }, [data.fullName, data.phoneNumber, data.birthday]);
 

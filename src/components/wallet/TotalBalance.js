@@ -3,19 +3,19 @@ import { Ionicons } from "@expo/vector-icons";
 import React, { useState, useContext, useEffect } from "react";
 import styles from "../../styles/wallet/TotalBalane";
 import DataContext from "../../hooks/data/DataContext";
-import { formatAmount, formatCurrencyDisplay } from "src/utils";
+import { formatAmountOnly, formatCurrencyOnly } from "src/utils";
 
 const TotalBalance = () => {
   const [hideMoney, setHideMoney] = useState(false);
   const { wallets, settings } = useContext(DataContext);
   const mainWalletBalance = wallets.find((w) => w.isMain)?.balance;
 
-  const formattedAmount = formatAmount(
+  const formattedAmount = formatAmountOnly(
     mainWalletBalance || 0,
     settings.currency
   );
   
-  const formattedCurrency = formatCurrencyDisplay(settings.currency);
+  const formattedCurrency = formatCurrencyOnly(settings.currency);
 
   return (
     <View style={styles.top}>

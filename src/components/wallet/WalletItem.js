@@ -4,7 +4,10 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
-const WalletItem = ({ wallet, setCurrentWallet, setShowModal2, setHold }) => {
+import { formatMoney } from "src/utils";
+
+
+const WalletItem = ({ wallet, settings, setCurrentWallet, setShowModal2, setHold }) => {
   return (
     <TouchableOpacity
       style={style.card}
@@ -27,7 +30,7 @@ const WalletItem = ({ wallet, setCurrentWallet, setShowModal2, setHold }) => {
           style={style.icon}
         />
         <Text style={style.tit}>Số dư</Text>
-        <Text style={[style.value, { color: "green" }]}>{wallet.balance}</Text>
+        <Text style={[style.value, { color: "green" }]}>{formatMoney(wallet.balance, settings.currency)}</Text>
       </View>
       <View style={style.textContainer}>
         <MaterialIcons

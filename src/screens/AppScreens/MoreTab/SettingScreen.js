@@ -173,7 +173,7 @@ const SettingScreen = () => {
                 color="white"
                 style={{ height: 38 }}
               >
-                <Select.Item label="VNĐ" value="VNĐ(đ)" />
+                <Select.Item label="VND" value="VND" />
                 <Select.Item label="USD" value="USD" />
               </Select>
             </HStack>
