@@ -1,6 +1,6 @@
 import { Text, Alert, View } from "react-native";
 import { useContext, useState } from "react";
-import { VStack, HStack, FormControl, Input } from "native-base";
+import { VStack, HStack, FormControl, Input, Spinner } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 import LoginButton from "./LoginButton";
@@ -15,6 +15,7 @@ export default function LoginForm() {
   const [formData, setData] = useState({});
   const [errors, setErrors] = useState({});
   const [show, setShow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const { token, setAuth, setToken } = useContext(AuthContext);
   // const { setUsername, setProfile, setSettings, setLimits, setWallets, setDebits, setCategories } = useContext(DataContext);
 
@@ -145,33 +146,18 @@ export default function LoginForm() {
         )}
       </FormControl>
 
-      <LoginButton onPress={() => validate()} />
-
-      <Text style={[style.text, { alignSelf: "center", marginTop: 20 }]}>
-        {" "}
-        Hoặc đăng nhập bằng{" "}
-      </Text>
-
-      <HStack justifyContent="center">
-        <FontAwesome
-          name="facebook"
-          size={30}
-          color="gray"
-          style={{ margin: 10 }}
-        />
-        <FontAwesome
-          name="google"
-          size={30}
-          color="gray"
-          style={{ margin: 10 }}
-        />
-      </HStack>
+      <LoginButton onPress={() => {
+        setLoading(true);
+        validate();
+        setLoading(false);
+      }} />
+      {loading && <Spinner size="lg" />}
 
       <View
         style={{
           flexDirection: "row",
           justifyContent: "space-around",
-          marginTop: 32,
+          marginTop: 52,
           marginBottom: 6,
         }}
       >

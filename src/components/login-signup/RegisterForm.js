@@ -4,11 +4,10 @@ import {
   VStack,
   FormControl,
   Input,
-  Button,
-  Icon,
-  KeyboardAvoidingView,
-  ScrollView,
   HStack,
+  useToast,
+  Box,
+  Spinner
 } from "native-base";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
@@ -21,11 +20,13 @@ import axios from "axios";
 
 export default function RegisterForm() {
   const navigation = useNavigation();
-
+  const toast = useToast();
+  
   const [formData, setData] = useState({});
   const [errors, setErrors] = useState({});
   const [show1, setShow1] = useState(false);
   const [show2, setShow2] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const validate = async () => {
     if (formData.name === undefined || formData.name == "") {
@@ -86,16 +87,40 @@ export default function RegisterForm() {
       return false;
     }
 
-    const res = await axios
+    await axios
       .post("/users/register", {
         username: formData.name,
         password: formData.password,
         email: formData.email,
       })
       .then(() => {
+        toast.show({
+          render: () => {
+            return (
+              <Box
+                bg="emerald.500"
+                rounded="sm"
+                mb={5}
+                px="2"
+                py="2"
+                mr="2"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "medium",
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
+                }}
+              >
+                Đăng ký thành công!
+              </Box>
+            );
+          },
+          placement: "top-right",
+        });
         navigation.navigate("Login");
       })
       .catch((err) => {
+        console.log(err);
         if (err.response.status === 409) {
           setErrors({
             ...errors,
@@ -110,8 +135,11 @@ export default function RegisterForm() {
       });
   };
 
-  const onSubmit = () => validate();
-
+  const onSubmit = () => {
+    setLoading(true);
+    validate();
+    setLoading(false);
+  }
   return (
     <VStack marginTop="8">
       <FormControl isRequired isInvalid={"name" in errors}>
@@ -280,6 +308,7 @@ export default function RegisterForm() {
       </FormControl>
 
       <RegisterButton onPress={onSubmit} />
+      {loading && <Spinner size="lg" />}
       <HStack alignSelf="center" marginTop="5" marginBottom="5">
         <Text style={style.text}>Bạn đã có tài khoản?</Text>
         <Text
