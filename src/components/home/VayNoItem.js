@@ -4,6 +4,7 @@ import styles from "../../styles/home/VayNoItemStyle";
 import { HStack, VStack } from "native-base";
 
 const VayNoItem = ({ item }) => {
+  console.log(item.deadline);
   return (
     <View style={styles.vaynoItem}>
       <VStack space={1}>
@@ -17,7 +18,7 @@ const VayNoItem = ({ item }) => {
           >
             {item.amount}
           </Text>
-          <Text style={styles.vaynoItemTime}>{item.deadline}</Text>
+          <Text style={styles.vaynoItemTime}>{new Date(item.deadline).toLocaleDateString('en-BG')}</Text>
         </HStack>
       </VStack>
     </View>
