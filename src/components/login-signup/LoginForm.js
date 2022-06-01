@@ -37,6 +37,7 @@ export default function LoginForm() {
     }
     // server authentication
     // ...
+    setLoading(true);
     axios
       .post("/users/login", {
         username: formData.name,
@@ -62,6 +63,7 @@ export default function LoginForm() {
           // no network
           setAuth(true);
         }
+        setLoading(false);
       });
 
   };
@@ -150,11 +152,7 @@ export default function LoginForm() {
         )}
       </FormControl>
 
-      <LoginButton onPress={() => {
-        setLoading(true);
-        validate();
-        setLoading(false);
-      }} />
+      <LoginButton onPress={validate} />
       {loading && <Spinner size="lg" />}
 
       <View

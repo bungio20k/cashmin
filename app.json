@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Cashmin",
-    "slug": "assignment3",
+    "slug": "cashmin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,6 +21,8 @@
     },
     "android": {
       "adaptiveIcon": {
+        "package": "com.blue.cashmin",
+        "versionCode": 1,
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       }

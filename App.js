@@ -11,7 +11,7 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import axios from "axios";
 
-axios.defaults.baseURL = `http://192.168.1.3:3001/api/v1`;
+axios.defaults.baseURL = `https://cashmin-web-service.herokuapp.com/api/v1`;
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

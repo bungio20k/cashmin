@@ -86,7 +86,7 @@ export default function RegisterForm() {
       });
       return false;
     }
-
+    setLoading(true);
     await axios
       .post("/users/register", {
         username: formData.name,
@@ -94,6 +94,7 @@ export default function RegisterForm() {
         email: formData.email,
       })
       .then(() => {
+        setLoading(false);
         toast.show({
           render: () => {
             return (
@@ -132,13 +133,12 @@ export default function RegisterForm() {
             name: "Lỗi từ server, vui lòng thử lại sau",
           });
         }
+        setLoading(false);
       });
   };
 
   const onSubmit = () => {
-    setLoading(true);
     validate();
-    setLoading(false);
   }
   return (
     <VStack marginTop="8">
