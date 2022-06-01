@@ -1,5 +1,5 @@
 import { View, Text, ScrollView } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "src/styles/limit/MainStyle";
 import { Ionicons } from "@expo/vector-icons";
 import LimitItem from "src/components/limit/LimitItem";
