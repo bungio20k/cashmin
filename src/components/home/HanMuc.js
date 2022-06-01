@@ -23,9 +23,12 @@ const HanMuc = () => {
     "day"
   );
 
+  const limitIsActive = limits.daily.isActive;
   const limitDaily = Number(limits.daily.limit) || 1; // prevent division by 0
 
-  const progressScale = Math.min(1, Math.abs(totalTransactionsAmountDaily) / limitDaily);
+  const progressScale = (limitIsActive)? 
+    Math.min(1, Math.abs(totalTransactionsAmountDaily) / limitDaily) :
+    0;
   const progressColor = progressScale >= 0.66? "#d3180c" : "#f2b3ae";
 
   // print(totalTransactionsAmountDaily, "total transactions daily");
