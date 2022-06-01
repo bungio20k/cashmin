@@ -129,7 +129,7 @@ export const DataProvider = ({ children }) => {
 
             }
             else { // get data from local storage
-                changeUsername(await AsyncStorage.getItem('username'));
+                changeUsername(JSON.parse(await AsyncStorage.getItem('username')));
                 changeProfile(JSON.parse(await AsyncStorage.getItem('profile')));
                 changeSettings(JSON.parse(await AsyncStorage.getItem('settings')));
                 changeLimits(JSON.parse(await AsyncStorage.getItem('limits')));

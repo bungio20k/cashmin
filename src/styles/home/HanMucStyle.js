@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
   hanmucMoneyLeft: {
     fontSize: 16,
     fontWeight: "700",
-    color: "#198155",
   },
 });
 

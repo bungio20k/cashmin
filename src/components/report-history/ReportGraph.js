@@ -43,7 +43,7 @@ export default function ReportGraph(props) {
   const maxBarHeight = getMaxBarHeight(transactionsInBarGroups, thousandModifier);
   const barWidth = getBarWidth(timeRange);
 
-  print(getTotalTransactionsAmountInTimeRange(transactions, "day"), "======= UNRELATED ======")
+  // print(getTotalTransactionsAmountInTimeRange(transactions, "day"), "======= UNRELATED ======")
 
 
   return (
