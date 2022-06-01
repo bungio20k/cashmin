@@ -30,11 +30,6 @@ const SettingScreen = () => {
   };
   const updateSettings = async () => {
     try {
-      const res = await axios.put("/settings", data, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
       setSettings(data);
       setDisable(true);
       toast.show({
@@ -60,7 +55,14 @@ const SettingScreen = () => {
         },
         placement: "top-right",
       });
-    } catch (error) {} // offline
+      const res = await axios.put("/settings", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    } // offline
   };
 
   return (
@@ -98,7 +100,7 @@ const SettingScreen = () => {
             space={2}
             alignItems="stretch"
             px="4"
-            // justifyContent="space-between"
+          // justifyContent="space-between"
           >
             <HStack
               space={4}

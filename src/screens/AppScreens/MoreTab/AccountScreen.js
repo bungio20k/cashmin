@@ -65,29 +65,24 @@ const AccountScreen = () => {
 
   const updateProfile = async () => {
     try {
-      const res = await axios.put("/account/profile", data, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
       setProfile(data);
       setDisabled1(true);
       toast.show({
         render: () => {
           return (
             <Box
-              bg="emerald.500"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
+            bg="emerald.500"
+            rounded="sm"
+            mb={5}
+            px="2"
+            py="2"
+            mr="2"
+            _text={{
+              fontSize: "md",
+              fontWeight: "medium",
+              color: "warmGray.50",
+              letterSpacing: "lg",
+            }}
             >
               Cập nhật thông tin thành công!
             </Box>
@@ -95,7 +90,13 @@ const AccountScreen = () => {
         },
         placement: "top-right",
       });
+      const res = await axios.put("/account/profile", data, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
     } catch (error) {
+      console.log(error);
       // offline
     }
   };

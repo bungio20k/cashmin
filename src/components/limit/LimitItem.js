@@ -29,14 +29,7 @@ const LimitItem = ({ title, item, setShowModal, setLimit }) => {
         limit: item.limit,
       },
     };
-    try {
-      const res = await axios.put("/limits", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setLimits({ ...limits, ...data });
-    } catch (error) {} // offline
+    setLimit(data);
   };
   return (
     <View

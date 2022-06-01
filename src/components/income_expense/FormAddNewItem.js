@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from "../../styles/income_expense/FormStyle";
 import {
   Button,
@@ -10,6 +10,8 @@ import {
   TextArea,
   Modal,
   useToast,
+  Box,
+  Spinner
 } from "native-base";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -24,25 +26,28 @@ import axios from "axios";
 
 import { formatDate } from "src/utils";
 
+import { formatAmountOnly, formatCurrencyOnly } from "src/utils";
+
 const FormAddNewItem = () => {
   const tabBarHeight = useBottomTabBarHeight();
-  const [type, setType] = useState("0");
+  const [type, setType] = useState("1");
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const [showModal, setShowModal] = useState(false);
   const { categories, setDebits, wallets, setWallets, settings } = useContext(DataContext);
   const { token } = useContext(AuthContext);
   const toast = useToast();
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     amount: "",
-    categoryName: "",
-    categoryIcon: "",
+    categoryName: "Chung",
+    categoryIcon: "apps",
     date: new Date(),
     desc: "",
     walletId: "",
   });
+  useEffect(() => setFormData({ ...formData, walletId: wallets.findIndex(w => w.isMain) }), [wallets])
 
   const list = categories.map((item) => ({
     key: item.id,
@@ -101,15 +106,37 @@ const FormAddNewItem = () => {
       if (index != -1) {
         let modified = [...wallets];
         modified[index].transactions.push(data);
-        const res = await axios.put("/wallets", {data: modified}, {
+        modified[index].balance += data.amount;
+        setWallets(modified);
+        toast.show({
+          render: () => {
+            return (
+              <Box
+                bg="emerald.500"
+                rounded="sm"
+                mb={5}
+                px="2"
+                py="2"
+                mr="2"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "medium",
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
+                }}
+              >
+                Thêm khoản thu chi thành công!
+              </Box>
+            );
+          },
+          placement: "top-right",
+        });
+        const res = await axios.put("/wallets", { data: modified }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setWallets(modified);
       }
-        
-      setShowModal(true);
     } catch (error) {
       // offline
       console.log(error);
@@ -117,11 +144,11 @@ const FormAddNewItem = () => {
 
     setFormData({
       amount: "",
-      categoryName: "",
-      categoryIcon: "",
+      categoryName: "Chung",
+      categoryIcon: "apps",
       date: new Date(),
       desc: "",
-      walletId: "",
+      walletId: wallets.findIndex(w => w.isMain),
     });
   };
 
@@ -143,15 +170,15 @@ const FormAddNewItem = () => {
             style={styles.radioGroup}
             accessibilityLabel="favorite number"
             my="1"
-            // size="sm"
+          // size="sm"
           >
-            <Radio value="0" my={1} colorScheme="success">
-              <Text style={{ fontSize: 14 }}>Thêm khoản thu</Text>
-            </Radio>
             <Radio value="1" my={1} colorScheme="success">
               <Text style={{ fontSize: 14, marginRight: 12 }}>
                 Thêm khoản chi
               </Text>
+            </Radio>
+            <Radio value="0" my={1} colorScheme="success">
+              <Text style={{ fontSize: 14 }}>Thêm khoản thu</Text>
             </Radio>
           </Radio.Group>
 
@@ -159,7 +186,7 @@ const FormAddNewItem = () => {
             <FormControl.Label>Số tiền</FormControl.Label>
             <Input
               type="number"
-              placeholder="Số tiền"
+              placeholder="100.000"
               variant="rounded"
               bg="white"
               my="1"
@@ -377,10 +404,16 @@ const FormAddNewItem = () => {
               backgroundColor: "#4FB286",
             }}
             w="80%"
-            onPress={handleSubmit}
+            shadow="4"
+            onPress={() => {
+              setLoading(true);
+              handleSubmit();
+              setLoading(false);
+            }}
           >
             Thêm
           </Button>
+          {loading && <Spinner size="lg" />}
           <View>
             {show && (
               <DateTimePicker
@@ -392,41 +425,6 @@ const FormAddNewItem = () => {
               />
             )}
           </View>
-          <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
-            <Modal.Content
-              w="90%"
-              style={{
-                backgroundColor: " rgba(236, 252, 229, 1)",
-                padding: 20,
-              }}
-            >
-              <Modal.Body>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontWeight: "700",
-                    textAlign: "center",
-                    marginBottom: 20,
-                  }}
-                >
-                  Bạn đã thêm thành công!
-                </Text>
-                <Button
-                  fontSize="xl"
-                  my="2"
-                  mx="auto"
-                  py="3"
-                  style={{
-                    backgroundColor: "#4FB286",
-                  }}
-                  w="80%"
-                  onPress={() => setShowModal(false)}
-                >
-                  Thành công
-                </Button>
-              </Modal.Body>
-            </Modal.Content>
-          </Modal>
         </FormControl>
       </ScrollView>
     </KeyboardAwareScrollView>

@@ -1,13 +1,18 @@
 import { Text, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import React from "react";
+import React, {
+  useContext,
+} from "react";
 import styles from "../../styles/home/HanMucStyle";
+import DataContext from "../../hooks/data/DataContext";
 
 // Navigation
 import { useNavigation } from "@react-navigation/native";
+import { formatAmountOnly, formatCurrencyOnly } from "src/utils";
 
 const HanMuc = () => {
   const navigation = useNavigation();
+  const { limits, settings } = useContext(DataContext);
   return (
     <View style={styles.hanmucContainer}>
       <View style={styles.hanmucTop}>
@@ -21,7 +26,12 @@ const HanMuc = () => {
       </View>
       <View style={styles.hanmucInfo}>
         <Text style={styles.hanmucDate}>Hạn mức chi hôm nay</Text>
-        <Text style={styles.hanmucMoney}>999.999.999 đ</Text>
+        <Text style={styles.hanmucMoney}>
+          {limits.daily.isActive ?
+            formatAmountOnly(limits.daily.limit, settings.currency)
+            : "Chưa đặt"} {" "}
+          {formatCurrencyOnly(settings.currency)}
+        </Text>
       </View>
       <View style={styles.hanmucChart}>
         <View
@@ -35,8 +45,8 @@ const HanMuc = () => {
         ></View>
       </View>
       <View style={styles.hanmucInfoBottom}>
-        <Text style={styles.hanmucDateLeft}>Còn lại</Text>
-        <Text style={styles.hanmucMoneyLeft}>555.555.555 đ</Text>
+        <Text style={styles.hanmucDateLeft}>Đã tiêu</Text>
+        <Text style={styles.hanmucMoneyLeft}>Chờ hoàn thiện</Text>
       </View>
     </View>
   );

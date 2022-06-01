@@ -73,16 +73,10 @@ export default function ModifyDebitModal(props) {
       setErrors({ ...errors, amount: "Số tiền không được để trống" });
     } else {
       setShowModal(false);
-      // call HTTP API to update debit
       try {
         const index = debits.findIndex(db => db.id == currentDebit.id)
         let modified = [...debits];
         if (index != -1) modified[index] = currentDebit;
-        const res = await axios.put("/debits", modified, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
         setDebits(modified);
         toast.show({
           render: () => {
@@ -106,6 +100,11 @@ export default function ModifyDebitModal(props) {
             );
           },
           placement: "top-right",
+        });
+        const res = await axios.put("/debits", modified, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
         });
       } catch (error) {
         console.log(error);

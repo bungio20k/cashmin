@@ -14,7 +14,6 @@ const LimitScreen = () => {
   const [showModal, setShowModal] = useState(false);
   const [limit, setLimit] = useState({});
   const { limits, setLimits } = useContext(DataContext);
-  console.log(limits);
   return (
     <View style={styles.container}>
       <View style={styles.header}>

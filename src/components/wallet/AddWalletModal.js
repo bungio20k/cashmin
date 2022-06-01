@@ -68,11 +68,6 @@ export default function AddModal(props) {
     // call HTTP
     setShowModal(false);
     try {
-      const res = await axios.put("/wallets", {data: [...wallets, formData]}, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
       setWallets([...wallets, formData]);
       toast.show({
         render: () => {
@@ -90,16 +85,23 @@ export default function AddModal(props) {
                 color: "warmGray.50",
                 letterSpacing: "lg",
               }}
-            >
+              >
               Thêm ví thành công!
             </Box>
           );
         },
         placement: "top-right",
       });
-    } catch (error) {} // offline
+      const res = await axios.put("/wallets", {data: [...wallets, formData]}, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    } // offline
   };
-
+  
   return (
     <Modal
       isOpen={showModal}

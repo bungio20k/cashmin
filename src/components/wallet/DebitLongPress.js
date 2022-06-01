@@ -19,28 +19,23 @@ export default function DebitLongPress(props) {
     setHold(false);
     try {
       const deleted = debits.filter(db => db.id != currentDebit.id);
-      const res = await axios.put("/debits", deleted, {
-        headers: {
-          Authorization: "Bearer " + token,
-        }
-      });
       setDebits(deleted);
       toast.show({
         render: () => {
           return (
             <Box
-              bg="emerald.500"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
+            bg="emerald.500"
+            rounded="sm"
+            mb={5}
+            px="2"
+            py="2"
+            mr="2"
+            _text={{
+              fontSize: "md",
+              fontWeight: "medium",
+              color: "warmGray.50",
+              letterSpacing: "lg",
+            }}
             >
               Xóa khoản ghi nợ thành công!
             </Box>
@@ -48,9 +43,16 @@ export default function DebitLongPress(props) {
         },
         placement: "top-right",
       });
-    } catch (error) {} // offline
+      const res = await axios.put("/debits", deleted, {
+        headers: {
+          Authorization: "Bearer " + token,
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    } // offline
   };
-
+  
   return (
     <>
       <Actionsheet

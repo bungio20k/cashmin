@@ -9,7 +9,7 @@ import axios from "axios";
 
 const ModalEdit = ({ showModal, setShowModal, limit, setLimit }) => {
   const { token } = useContext(AuthContext);
-  const { setLimits } = useContext(DataContext);
+  const { setLimits, limits } = useContext(DataContext);
   const [disable, setDisable] = useState(true);
   const toast = useToast();
 
@@ -27,12 +27,7 @@ const ModalEdit = ({ showModal, setShowModal, limit, setLimit }) => {
       },
     };
     try {
-      const res = await axios.put("/limits", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setLimits((prev) => ({ ...prev, ...data }));
+      setLimits({ ...limits, ...data })
       toast.show({
         render: () => {
           return (
@@ -56,31 +51,14 @@ const ModalEdit = ({ showModal, setShowModal, limit, setLimit }) => {
         },
         placement: "top-right",
       });
-    } catch (error) {
-      toast.show({
-        render: () => {
-          return (
-            <Box
-              bg="red.600"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
-            >
-              Có lỗi xảy ra, vui lòng thử lại!
-            </Box>
-          );
+      const res = await axios.put("/limits", data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
-        placement: "top-right",
       });
-    }
+    } catch (error) {
+      console.log(error);
+    } // offline
   };
 
   return (

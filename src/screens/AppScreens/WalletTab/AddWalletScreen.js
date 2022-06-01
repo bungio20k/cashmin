@@ -30,7 +30,7 @@ const AddWalletScreen = () => {
             setCurrentWallet={setCurrentWallet}
             setShowModal2={setShowModal2}
             setHold={setHold}
-            key={wallet._id}
+            key={wallet.id}
           />
         ))}
       </ScrollView>

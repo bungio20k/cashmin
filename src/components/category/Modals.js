@@ -139,11 +139,6 @@ const Modals = ({
       let modified = [...categories];
       if (index != -1) modified[index] = category;
       try {
-        const res = await axios.put("/categories", modified, {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
         setCategories(modified);
         toast.show({
           render: () => {
@@ -168,26 +163,26 @@ const Modals = ({
           },
           placement: "top-right",
         });
+        const res = await axios.put("/categories", modified, {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
       } catch (error) {
         console.log(error);
       } // offline
     } else {
       try {
         category.id = categories[categories.length - 1].id + 1 || 0;
-        const res = await axios.put("/categories", [...categories, category], {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        });
         setCategories([...categories, category]);
         toast.show({
           render: () => {
             return (
               <Box
-                bg="emerald.500"
-                rounded="sm"
-                mb={5}
-                px="2"
+              bg="emerald.500"
+              rounded="sm"
+              mb={5}
+              px="2"
                 py="2"
                 mr="2"
                 _text={{
@@ -203,6 +198,11 @@ const Modals = ({
           },
           placement: "top-right",
         });
+        const res = await axios.put("/categories", [...categories, category], {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        });
       } catch (error) {
         console.log(error)
       } // offline
@@ -214,28 +214,23 @@ const Modals = ({
     setShowDeleteModal(false);
     try {
       const deleted = categories.filter(c => c.id != category.id);
-      const res = await axios.put("/categories", deleted, {
-        headers: {
-          Authorization: "Bearer " + token,
-        }
-      });
       setCategories(deleted);
       toast.show({
         render: () => {
           return (
             <Box
-              bg="emerald.500"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
-              }}
+            bg="emerald.500"
+            rounded="sm"
+            mb={5}
+            px="2"
+            py="2"
+            mr="2"
+            _text={{
+              fontSize: "md",
+              fontWeight: "medium",
+              color: "warmGray.50",
+              letterSpacing: "lg",
+            }}
             >
               Xóa hạng mục thành công!
             </Box>
@@ -243,16 +238,21 @@ const Modals = ({
         },
         placement: "top-right",
       });
-    } catch (error) {} // offline
+      const res = await axios.put("/categories", deleted, {
+        headers: {
+          Authorization: "Bearer " + token,
+        }
+      });
+    } catch (error) { } // offline
   };
-
+  
   return (
     <Center>
       <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)}>
         <Modal.Content
           w="90%"
           style={{ backgroundColor: " rgba(236, 252, 229, 1)", padding: 20 }}
-        >
+          >
           <Modal.Body>
             <Text style={styles.title}>
               {isEdit ? "Sửa hạng mục" : "Thêm hạng mục mới"}

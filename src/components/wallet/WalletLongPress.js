@@ -23,19 +23,13 @@ export default function WalletLongPress(props) {
       if (currentWallet.isMain) {
         if (deleted.length != 0) deleted[0].isMain = true;
       }
-      const res = await axios.put("/wallets", { data: deleted }, {
-        headers: {
-          Authorization: "Bearer " + token,
-        }
-      }
-      );
       setWallets(deleted);
-
+      
       toast.show({
         render: () => {
           return (
             <Box
-              bg="emerald.500"
+            bg="emerald.500"
               rounded="sm"
               mb={5}
               px="2"
@@ -47,14 +41,21 @@ export default function WalletLongPress(props) {
                 color: "warmGray.50",
                 letterSpacing: "lg",
               }}
-            >
+              >
               Xoá ví thành công!
             </Box>
           );
         },
         placement: "top-right",
       });
-    } catch (error) { } // offline
+      const res = await axios.put("/wallets", { data: deleted }, {
+        headers: {
+          Authorization: "Bearer " + token,
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    } // offline
   };
   return (
     <>
@@ -63,7 +64,7 @@ export default function WalletLongPress(props) {
         onClose={() => {
           setHold(false);
         }}
-      >
+        >
         <Actionsheet.Content>
           <Box w="100%" h={60} px={4} justifyContent="center">
             <Text>{currentWallet?.name}</Text>
