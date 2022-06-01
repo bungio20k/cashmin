@@ -48,6 +48,7 @@ export const DataProvider = ({ children }) => {
     const [debits, changeDebits] = useState([]);
     const [categories, changeCategories] = useState(defaultCategories);
     const [username, changeUsername] = useState("");
+    const [solveDebit, setSolveDebit] = useState(null);
 
     const setUsername = async (value) => {
         changeUsername(value);
@@ -156,6 +157,8 @@ export const DataProvider = ({ children }) => {
                 setDebits,
                 categories,
                 setCategories,
+                solveDebit,
+                setSolveDebit
             }}
         >
             {children}

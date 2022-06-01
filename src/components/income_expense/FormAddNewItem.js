@@ -34,11 +34,12 @@ const FormAddNewItem = () => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const { categories, setDebits, wallets, setWallets, settings } = useContext(DataContext);
+  const { categories, debits, setDebits, wallets, setWallets, settings, solveDebit, setSolveDebit } = useContext(DataContext);
   const { token } = useContext(AuthContext);
   const toast = useToast();
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
   const [formData, setFormData] = useState({
     amount: "",
     categoryName: "Chung",
@@ -47,7 +48,24 @@ const FormAddNewItem = () => {
     desc: "",
     walletId: "",
   });
+
   useEffect(() => setFormData({ ...formData, walletId: wallets.findIndex(w => w.isMain) }), [wallets])
+
+  useEffect(() => {
+    if (solveDebit) {
+      console.log(solveDebit);
+      setType(solveDebit.isDebt ? "1" : "0");
+      setFormData({
+        amount: solveDebit.amount,
+        categoryName: solveDebit.categoryName,
+        categoryIcon: solveDebit.categoryIcon,
+        date: new Date(),
+        walletId: wallets?.findIndex(w => w.isMain),
+        desc: `Thanh toán cho khoản ${solveDebit.name}`
+      })
+    }
+  }, [solveDebit])
+
 
   const list = categories.map((item) => ({
     key: item.id,
@@ -67,7 +85,7 @@ const FormAddNewItem = () => {
   }));
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
+    const currentDate = selectedDate ? selectedDate : new Date();
     setShow(false);
     setFormData((prev) => ({ ...prev, date: currentDate }));
   };
@@ -101,6 +119,17 @@ const FormAddNewItem = () => {
     };
 
     try {
+      if (solveDebit) {
+        const deleted = debits.filter(db => db.id != solveDebit.id);
+        setDebits(deleted);
+        setSolveDebit(null);
+        await axios.put("/debits", deleted, {
+          headers: {
+            Authorization: "Bearer " + token,
+          }
+        }).catch(err => console.log(err));
+      }
+
       const index = wallets.findIndex(w => w.id == formData.walletId);
       if (index != -1) {
         let modified = [...wallets];
@@ -165,6 +194,7 @@ const FormAddNewItem = () => {
             value={type}
             onChange={(nextValue) => {
               setType(nextValue);
+              if (solveDebit) setSolveDebit(null);
             }}
             style={styles.radioGroup}
             accessibilityLabel="favorite number"
@@ -203,6 +233,7 @@ const FormAddNewItem = () => {
               value={formData.amount}
               onChangeText={(text) => {
                 setFormData((prev) => ({ ...prev, amount: text }));
+                if (solveDebit) setSolveDebit(null);
                 delete errors.amount;
               }}
             />
@@ -227,6 +258,7 @@ const FormAddNewItem = () => {
                   categoryName: option.label,
                   categoryIcon: option.value,
                 }));
+                if (solveDebit) setSolveDebit(null);
                 delete errors.category;
               }}
               style={{
@@ -303,7 +335,8 @@ const FormAddNewItem = () => {
 
           <FormControl isRequired>
             <FormControl.Label>Thời gian</FormControl.Label>
-            <TouchableOpacity onPress={showDatepicker}>
+            <TouchableOpacity 
+              onPress={() => {showDatepicker(); if (solveDebit) setSolveDebit(null);}}>
               <Input
                 my="1"
                 bg="white"
@@ -349,6 +382,7 @@ const FormAddNewItem = () => {
               }}
               onValueChange={(itemValue) => {
                 setFormData((prev) => ({ ...prev, walletId: itemValue }));
+                if (solveDebit) setSolveDebit(null);
                 delete errors.wallet;
               }}
               InputLeftElement={
@@ -388,6 +422,7 @@ const FormAddNewItem = () => {
               value={formData.desc}
               onChangeText={(text) => {
                 setFormData((prev) => ({ ...prev, desc: text }));
+                if (solveDebit) setSolveDebit(null);
               }}
               w="100%"
               minHeight="100px"

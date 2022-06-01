@@ -12,7 +12,6 @@ import { formatMoney, formatAmountOnly, formatCurrencyOnly } from "src/utils";
 const Wallet = () => {
   const navigation = useNavigation();
   const { wallets, settings } = useContext(DataContext);
-
   return (
     <View style={styles.top}>
       <View style={styles.title}>
@@ -26,11 +25,11 @@ const Wallet = () => {
       </View>
 
       <ScrollView nestedScrollEnabled>
-        {wallets.map((wallet) => (
-          <View style={styles.moneyContainer} key={wallet.id}>
+        {wallets.map((wallet) =>(
+          <View style={wallet.isMain == true? styles.mainMoneyContainer : styles.moneyContainer} key={wallet.id}>
             <Text style={styles.contentTitle}>{wallet.name} </Text>
             <Text style={styles.money}>
-              {formatMoney(wallet.balance, settings.currency) }
+              {formatMoney(wallet.balance, settings.currency)}
             </Text>
           </View>
         ))}

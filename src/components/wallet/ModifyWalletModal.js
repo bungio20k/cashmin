@@ -152,7 +152,8 @@ export default function ModifyWalletModal(props) {
               fontSize={style.input.fontSize}
               width={style.input.width}
               alignSelf={style.input.alignSelf}
-              margin={style.input.margin}
+              margin={style.input.margin}              
+              keyboardType="numeric"
               InputLeftElement={
                 <FontAwesome
                   name="money"

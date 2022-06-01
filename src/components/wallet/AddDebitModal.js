@@ -23,14 +23,14 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Moment from "moment";
+import { formatDate } from "src/utils";
 
 export default function AddDebitModal(props) {
   const { showModal, setShowModal } = props;
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const [showModal1, setShowModal1] = useState(false);
-  const { categories, setDebits, debits } = useContext(DataContext);
+  const { categories, setDebits, debits, settings } = useContext(DataContext);
   const { token } = useContext(AuthContext);
   const toast = useToast();
   const [formData, setFormData] = useState({
@@ -49,8 +49,8 @@ export default function AddDebitModal(props) {
       name: "",
       isDebt: true,
       amount: "",
-      categoryName: "",
-      categoryIcon: "",
+      categoryName: "Chung",
+      categoryIcon: "apps",
       desc: "",
       deadline: new Date(),
       id: debits[debits.length - 1]?.id + 1 || 0
@@ -151,7 +151,6 @@ export default function AddDebitModal(props) {
         <Modal.Body>
           <FormControl>
             <FormControl.Label>Thể loại</FormControl.Label>
-            {/* <Input /> */}
             <Radio.Group
               name="type"
               value={formData.isDebt}
@@ -165,7 +164,6 @@ export default function AddDebitModal(props) {
               }}
               accessibilityLabel="favorite number"
               my="1"
-            // size="sm"
             >
               <Radio value={true} my={1} colorScheme="success">
                 <Text style={{ fontSize: 14 }}>Khoản nợ</Text>
@@ -176,36 +174,9 @@ export default function AddDebitModal(props) {
                 </Text>
               </Radio>
             </Radio.Group>
-            {/* <Select
-              selectedValue={formData.isDebt}
-              bg="white"
-              borderWidth={2}
-              borderColor="#4fb286"
-              borderRadius="full"
-              accessibilityLabel="Choose Service"
-              placeholder="Choose Service"
-              _selectedItem={{
-                bg: "teal.500",
-              }}
-              mt={1}
-              value={formData.isDebt}
-              onValueChange={(nextValue) => {
-                setFormData((prev) => ({ ...prev, isDebt: nextValue }));
-              }}
-              InputLeftElement={
-                <MaterialCommunityIcons
-                  name="cash-plus"
-                  size={24}
-                  color="#999"
-                />
-              }
-            >
-              <Select.Item label="Nợ" value={true} />
-              <Select.Item label="Cho nợ" value={false} />
-            </Select> */}
           </FormControl>
-          <FormControl isRequired isInvalid={"name" in errors}>
-            <FormControl.Label>Tên khoản nợ</FormControl.Label>
+          <FormControl isRequired isInvalid={"name" in errors} my='2'>
+            {/* <FormControl.Label>Tên khoản nợ</FormControl.Label> */}
             <Input
               variant="rounded"
               bg="white"
@@ -234,14 +205,15 @@ export default function AddDebitModal(props) {
               <></>
             )}
           </FormControl>
-          <FormControl isRequired isInvalid={"amount" in errors}>
-            <FormControl.Label>Số tiền</FormControl.Label>
+          <FormControl isRequired isInvalid={"amount" in errors} my='2'>
+            {/* <FormControl.Label>Số tiền</FormControl.Label> */}
             <Input
               variant="rounded"
               bg="white"
               borderWidth={2}
               borderColor="#4fb286"
               placeholder="Số tiền"
+              keyboardType="numeric"
               onChangeText={(text) => {
                 setFormData((prev) => ({ ...prev, amount: text }));
                 delete errors.amount;
@@ -264,8 +236,8 @@ export default function AddDebitModal(props) {
               <></>
             )}
           </FormControl>
-          <FormControl>
-            <FormControl.Label>Hạng mục</FormControl.Label>
+          <FormControl my='2'>
+            {/* <FormControl.Label>Hạng mục</FormControl.Label> */}
             {/* <Input /> */}
             <ModalSelector
               data={list}
@@ -343,8 +315,8 @@ export default function AddDebitModal(props) {
               )}
             </ModalSelector>
           </FormControl>
-          <FormControl>
-            <FormControl.Label> Thời hạn thanh toán</FormControl.Label>
+          <FormControl my='2'>
+            {/* <FormControl.Label> Thời hạn thanh toán</FormControl.Label> */}
             {/* <Input /> */}
             <TouchableOpacity onPress={showDatepicker}>
               <Input
@@ -366,18 +338,13 @@ export default function AddDebitModal(props) {
                   />
                 }
                 placeholder="Thời gian"
-                value={formData.deadline.toLocaleString()}
-                // value={
-                //   (formData.deadline &&
-                //     Moment(formData.deadline).format("DD/MM/YYYY")) ||
-                //   ""
-                // }
+                value={formatDate(formData.deadline || new Date(), settings.dateFormat)}
                 editable={false}
               />
             </TouchableOpacity>
           </FormControl>
-          <FormControl>
-            <FormControl.Label>Mô tả</FormControl.Label>
+          <FormControl my='2'>
+            {/* <FormControl.Label>Mô tả</FormControl.Label> */}
             <TextArea
               h={20}
               borderRadius="20"
@@ -427,38 +394,6 @@ export default function AddDebitModal(props) {
           />
         )}
       </View>
-      <Modal isOpen={showModal1} onClose={() => setShowModal1(false)}>
-        <Modal.Content
-          w="90%"
-          style={{ backgroundColor: " rgba(236, 252, 229, 1)", padding: 20 }}
-        >
-          <Modal.Body>
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "700",
-                textAlign: "center",
-                marginBottom: 20,
-              }}
-            >
-              Bạn đã thêm thành công!
-            </Text>
-            <Button
-              fontSize="xl"
-              my="2"
-              mx="auto"
-              py="3"
-              style={{
-                backgroundColor: "#4FB286",
-              }}
-              w="80%"
-              onPress={() => setShowModal(false)}
-            >
-              Thành công
-            </Button>
-          </Modal.Body>
-        </Modal.Content>
-      </Modal>
     </Modal>
   );
 }

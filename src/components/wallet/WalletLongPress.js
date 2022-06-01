@@ -24,12 +24,12 @@ export default function WalletLongPress(props) {
         if (deleted.length != 0) deleted[0].isMain = true;
       }
       setWallets(deleted);
-      
+
       toast.show({
         render: () => {
           return (
             <Box
-            bg="emerald.500"
+              bg="emerald.500"
               rounded="sm"
               mb={5}
               px="2"
@@ -41,7 +41,7 @@ export default function WalletLongPress(props) {
                 color: "warmGray.50",
                 letterSpacing: "lg",
               }}
-              >
+            >
               Xoá ví thành công!
             </Box>
           );
@@ -57,6 +57,43 @@ export default function WalletLongPress(props) {
       console.log(error);
     } // offline
   };
+
+  const setMainWallet = async (id) => {
+    let modified = [...wallets];
+    modified.forEach(w => w.isMain = w.id == id);
+    setWallets(modified);
+    setHold(false);
+    toast.show({
+      render: () => {
+        return (
+          <Box
+            bg="emerald.500"
+            rounded="sm"
+            mb={5}
+            px="2"
+            py="2"
+            mr="2"
+            _text={{
+              fontSize: "md",
+              fontWeight: "medium",
+              color: "warmGray.50",
+              letterSpacing: "lg",
+            }}
+          >
+            Đổi ví chính thành công!
+          </Box>
+        );
+      },
+      placement: "top-right",
+    });
+
+    await axios.put("/wallets", { data: modified }, {
+      headers: {
+        Authorization: "Bearer " + token,
+      }
+    }).catch(err => { console.log(err) })
+  }
+
   return (
     <>
       <Actionsheet
@@ -64,7 +101,7 @@ export default function WalletLongPress(props) {
         onClose={() => {
           setHold(false);
         }}
-        >
+      >
         <Actionsheet.Content>
           <Box w="100%" h={60} px={4} justifyContent="center">
             <Text>{currentWallet?.name}</Text>
@@ -76,6 +113,11 @@ export default function WalletLongPress(props) {
             }}
           >
             Xem thông tin ví
+          </Actionsheet.Item>
+          <Actionsheet.Item
+            onPress={() => setMainWallet(currentWallet.id)}
+          >
+            Đặt làm ví chính
           </Actionsheet.Item>
           <Actionsheet.Item
             onPress={() => {

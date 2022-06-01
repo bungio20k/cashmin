@@ -1,11 +1,18 @@
 import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import React from "react";
+import React, {useContext} from "react";
 import { Button } from "native-base";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
+import { formatAmountOnly, formatCurrencyOnly, formatDate } from "src/utils";
+import DataContext from "../../hooks/data/DataContext";
+
+import { useNavigation } from "@react-navigation/native";
 
 const DebitItem = ({ debit, setCurrentDebit, setShowModal2, setHold }) => {
+  const navigation = useNavigation();
+
+  const {settings, setSolveDebit} = useContext(DataContext);
   return (
     <TouchableOpacity
       style={style.card}
@@ -33,7 +40,9 @@ const DebitItem = ({ debit, setCurrentDebit, setShowModal2, setHold }) => {
         <Text
           style={[style.value, { color: (debit.isDebt && "red") || "green" }]}
         >
-          {debit.amount}
+          {formatAmountOnly(debit.amount, settings.currency)}
+          {" "}
+          {formatCurrencyOnly(settings.currency)}
         </Text>
       </View>
       <View style={style.textContainer}>
@@ -62,10 +71,17 @@ const DebitItem = ({ debit, setCurrentDebit, setShowModal2, setHold }) => {
         <Text
           style={[style.value, { color: (debit.isDebt && "red") || "green" }]}
         >
-          {debit.deadline.toLocaleString()}
+          {formatDate(debit.deadline || new Date(), settings.dateFormat)}
         </Text>
       </View>
-      <Button style={{ marginLeft: 18 }} colorScheme="success">
+      <Button 
+        style={{ marginLeft: 18 }} 
+        colorScheme="success" 
+        shadow="8" 
+        onPress={() => {
+          setSolveDebit(debit);
+          navigation.navigate("Thu - Chi");
+        }}>
         Thanh toán
       </Button>
     </TouchableOpacity>

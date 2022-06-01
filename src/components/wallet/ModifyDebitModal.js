@@ -23,19 +23,20 @@ import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { formatDate } from "src/utils";
+
 export default function ModifyDebitModal(props) {
   const { showModal, setShowModal, currentDebit, setCurrentDebit } = props;
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const [showModal1, setShowModal1] = useState(false);
-  const { categories, setDebits, debits } = useContext(DataContext);
+  const { categories, setDebits, debits, settings } = useContext(DataContext);
   const { token } = useContext(AuthContext);
   const toast = useToast();
   const [errors, setErrors] = useState({});
 
   const list = categories.map((item) => ({
-    key: item._id,
+    key: item.id,
     label: item.name,
     value: item.icon,
     component: (
@@ -52,9 +53,9 @@ export default function ModifyDebitModal(props) {
   }));
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
+    const currentDate = selectedDate || new Date();
     setShow(false);
-    setCurrentDebit((prev) => ({ ...prev, date: currentDate }));
+    setCurrentDebit((prev) => ({ ...prev, deadline: currentDate }));
   };
 
   const showMode = (currentMode) => {
@@ -144,25 +145,8 @@ export default function ModifyDebitModal(props) {
                 </Text>
               </Radio>
             </Radio.Group>
-            {/* <Select
-              selectedValue={currentDebit?.isDebt}
-              accessibilityLabel="Choose Service"
-              placeholder="Choose Service"
-              _selectedItem={{
-                bg: "teal.500",
-              }}
-              mt={1}
-              onValueChange={(value) => {
-                setCurrentDebit((prev) => ({ ...prev, isDebt: value }));
-              }}
-            >
-              <Select.Item label="Nợ" value={true} />
-              <Select.Item label="Cho nợ" value={false} />
-            </Select> */}
-            {/* <Input defaultValue={currentDebit?.debt.toString()} /> */}
           </FormControl>
-          <FormControl isRequired isInvalid={"name" in errors}>
-            <FormControl.Label>Tên khoản nợ</FormControl.Label>
+          <FormControl isRequired isInvalid={"name" in errors} my='2'>
             <Input
               value={currentDebit?.name}
               variant="rounded"
@@ -191,8 +175,7 @@ export default function ModifyDebitModal(props) {
               <></>
             )}
           </FormControl>
-          <FormControl isRequired isInvalid={"amount" in errors}>
-            <FormControl.Label>Số tiền</FormControl.Label>
+          <FormControl isRequired isInvalid={"amount" in errors} my='2'>
             <Input
               value={String(currentDebit?.amount || "")}
               variant="rounded"
@@ -200,6 +183,7 @@ export default function ModifyDebitModal(props) {
               borderWidth={2}
               borderColor="#4fb286"
               placeholder="Số tiền"
+              keyboardType="numeric"
               onChangeText={(text) => {
                 setCurrentDebit((prev) => ({ ...prev, amount: text }));
                 delete errors.amount;
@@ -221,9 +205,7 @@ export default function ModifyDebitModal(props) {
               <></>
             )}
           </FormControl>
-          <FormControl>
-            <FormControl.Label>Hạng mục</FormControl.Label>
-            {/* <Input defaultValue={currentDebit?.category} /> */}
+          <FormControl my='2'>
             <ModalSelector
               data={list}
               scrollViewAccessibilityLabel={"Scrollable options"}
@@ -241,13 +223,7 @@ export default function ModifyDebitModal(props) {
                 paddingHorizontal: 12,
                 borderColor: "#4FB286",
                 borderWidth: 2,
-                // borderColor: "#ccc",
-                // borderWidth: 1,
-                // width: 280,
-                // paddingVertical: 2,
-                // marginLeft: 5,
                 marginVertical: 4,
-                // marginHorizontal: ,
               }}
               optionContainerStyle={{
                 backgroundColor: "#ECFCE5",
@@ -301,9 +277,7 @@ export default function ModifyDebitModal(props) {
               )}
             </ModalSelector>
           </FormControl>
-          <FormControl>
-            <FormControl.Label>Thời hạn thanh toán</FormControl.Label>
-            {/* <Input defaultValue={currentDebit?.periodic.period} /> */}
+          <FormControl my='2'>
             <TouchableOpacity onPress={showDatepicker}>
               <Input
                 type="date"
@@ -324,12 +298,11 @@ export default function ModifyDebitModal(props) {
                   />
                 }
                 placeholder="Thời gian"
-                value={currentDebit?.deadline.toLocaleString()}
+                value={formatDate(currentDebit?.deadline || new Date(), settings.dateFormat)}
                 editable={false}
               />
             </TouchableOpacity>
-            <FormControl>
-              <FormControl.Label>Mô tả</FormControl.Label>
+            <FormControl mt='4'>
               <TextArea
                 bg="white"
                 defaultValue={currentDebit?.desc}
@@ -381,38 +354,6 @@ export default function ModifyDebitModal(props) {
           />
         )}
       </View>
-      <Modal isOpen={showModal1} onClose={() => setShowModal1(false)}>
-        <Modal.Content
-          w="90%"
-          style={{ backgroundColor: " rgba(236, 252, 229, 1)", padding: 20 }}
-        >
-          <Modal.Body>
-            <Text
-              style={{
-                fontSize: 18,
-                fontWeight: "700",
-                textAlign: "center",
-                marginBottom: 20,
-              }}
-            >
-              Bạn đã thêm thành công!
-            </Text>
-            <Button
-              fontSize="xl"
-              my="2"
-              mx="auto"
-              py="3"
-              style={{
-                backgroundColor: "#4FB286",
-              }}
-              w="80%"
-              onPress={() => setShowModal(false)}
-            >
-              Thành công
-            </Button>
-          </Modal.Body>
-        </Modal.Content>
-      </Modal>
     </Modal>
   );
 }

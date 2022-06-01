@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 const IncomeExpenseScreen = () => {
   const navigation = useNavigation();
   const tabBarHeight = useBottomTabBarHeight();
+  
   return (
     // <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
     <View style={{ ...styles.container, marginBottom: tabBarHeight }}>

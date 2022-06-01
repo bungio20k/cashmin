@@ -10,7 +10,7 @@ import { formatMoney } from "src/utils";
 const WalletItem = ({ wallet, settings, setCurrentWallet, setShowModal2, setHold }) => {
   return (
     <TouchableOpacity
-      style={style.card}
+      style={wallet.isMain? style.mainCard : style.card}
       onPress={() => {
         setCurrentWallet(wallet);
         setShowModal2(true);
@@ -38,7 +38,7 @@ const WalletItem = ({ wallet, settings, setCurrentWallet, setShowModal2, setHold
           size={28}
           color="#198155"
           style={style.icon}
-        />
+          />
         <Text style={style.tit}>Hạng mục</Text>
         <Text style={style.value}>{wallet.categoryName}</Text>
       </View>
@@ -61,6 +61,25 @@ export default WalletItem;
 const style = StyleSheet.create({
   card: {
     backgroundColor: "#ECFCE5",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 1.41,
+
+    elevation: 2,
+    borderRadius: 20,
+    paddingLeft: 8,
+    paddingRight: 24,
+    paddingVertical: 12,
+    marginBottom: 12,
+    width: "90%",
+    marginHorizontal: "5%",
+  },
+  mainCard: {
+    backgroundColor: "#f3f788",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

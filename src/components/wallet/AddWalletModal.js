@@ -20,7 +20,9 @@ export default function AddModal(props) {
 
   const [formData, setData] = useState({
     isMain: wallets.length == 0,
-    transactions: []
+    transactions: [],
+    categoryName: 'Chung',
+    categoryIcon: 'apps',
   });
   const [errors, setErrors] = useState({});
 
@@ -45,7 +47,9 @@ export default function AddModal(props) {
     setData({
       isMain: wallets.length == 0,
       id: wallets[wallets.length - 1]?.id + 1 || 0,
-      transactions: []
+      transactions: [],
+      categoryName: 'Chung',
+      categoryIcon: 'apps',
     });
     setErrors({});
   }, [showModal]);
@@ -162,6 +166,7 @@ export default function AddModal(props) {
               width={style.input.width}
               alignSelf={style.input.alignSelf}
               margin={style.input.margin}
+              keyboardType="numeric"
               value={formData.balance || ""}
               InputLeftElement={
                 <FontAwesome
@@ -190,32 +195,6 @@ export default function AddModal(props) {
           </FormControl>
 
           <FormControl style={{ alignItems: "center" }}>
-            {/* <Input
-              variant={style.input.variant}
-              borderWidth={style.input.borderWidth}
-              borderColor={style.input.borderColor}
-              fontSize={style.input.fontSize}
-              width={style.input.width}
-              alignSelf={style.input.alignSelf}
-              margin={style.input.margin}
-              placeholder="Hạng mục"
-              InputLeftElement={
-                <Ionicons
-                  name="menu-sharp"
-                  size={style.icon.size}
-                  color={style.icon.color}
-                  style={style.left_icon}
-                />
-              }
-              onChangeText={(value) => {
-                setData({
-                  ...formData,
-                  category: value,
-                });
-                delete errors.category;
-              }}
-            /> */}
-
             <ModalSelector
               data={list}
               scrollViewAccessibilityLabel={"Scrollable options"}
