@@ -20,6 +20,7 @@ export default function AddModal(props) {
 
   const [formData, setData] = useState({
     isMain: wallets.length == 0,
+    transactions: []
   });
   const [errors, setErrors] = useState({});
 
@@ -43,7 +44,8 @@ export default function AddModal(props) {
   useEffect(() => {
     setData({
       isMain: wallets.length == 0,
-      id: wallets[wallets.length - 1]?.id + 1 || 0
+      id: wallets[wallets.length - 1]?.id + 1 || 0,
+      transactions: []
     });
     setErrors({});
   }, [showModal]);

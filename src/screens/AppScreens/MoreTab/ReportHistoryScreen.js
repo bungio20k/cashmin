@@ -32,7 +32,7 @@ export default function ReportHistoryScreen() {
   const walletNamesIDs = wallets.map(
     wallet => ({
       name: wallet.name,
-      id: wallet._id
+      id: wallet.id
     })
   );
   const currentWallet = wallets.find(wallet => wallet.name === selectedWallet);

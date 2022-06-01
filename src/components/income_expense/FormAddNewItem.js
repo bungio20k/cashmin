@@ -99,14 +99,13 @@ const FormAddNewItem = () => {
       ...formData,
       amount: type === "1" ? -Number(formData.amount) : Number(formData.amount),
     };
-    console.log(data);
 
     try {
       const index = wallets.findIndex(w => w.id == formData.walletId);
       if (index != -1) {
         let modified = [...wallets];
         modified[index].transactions.push(data);
-        modified[index].balance += data.amount;
+        modified[index].balance = Number(modified[index].balance) + Number(data.amount);
         setWallets(modified);
         toast.show({
           render: () => {

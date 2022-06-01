@@ -27,7 +27,7 @@ const Wallet = () => {
 
       <ScrollView nestedScrollEnabled>
         {wallets.map((wallet) => (
-          <View style={styles.moneyContainer} key={wallet._id}>
+          <View style={styles.moneyContainer} key={wallet.id}>
             <Text style={styles.contentTitle}>{wallet.name} </Text>
             <Text style={styles.money}>
               {formatMoney(wallet.balance, settings.currency) }
