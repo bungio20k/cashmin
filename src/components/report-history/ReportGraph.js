@@ -8,7 +8,7 @@ import {
   VictoryGroup
 } from "victory-native";
 
-import { print } from "src/utils";
+import { print, getTotalTransactionsAmountInTimeRange } from "src/utils";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 
@@ -25,15 +25,25 @@ export default function ReportGraph(props) {
   const tickValues = getTickValues(timeRange);
 
   const transactionsInBarGroups = getTransactionsInBarGroups(transactions, tickValues, timeRange);
-  
+  // print(transactionsInBarGroups, "transactions in bar groups");
+
+
   const graphData = {
     in: toGraphData(transactionsInBarGroups, tickValues, "income", timeRange, thousandModifier),
     out: toGraphData(transactionsInBarGroups, tickValues, "expense", timeRange, thousandModifier),
   }
 
+  // fix colors of 2 bars
+  graphData.in.unshift({x: 0, y: 0});
+  graphData.out.unshift({x: 0, y: 0});
+
+  // print(graphData, "graph data");
+
   const maxBarHeightDefault = 100;
   const maxBarHeight = getMaxBarHeight(transactionsInBarGroups, thousandModifier);
   const barWidth = getBarWidth(timeRange);
+
+  print(getTotalTransactionsAmountInTimeRange(transactions, "day"), "======= UNRELATED ======")
 
 
   return (
@@ -46,19 +56,20 @@ export default function ReportGraph(props) {
       >
         <VictoryGroup 
           offset={barWidth}
-          colorScale={["#009900", "#bf0000"]}
         >
           <VictoryBar
             data={graphData.in}
             x="x"
             y="y"
             barWidth={barWidth}
+            style={{ data: { fill: "#009900" } }}
           />
           <VictoryBar
             data={graphData.out}
             x="x"
             y="y"
             barWidth={barWidth}
+            style={{ data: { fill: "#bf0000" } }}
           />
         </VictoryGroup>
 
@@ -291,8 +302,8 @@ const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, tim
 
         case "year":
           graphDataEntry = {
-            // x: dayjs(transaction.date).startOf("month"),
-            x: dayjs(transaction.date).endOf("month"),
+            x: dayjs(transaction.date).startOf("month"),
+            // x: dayjs(transaction.date).endOf("month"),
             y: Math.abs(transaction.amount) / thousandModifier
           };
           break;

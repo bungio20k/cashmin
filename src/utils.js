@@ -20,11 +20,60 @@ export const print = (obj, label) => {
 }
 
 
+// --- Transaction utils --------
+// Get total amount of all transactions within timeRange
+// transactions: Array of transactions
+// timeRange: String ("day", "week", "month", "year")
+// output: Number
+export const getTotalTransactionsAmountInTimeRange = (transactions, timeRange) => {
+  let dateNow = dayjs();
+  let datePast;
+
+  switch (timeRange) {
+    case "day":
+      datePast = dateNow.subtract(1, "day");
+      break;
+    case "week":
+      datePast = dateNow.subtract(1, "week");
+      break;
+    case "month":
+      datePast = dateNow.subtract(1, "month");
+      break;
+    case "year":
+      datePast = dateNow.subtract(1, "year");
+      break;
+  }
+
+  const transactionsInRange = transactions.filter(
+    (transaction) => {
+      const transactionDate = dayjs(transaction.date);
+
+      return transactionDate.isBetween(datePast, dateNow, "day", "(]");
+    }
+  );
+
+  let total = transactionsInRange.reduce(
+    (accumulatedTotal, transaction, index) => {
+      console.log(`reduce call ${index} | total = ${accumulatedTotal} | transaction.amount = ${transaction.amount}`);
+      const transactionAmount = transaction.amount;
+      accumulatedTotal += transactionAmount;
+      return accumulatedTotal;
+    }
+    , 0
+  );
+
+  return total;
+}
+
+
+
+
 // --- Money utils ---------
 
+// Format amount of money and currency into a full "money string" ("100.000 ₫")
 // amount: Number
 // currency: String ("VND", "USD")
-// output: String ("100000 ₫")
+// output: String ("100.000 ₫")
 export const formatMoney = (amount, currency) => {
   const formattedAmount = formatCurrency({
     "amount": amount? amount : 0, 
@@ -37,9 +86,10 @@ export const formatMoney = (amount, currency) => {
 }
 
 
+// Format amount of money and currency into just the number part of the "money string" ("100.000")
 // amount: Number
 // currency: String ("VND", "USD")
-// output: Number (100000)
+// output: String ("100.000")
 export const formatAmountOnly = (amount, currency) => {
   const formattedAmount = formatCurrency({
     "amount": amount, 
@@ -49,6 +99,8 @@ export const formatAmountOnly = (amount, currency) => {
   return formattedAmount;
 }
 
+
+// Format currency into just the symbol part of the "money string" ("₫")
 // currency: String ("VND", "USD")
 // output: String ("₫", "$")
 export const formatCurrencyOnly = (currency) => {

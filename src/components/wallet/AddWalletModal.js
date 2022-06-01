@@ -11,6 +11,7 @@ import { Text } from "react-native";
 import ModalSelector from "react-native-modal-selector";
 import axios from "axios";
 import AuthContext from "../../hooks/login-signup/AuthContext";
+import { print } from "src/utils";
 
 export default function AddModal(props) {
   const { showModal, setShowModal } = props;
@@ -27,7 +28,7 @@ export default function AddModal(props) {
   const [errors, setErrors] = useState({});
 
   const list = categories.map((item) => ({
-    key: item._id,
+    key: item.id || item._id,
     label: item.name,
     value: item.icon,
     component: (

@@ -26,7 +26,7 @@ import axios from "axios";
 
 import { formatDate } from "src/utils";
 
-import { formatAmountOnly, formatCurrencyOnly } from "src/utils";
+import { print, formatAmountOnly, formatCurrencyOnly } from "src/utils";
 
 const FormAddNewItem = () => {
   const tabBarHeight = useBottomTabBarHeight();
@@ -68,7 +68,7 @@ const FormAddNewItem = () => {
 
 
   const list = categories.map((item) => ({
-    key: item.id,
+    key: item.id || item._id,
     label: item.name,
     value: item.icon,
     component: (
