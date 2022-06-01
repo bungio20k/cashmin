@@ -19,7 +19,7 @@ export default function ModifyWalletModal(props) {
   const toast = useToast();
 
   const list = categories.map((item) => ({
-    key: item.id,
+    key: item.id || item._id,
     label: item.name,
     value: item.icon,
     component: (

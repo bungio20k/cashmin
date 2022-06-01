@@ -4,7 +4,7 @@ import { AntDesign } from "@expo/vector-icons";
 import React, { useContext, useState } from "react";
 import styles from "../../styles/home/HomeTopStyle";
 import DataContext from "../../hooks/data/DataContext";
-import { formatAmountOnly, formatCurrencyOnly } from "src/utils";
+import { print, formatAmountOnly, formatCurrencyOnly } from "src/utils";
 
 const HomeTop = () => {
   const [hideMoney, setHideMoney] = useState(false);
@@ -12,11 +12,14 @@ const HomeTop = () => {
   const mainWalletBalance = wallets.find((w) => w.isMain)?.balance || 0;
   const formattedAmount = formatAmountOnly(mainWalletBalance, settings.currency);
   const formattedCurrency = formatCurrencyOnly(settings.currency);
+
+  //print(useContext(DataContext));
+
   return (
     <View style={styles.top}>
       <View style={styles.title}>
         <Text style={styles.name}>
-          Chào {profile?.fullName || username || "bạn"} !
+          Chào {profile?.fullName || username || "bạn"}!
         </Text>
         {/* <View style={styles.iconWrapper}>
           <Ionicons name="notifications" size={24} color="#ECFCE5" />

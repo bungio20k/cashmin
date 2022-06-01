@@ -23,9 +23,10 @@ export const print = (obj, label) => {
 // --- Transaction utils --------
 // Get total amount of all transactions within timeRange
 // transactions: Array of transactions
+// type: Number ( 0 = all; 1 = income only; -1 = expense only )
 // timeRange: String ("day", "week", "month", "year")
 // output: Number
-export const getTotalTransactionsAmountInTimeRange = (transactions, timeRange) => {
+export const getTotalTransactionsAmountInTimeRange = (transactions, type, timeRange) => {
   let dateNow = dayjs();
   let datePast;
 
@@ -44,17 +45,31 @@ export const getTotalTransactionsAmountInTimeRange = (transactions, timeRange) =
       break;
   }
 
-  const transactionsInRange = transactions.filter(
+  const transactionsInRange = transactions?.filter(
     (transaction) => {
       const transactionDate = dayjs(transaction.date);
 
-      return transactionDate.isBetween(datePast, dateNow, "day", "(]");
+      let isTransactionInRange = transactionDate.isBetween(datePast, dateNow, "day", "(]");
+      let isTransactionCorrectType;
+
+      switch (type) {
+        case 0:
+          isTransactionCorrectType = true;
+          break;
+        case 1:
+          isTransactionCorrectType = transaction.amount > 0;
+          break;
+        case -1:
+          isTransactionCorrectType = transaction.amount < 0;
+          break;
+      }
+
+      return isTransactionInRange && isTransactionCorrectType;
     }
   );
 
-  let total = transactionsInRange.reduce(
+  let total = transactionsInRange?.reduce(
     (accumulatedTotal, transaction, index) => {
-      console.log(`reduce call ${index} | total = ${accumulatedTotal} | transaction.amount = ${transaction.amount}`);
       const transactionAmount = transaction.amount;
       accumulatedTotal += transactionAmount;
       return accumulatedTotal;
@@ -62,7 +77,10 @@ export const getTotalTransactionsAmountInTimeRange = (transactions, timeRange) =
     , 0
   );
 
-  return total;
+  if (total)
+    return total;
+  else
+    return 0;
 }
 
 
