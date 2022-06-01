@@ -5,7 +5,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useContext, useEffect } from "react";
 import DataContext from "../../hooks/data/DataContext";
-import { formatAmount, formatCurrencyDisplay } from "src/utils";
+import { formatAmountOnly, formatCurrencyOnly } from "src/utils";
 
 const Debit = () => {
   const navigation = useNavigation();
@@ -33,8 +33,8 @@ const Debit = () => {
                 { color: (debit.isDebt && "red") || "green" },
               ]}
             >
-              {formatAmount(debit.amount || 0, settings.currency)}
-              {formatCurrencyDisplay(settings.currency)}
+              {formatAmountOnly(debit.amount || 0, settings.currency)}
+              {formatCurrencyOnly(settings.currency)}
             </Text>
           </View>
         ))}
