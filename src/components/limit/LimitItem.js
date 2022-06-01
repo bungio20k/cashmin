@@ -11,7 +11,7 @@ import axios from "axios";
 
 const LimitItem = ({ title, item, setShowModal, setLimit }) => {
   const { token } = useContext(AuthContext);
-  const { setLimits } = useContext(DataContext);
+  const { setLimits, limits } = useContext(DataContext);
   const toast = useToast();
   // const progress = (item.money / item.total) * 100;
   // if (progress > 100) {
@@ -35,7 +35,7 @@ const LimitItem = ({ title, item, setShowModal, setLimit }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      setLimits({ ...limit, ...data });
+      setLimits({ ...limits, ...data });
     } catch (error) {} // offline
   };
   return (

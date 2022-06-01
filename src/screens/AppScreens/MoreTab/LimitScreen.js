@@ -9,24 +9,6 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import DataContext from "../../../hooks/data/DataContext";
 import { FontAwesome } from "@expo/vector-icons";
 
-const data = [
-  {
-    time: "Trong ngày",
-    money: "120000",
-    total: "200000",
-  },
-  {
-    time: "Trong tuần",
-    money: "2000000",
-    total: "2000000",
-  },
-  {
-    time: "Trong tháng",
-    money: "17000000",
-    total: "20000000",
-  },
-];
-
 const LimitScreen = () => {
   const tabBarHeight = useBottomTabBarHeight();
   const [showModal, setShowModal] = useState(false);
@@ -47,18 +29,6 @@ const LimitScreen = () => {
           }}
         />
       </View>
-      {/* <FlatList
-        data={data}
-        renderItem={({ item }) => (
-          <LimitItem
-            item={item}
-            setLimit={setLimit}
-            setShowModal={setShowModal}
-          />
-        )}
-        keyExtractor={(item, index) => index}
-        style={{ paddingHorizontal: 12, marginBottom: tabBarHeight }}
-      /> */}
 
       <ScrollView>
         <LimitItem

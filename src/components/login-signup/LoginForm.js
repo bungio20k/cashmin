@@ -58,6 +58,10 @@ export default function LoginForm() {
             password: "Mật khẩu không đúng",
           });
         }
+        else {
+          // no network
+          setAuth(true);
+        }
       });
 
   };
