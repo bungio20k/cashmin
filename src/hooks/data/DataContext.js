@@ -10,7 +10,7 @@ const defaultProfile = { fullName: "", phoneNumber: "", birthday: "" };
 const defaultSettings = {
     language: 'Tiếng việt',
     dateFormat: 'dd/mm/yyyy',
-    currency: 'VNĐ(đ)',
+    currency: 'VND',
     hideMoney: true,
     reminder: false,
     weekStart: 1,
