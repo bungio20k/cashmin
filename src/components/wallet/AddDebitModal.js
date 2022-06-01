@@ -75,7 +75,7 @@ export default function AddDebitModal(props) {
   };
 
   const list = categories.map((item) => ({
-    key: item._id,
+    key: item.id,
     label: item.name,
     value: item.icon,
     component: (

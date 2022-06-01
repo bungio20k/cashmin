@@ -35,7 +35,7 @@ export default function ModifyDebitModal(props) {
   const [errors, setErrors] = useState({});
 
   const list = categories.map((item) => ({
-    key: item._id,
+    key: item.id,
     label: item.name,
     value: item.icon,
     component: (
