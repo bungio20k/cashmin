@@ -5,7 +5,8 @@ const styles = StyleSheet.create({
   top: {
     backgroundColor: "#fbfbff",
     marginTop: 10,
-    paddingHorizontal: 12,
+    // paddingHorizontal: 12,
+    // marginHorizontal: "5%",
     paddingVertical: 12,
     maxHeight: "40%",
 
@@ -147,7 +148,5 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
 });
-
-
 
 export default styles;

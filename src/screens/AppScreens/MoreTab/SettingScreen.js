@@ -100,7 +100,7 @@ const SettingScreen = () => {
             space={2}
             alignItems="stretch"
             px="4"
-          // justifyContent="space-between"
+            // justifyContent="space-between"
           >
             <HStack
               space={4}
@@ -126,7 +126,6 @@ const SettingScreen = () => {
                 style={{ height: 38 }}
               >
                 <Select.Item label="Tiếng Việt" value="Tiếng việt" />
-                <Select.Item label="English" value="English" />
               </Select>
             </HStack>
             <HStack
@@ -151,7 +150,6 @@ const SettingScreen = () => {
                 style={{ height: 38 }}
               >
                 <Select.Item label="dd/mm/yyyy" value="dd/mm/yyyy" />
-                <Select.Item label="yyyy/mm/dd" value="yyyy/mm/dd" />
               </Select>
             </HStack>
             <HStack
@@ -175,8 +173,8 @@ const SettingScreen = () => {
                 color="white"
                 style={{ height: 38 }}
               >
-                <Select.Item label="VND" value="VND" />
-                <Select.Item label="USD" value="USD" />
+                <Select.Item label="VND(đ)" value="VND" />
+                {/* <Select.Item label="USD" value="USD" /> */}
               </Select>
             </HStack>
             <HStack
@@ -184,17 +182,17 @@ const SettingScreen = () => {
               justifyContent="space-between"
               alignItems="center"
             >
-              <Text style={styles.subItemTitle}>Ẩn số tiền</Text>
+              {/* <Text style={styles.subItemTitle}>Ẩn số tiền</Text>
               <Switch
                 size="lg"
                 value={data.hideMoney}
                 thumbColor="#39A0ED"
                 onValueChange={() => toggleSwitch("hideMoney")}
-              />
+              /> */}
             </HStack>
           </VStack>
         </View>
-        <View style={styles.itemContainer}>
+        {/* <View style={styles.itemContainer}>
           <View
             style={{
               flexDirection: "row",
@@ -259,8 +257,8 @@ const SettingScreen = () => {
               </Select>
             </HStack>
           </VStack>
-        </View>
-        <View style={styles.itemContainer}>
+        </View> */}
+        {/* <View style={styles.itemContainer}>
           <View
             style={{
               flexDirection: "row",
@@ -353,7 +351,7 @@ const SettingScreen = () => {
               </Select>
             </HStack>
           </VStack>
-        </View>
+        </View> */}
       </ScrollView>
     </View>
   );

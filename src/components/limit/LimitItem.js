@@ -8,10 +8,12 @@ import AuthContext from "../../hooks/login-signup/AuthContext";
 import { useContext } from "react";
 import { Box, useToast } from "native-base";
 import axios from "axios";
+import * as Progress from "react-native-progress";
+import { formatMoney } from "src/utils";
 
-const LimitItem = ({ title, item, setShowModal, setLimit }) => {
+const LimitItem = ({ title, item, setShowModal, setLimit, money, amount }) => {
   const { token } = useContext(AuthContext);
-  const { setLimits, limits } = useContext(DataContext);
+  const { setLimits, limits, settings } = useContext(DataContext);
   const toast = useToast();
   // const progress = (item.money / item.total) * 100;
   // if (progress > 100) {
@@ -31,16 +33,29 @@ const LimitItem = ({ title, item, setShowModal, setLimit }) => {
     };
     setLimit(data);
     setLimits({ ...limits, ...data });
-    await axios.put("/limits", {...data}, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).catch(err => console.log(err));
+    await axios
+      .put(
+        "/limits",
+        { ...data },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      )
+      .catch((err) => console.log(err));
   };
+
+  const progressScale =
+    item.isActive && item.limit
+      ? Math.min(1, Math.abs(amount) / item.limit)
+      : 0;
+  const progressColor = progressScale >= 0.66 ? "#d3180c" : "#f2b3ae";
+
   return (
     <View
       style={{
-        backgroundColor: progress === 100 ? "#FFE5E5" : "#ECFCE5",
+        backgroundColor: progressScale >= 1 ? "#FFE5E5" : "#ECFCE5",
         paddingHorizontal: 12,
         paddingVertical: 8,
         shadowColor: "#000",
@@ -91,28 +106,27 @@ const LimitItem = ({ title, item, setShowModal, setLimit }) => {
           fontSize: 16,
           marginTop: 12,
           marginBottom: 8,
-          color: progress === 100 ? "#D3180C" : "#198155",
+          color: progressScale >= 1 ? "#D3180C" : "#198155",
         }}
       >
-        {item.limit ? `get money / ${item.limit}` : "Chưa đặt hạn mức"}
+        {item.limit
+          ? `${money}/ ${formatMoney(item.limit, settings.currency)}`
+          : "Chưa đặt hạn mức"}
       </Text>
-      <View
+
+      <Progress.Bar
+        animated={false}
+        progress={progressScale}
+        width={null} // automatic flexbox sizing
+        height={24}
+        borderWidth={0}
+        borderRadius={16}
+        color={progressColor}
+        unfilledColor="#c4c4c4"
         style={{
-          width: "100%",
-          height: 26,
-          borderRadius: 26,
-          backgroundColor: "#c4c4c4",
+          marginVertical: 8,
         }}
-      >
-        <View
-          style={{
-            width: progress.toString() + "%",
-            height: 26,
-            borderRadius: 26,
-            backgroundColor: progress === 100 ? "#D3180C" : "#3C896D",
-          }}
-        ></View>
-      </View>
+      />
       <View style={styles.desc}>
         <View style={styles.descItem}>
           <Text style={styles.descTitle}>Trạng thái</Text>
@@ -135,14 +149,7 @@ const LimitItem = ({ title, item, setShowModal, setLimit }) => {
 
         <View style={styles.descItem}>
           <Text style={styles.descTitle}>Đã tiêu</Text>
-          <Text
-            style={[
-              styles.money,
-              { color: progress === 100 ? "red" : "green" },
-            ]}
-          >
-            "Get Money()"
-          </Text>
+          <Text style={[styles.money, { color: "#d3180c" }]}>{money}</Text>
         </View>
       </View>
     </View>

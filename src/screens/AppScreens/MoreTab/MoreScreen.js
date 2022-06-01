@@ -41,14 +41,17 @@ export default function MoreScreen() {
       /> */}
       <View style={styles.featureContainer}>
         <Text style={styles.containerTitle}>Tính năng</Text>
-        <VStack space={6} alignItems="center" mt="4">
-          <HStack space={2} justifyContent="space-between">
+        <VStack space={6} alignItems="stretch" mt="4" marginX={8}>
+          <HStack space={2} justifyContent="center">
             <TouchableHighlight
               onPress={() =>
                 navigation.navigate("Limit", { screen: "LimitScreen" })
               }
               activeOpacity={0.8}
               underlayColor="#ECFCE5"
+              style={{
+                width: "50%",
+              }}
             >
               <View style={styles.featureItem}>
                 <FontAwesome5 name="money-bill" size={40} color="#198155" />
@@ -61,12 +64,17 @@ export default function MoreScreen() {
               onPress={() =>
                 navigation.navigate("Category", { screen: "CategoryScreen" })
               }
+              style={{
+                width: "50%",
+              }}
             >
               <View style={styles.featureItem}>
                 <MaterialIcons name="category" size={40} color="#198155" />
                 <Text style={styles.featureTitle}>Thêm hạng mục</Text>
               </View>
             </TouchableHighlight>
+          </HStack>
+          <HStack space={2} justifyContent="center">
             <TouchableHighlight
               activeOpacity={0.8}
               underlayColor="#ECFCE5"
@@ -75,86 +83,62 @@ export default function MoreScreen() {
                   screen: "ReportHistoryScreen",
                 })
               }
+              style={{
+                width: "50%",
+              }}
             >
               <View style={styles.featureItem}>
                 <FontAwesome name="bar-chart" size={40} color="#198155" />
                 <Text style={styles.featureTitle}>Thống kê</Text>
               </View>
             </TouchableHighlight>
-          </HStack>
-          <HStack space={2} justifyContent="space-between">
             <TouchableHighlight
               activeOpacity={0.8}
               underlayColor="#ECFCE5"
               onPress={() =>
                 navigation.navigate("Setting", { screen: "SettingScreen" })
               }
+              style={{
+                width: "50%",
+              }}
             >
               <View style={styles.featureItem}>
                 <Ionicons name="settings" size={40} color="#198155" />
                 <Text style={styles.featureTitle}>Cài đặt chung</Text>
               </View>
             </TouchableHighlight>
+          </HStack>
+          <HStack space={2} justifyContent="center">
             <TouchableHighlight
               activeOpacity={0.8}
               underlayColor="#ECFCE5"
               onPress={() =>
                 navigation.navigate("Account", { screen: "AccountScreen" })
               }
+              style={{
+                width: "50%",
+              }}
             >
               <View style={styles.featureItem}>
                 <FontAwesome name="user" size={40} color="#198155" />
                 <Text style={styles.featureTitle}>Tài khoản</Text>
               </View>
             </TouchableHighlight>
-          </HStack>
-        </VStack>
-      </View>
-      <View style={styles.moreContainer}>
-        <Text style={styles.containerTitle}>Thêm</Text>
-        <ScrollView style={{ paddingHorizontal: 16 }}>
-          <TouchableHighlight
-            activeOpacity={0.8}
-            underlayColor="#ECFCE5"
-            onPress={() => alert("Pressed!")}
-            style={styles.moreItemContainer}
-          >
-            <Text style={styles.moreItem}>Giới thiệu</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            activeOpacity={0.8}
-            underlayColor="#ECFCE5"
-            onPress={() => alert("Pressed!")}
-            style={styles.moreItemContainer}
-          >
-            <Text style={styles.moreItem}>Điều khoản, chính sách</Text>
-          </TouchableHighlight>
-          <TouchableHighlight
-            activeOpacity={0.8}
-            underlayColor="#ECFCE5"
-            onPress={logout}
-            style={styles.moreItemContainer}
-          >
-            <Text style={[styles.moreItem, { fontWeight: "700" }]}>
-              Đăng xuất
-            </Text>
-          </TouchableHighlight>
-        </ScrollView>
-        {/* <FlatList
-          data={["Giới thiệu", "Điều khoản và chính sách", "Đăng xuất"]}
-          renderItem={({ item }) => (
             <TouchableHighlight
               activeOpacity={0.8}
               underlayColor="#ECFCE5"
-              onPress={() => alert("Pressed!")}
-              style={styles.moreItemContainer}
+              onPress={logout}
+              style={{
+                width: "50%",
+              }}
             >
-              <Text style={styles.moreItem}>{item}</Text>
+              <View style={styles.featureItem}>
+                <MaterialIcons name="logout" size={40} color="#198155" />
+                <Text style={styles.featureTitle}>Đăng xuất</Text>
+              </View>
             </TouchableHighlight>
-          )}
-          keyExtractor={(item, index) => item + index}
-          px="6"
-        /> */}
+          </HStack>
+        </VStack>
       </View>
     </View>
   );

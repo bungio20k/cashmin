@@ -40,6 +40,7 @@ export default function TabNavigator() {
       screenOptions={{
         headerShown: false,
         unmountOnBlur: true,
+        tabBarActiveTintColor: "#198155",
         tabBarStyle: { position: "absolute", zIndex: 10 },
         tabBarIconStyle: {},
         tabBarLabelStyle: {

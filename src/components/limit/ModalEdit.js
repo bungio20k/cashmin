@@ -27,7 +27,7 @@ const ModalEdit = ({ showModal, setShowModal, limit, setLimit }) => {
       },
     };
     try {
-      setLimits({ ...limits, ...data })
+      setLimits({ ...limits, ...data });
       toast.show({
         render: () => {
           return (
@@ -78,6 +78,8 @@ const ModalEdit = ({ showModal, setShowModal, limit, setLimit }) => {
             mt="1"
             mb="4"
             variant="rounded"
+            type="number"
+            keyboardType="numeric"
             InputRightElement={
               <Entypo
                 name="pencil"
