@@ -75,7 +75,7 @@ export default function ModifyDebitModal(props) {
     } else {
       setShowModal(false);
       try {
-        const index = debits.findIndex(db => db.id == currentDebit.id)
+        const index = debits.findIndex((db) => db.id == currentDebit.id);
         let modified = [...debits];
         if (index != -1) modified[index] = currentDebit;
         setDebits(modified);
@@ -134,7 +134,7 @@ export default function ModifyDebitModal(props) {
               }}
               accessibilityLabel="favorite number"
               my="1"
-            // size="sm"
+              // size="sm"
             >
               <Radio value={true} my={1} colorScheme="success">
                 <Text style={{ fontSize: 14 }}>Khoản nợ</Text>
@@ -146,8 +146,9 @@ export default function ModifyDebitModal(props) {
               </Radio>
             </Radio.Group>
           </FormControl>
-          <FormControl isRequired isInvalid={"name" in errors} my='2'>
+          <FormControl isRequired isInvalid={"name" in errors} my="2">
             <Input
+              fontSize={14}
               value={currentDebit?.name}
               variant="rounded"
               bg="white"
@@ -175,8 +176,9 @@ export default function ModifyDebitModal(props) {
               <></>
             )}
           </FormControl>
-          <FormControl isRequired isInvalid={"amount" in errors} my='2'>
+          <FormControl isRequired isInvalid={"amount" in errors} my="2">
             <Input
+              fontSize={14}
               value={String(currentDebit?.amount || "")}
               variant="rounded"
               bg="white"
@@ -205,7 +207,7 @@ export default function ModifyDebitModal(props) {
               <></>
             )}
           </FormControl>
-          <FormControl my='2'>
+          <FormControl my="2">
             <ModalSelector
               data={list}
               scrollViewAccessibilityLabel={"Scrollable options"}
@@ -242,7 +244,7 @@ export default function ModifyDebitModal(props) {
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    paddingVertical: 5,
+                    paddingVertical: 7,
                   }}
                 >
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -252,7 +254,7 @@ export default function ModifyDebitModal(props) {
                       color="#4FB286"
                       style={{ marginRight: 12 }}
                     />
-                    <Text style={{ fontSize: 13 }}>
+                    <Text style={{ fontSize: 14 }}>
                       {currentDebit.categoryName}
                     </Text>
                   </View>
@@ -277,9 +279,10 @@ export default function ModifyDebitModal(props) {
               )}
             </ModalSelector>
           </FormControl>
-          <FormControl my='2'>
+          <FormControl my="2">
             <TouchableOpacity onPress={showDatepicker}>
               <Input
+                fontSize={14}
                 type="date"
                 variant="rounded"
                 bg="white"
@@ -298,12 +301,16 @@ export default function ModifyDebitModal(props) {
                   />
                 }
                 placeholder="Thời gian"
-                value={formatDate(currentDebit?.deadline || new Date(), settings.dateFormat)}
+                value={formatDate(
+                  currentDebit?.deadline || new Date(),
+                  settings.dateFormat
+                )}
                 editable={false}
               />
             </TouchableOpacity>
-            <FormControl mt='4'>
+            <FormControl mt="4">
               <TextArea
+                fontSize={14}
                 bg="white"
                 defaultValue={currentDebit?.desc}
                 h={20}

@@ -53,7 +53,7 @@ export default function AddDebitModal(props) {
       categoryIcon: "apps",
       desc: "",
       deadline: new Date(),
-      id: debits[debits.length - 1]?.id + 1 || 0
+      id: debits[debits.length - 1]?.id + 1 || 0,
     });
     setErrors({});
   }, [showModal]);
@@ -104,19 +104,19 @@ export default function AddDebitModal(props) {
           render: () => {
             return (
               <Box
-              bg="emerald.500"
-              rounded="sm"
-              mb={5}
-              px="2"
-              py="2"
-              mr="2"
-              _text={{
-                fontSize: "md",
-                fontWeight: "medium",
-                color: "warmGray.50",
-                letterSpacing: "lg",
+                bg="emerald.500"
+                rounded="sm"
+                mb={5}
+                px="2"
+                py="2"
+                mr="2"
+                _text={{
+                  fontSize: "md",
+                  fontWeight: "medium",
+                  color: "warmGray.50",
+                  letterSpacing: "lg",
                 }}
-                >
+              >
                 Thêm khoản ghi nợ thành công!
               </Box>
             );
@@ -175,9 +175,10 @@ export default function AddDebitModal(props) {
               </Radio>
             </Radio.Group>
           </FormControl>
-          <FormControl isRequired isInvalid={"name" in errors} my='2'>
+          <FormControl isRequired isInvalid={"name" in errors} my="2">
             {/* <FormControl.Label>Tên khoản nợ</FormControl.Label> */}
             <Input
+              fontSize={14}
               variant="rounded"
               bg="white"
               borderWidth={2}
@@ -205,9 +206,10 @@ export default function AddDebitModal(props) {
               <></>
             )}
           </FormControl>
-          <FormControl isRequired isInvalid={"amount" in errors} my='2'>
+          <FormControl isRequired isInvalid={"amount" in errors} my="2">
             {/* <FormControl.Label>Số tiền</FormControl.Label> */}
             <Input
+              fontSize={14}
               variant="rounded"
               bg="white"
               borderWidth={2}
@@ -236,7 +238,7 @@ export default function AddDebitModal(props) {
               <></>
             )}
           </FormControl>
-          <FormControl my='2'>
+          <FormControl my="2">
             {/* <FormControl.Label>Hạng mục</FormControl.Label> */}
             {/* <Input /> */}
             <ModalSelector
@@ -280,7 +282,7 @@ export default function AddDebitModal(props) {
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    paddingVertical: 5,
+                    paddingVertical: 7,
                   }}
                 >
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -290,7 +292,7 @@ export default function AddDebitModal(props) {
                       color="#4FB286"
                       style={{ marginRight: 12 }}
                     />
-                    <Text style={{ fontSize: 15 }}>
+                    <Text style={{ fontSize: 14 }}>
                       {formData.categoryName}
                     </Text>
                   </View>
@@ -315,11 +317,12 @@ export default function AddDebitModal(props) {
               )}
             </ModalSelector>
           </FormControl>
-          <FormControl my='2'>
+          <FormControl my="2">
             {/* <FormControl.Label> Thời hạn thanh toán</FormControl.Label> */}
             {/* <Input /> */}
             <TouchableOpacity onPress={showDatepicker}>
               <Input
+                fontSize={14}
                 type="date"
                 variant="rounded"
                 bg="white"
@@ -338,14 +341,18 @@ export default function AddDebitModal(props) {
                   />
                 }
                 placeholder="Thời gian"
-                value={formatDate(formData.deadline || new Date(), settings.dateFormat)}
+                value={formatDate(
+                  formData.deadline || new Date(),
+                  settings.dateFormat
+                )}
                 editable={false}
               />
             </TouchableOpacity>
           </FormControl>
-          <FormControl my='2'>
+          <FormControl my="2">
             {/* <FormControl.Label>Mô tả</FormControl.Label> */}
             <TextArea
+              fontSize={14}
               h={20}
               borderRadius="20"
               borderWidth={2}

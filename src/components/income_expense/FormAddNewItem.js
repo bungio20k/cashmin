@@ -12,7 +12,7 @@ import {
   useToast,
   Box,
   Spinner,
-  HStack
+  HStack,
 } from "native-base";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -35,7 +35,16 @@ const FormAddNewItem = () => {
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState("date");
   const [show, setShow] = useState(false);
-  const { categories, debits, setDebits, wallets, setWallets, settings, solveDebit, setSolveDebit } = useContext(DataContext);
+  const {
+    categories,
+    debits,
+    setDebits,
+    wallets,
+    setWallets,
+    settings,
+    solveDebit,
+    setSolveDebit,
+  } = useContext(DataContext);
   const { token } = useContext(AuthContext);
   const toast = useToast();
   const [errors, setErrors] = useState({});
@@ -50,7 +59,14 @@ const FormAddNewItem = () => {
     walletId: "",
   });
 
-  useEffect(() => setFormData({ ...formData, walletId: wallets.findIndex(w => w.isMain) }), [wallets])
+  useEffect(
+    () =>
+      setFormData({
+        ...formData,
+        walletId: wallets.findIndex((w) => w.isMain),
+      }),
+    [wallets]
+  );
 
   useEffect(() => {
     if (solveDebit) {
@@ -61,12 +77,11 @@ const FormAddNewItem = () => {
         categoryName: solveDebit.categoryName,
         categoryIcon: solveDebit.categoryIcon,
         date: new Date(),
-        walletId: wallets?.findIndex(w => w.isMain),
-        desc: `Thanh toán cho khoản ${solveDebit.name}`
-      })
+        walletId: wallets?.findIndex((w) => w.isMain),
+        desc: `Thanh toán cho khoản ${solveDebit.name}`,
+      });
     }
-  }, [solveDebit])
-
+  }, [solveDebit]);
 
   const list = categories.map((item) => ({
     key: item.id || item._id,
@@ -121,21 +136,24 @@ const FormAddNewItem = () => {
     setLoading(true);
     try {
       if (solveDebit) {
-        const deleted = debits.filter(db => db.id != solveDebit.id);
+        const deleted = debits.filter((db) => db.id != solveDebit.id);
         setDebits(deleted);
         setSolveDebit(null);
-        await axios.put("/debits", deleted, {
-          headers: {
-            Authorization: "Bearer " + token,
-          }
-        }).catch(err => console.log(err));
+        await axios
+          .put("/debits", deleted, {
+            headers: {
+              Authorization: "Bearer " + token,
+            },
+          })
+          .catch((err) => console.log(err));
       }
 
-      const index = wallets.findIndex(w => w.id == formData.walletId);
+      const index = wallets.findIndex((w) => w.id == formData.walletId);
       if (index != -1) {
         let modified = [...wallets];
         modified[index].transactions.push(data);
-        modified[index].balance = Number(modified[index].balance) + Number(data.amount);
+        modified[index].balance =
+          Number(modified[index].balance) + Number(data.amount);
         setWallets(modified);
         toast.show({
           render: () => {
@@ -160,11 +178,15 @@ const FormAddNewItem = () => {
           },
           placement: "top-right",
         });
-        const res = await axios.put("/wallets", { data: modified }, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await axios.put(
+          "/wallets",
+          { data: modified },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         setLoading(false);
       }
     } catch (error) {
@@ -179,7 +201,7 @@ const FormAddNewItem = () => {
       categoryIcon: "apps",
       date: new Date(),
       desc: "",
-      walletId: wallets.findIndex(w => w.isMain),
+      walletId: wallets.findIndex((w) => w.isMain),
     });
     setLoading(false);
   };
@@ -203,7 +225,7 @@ const FormAddNewItem = () => {
             style={styles.radioGroup}
             accessibilityLabel="favorite number"
             my="1"
-          // size="sm"
+            // size="sm"
           >
             <Radio value="1" my={1} colorScheme="success">
               <Text style={{ fontSize: 14, marginRight: 12 }}>
@@ -218,6 +240,7 @@ const FormAddNewItem = () => {
           <FormControl isRequired isInvalid={"amount" in errors}>
             <FormControl.Label>Số tiền</FormControl.Label>
             <Input
+              fontSize={14}
               type="number"
               placeholder="100.000"
               variant="rounded"
@@ -294,7 +317,7 @@ const FormAddNewItem = () => {
                     flexDirection: "row",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    paddingVertical: 5,
+                    paddingVertical: 7,
                   }}
                 >
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -340,8 +363,13 @@ const FormAddNewItem = () => {
           <FormControl isRequired>
             <FormControl.Label>Thời gian</FormControl.Label>
             <TouchableOpacity
-              onPress={() => { showDatepicker(); if (solveDebit) setSolveDebit(null); }}>
+              onPress={() => {
+                showDatepicker();
+                if (solveDebit) setSolveDebit(null);
+              }}
+            >
               <Input
+                fontSize={14}
                 my="1"
                 bg="white"
                 w={{
@@ -372,6 +400,7 @@ const FormAddNewItem = () => {
           <FormControl isRequired isInvalid={"wallet" in errors}>
             <FormControl.Label>Ví tiền</FormControl.Label>
             <Select
+              fontSize={14}
               my="1"
               bg="white"
               borderRadius="full"
@@ -399,11 +428,7 @@ const FormAddNewItem = () => {
               }
             >
               {wallets?.map((item) => (
-                <Select.Item
-                  label={item.name}
-                  value={item.id}
-                  key={item.id}
-                />
+                <Select.Item label={item.name} value={item.id} key={item.id} />
               ))}
             </Select>
             {"wallet" in errors ? (
@@ -418,6 +443,7 @@ const FormAddNewItem = () => {
           <FormControl>
             <FormControl.Label> Mô tả</FormControl.Label>
             <TextArea
+              fontSize={14}
               my="1"
               bg="white"
               borderRadius="2xl"
@@ -448,10 +474,9 @@ const FormAddNewItem = () => {
             }}
           >
             <HStack>
-              <Text style={{fontSize: 18, color: '#fff'}}>Thêm</Text>
+              <Text style={{ fontSize: 18, color: "#fff" }}>Thêm</Text>
               {loading && <Spinner />}
             </HStack>
-
           </Button>
           <View>
             {show && (
