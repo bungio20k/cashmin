@@ -1,6 +1,6 @@
-import { View } from "react-native";
+import { View, Animated } from "react-native";
 import styles from "../styles/navigation/navigationStyle";
-
+import React from "react";
 import Theme from "src/theme/mainTheme";
 
 // Home tab
@@ -18,7 +18,7 @@ import MoreNavigator from "src/navigation/MoreNavigator";
 import MoreScreen from "src/screens/AppScreens/MoreTab/MoreScreen";
 
 import IonIcon from "@expo/vector-icons/Ionicons";
-
+import { useFocusEffect } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 const Tab = createBottomTabNavigator();
 
@@ -33,13 +33,68 @@ const getStyle = (focused, color, size) => {
   };
 };
 
+const FadeInView = (props, { navigation }) => {
+  const fadeAnim = React.useRef(new Animated.Value(0)).current; // Initial value for opacity: 0
+
+  useFocusEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start();
+    return () => {
+      Animated.timing(fadeAnim, {
+        toValue: 0,
+        duration: 250,
+        useNativeDriver: true,
+      }).start();
+    };
+  });
+
+
+  return (
+    <Animated.View // Special animatable View
+      style={{
+        flex: 1,
+        opacity: fadeAnim, // Bind opacity to animated value
+      }}>
+      {props.children}
+    </Animated.View>
+  );
+};
+
+const FadeHomeScreen = (props, { navigation }) => (
+  <FadeInView>
+    <HomeScreen {...props} />
+  </FadeInView>
+);
+
+const FadeIncomeExpenseScreen = (props, { navigation }) => (
+  <FadeInView>
+    <IncomeExpenseScreen {...props} />
+  </FadeInView>
+);
+
+const FadeWalletNavigator = (props, { navigation }) => (
+  <FadeInView>
+    <WalletNavigator {...props} />
+  </FadeInView>
+);
+
+const FadeMoreNavigator = (props, { navigation }) => (
+  <FadeInView>
+    <MoreNavigator {...props} />
+  </FadeInView>
+);
+
+
+
 export default function TabNavigator() {
   return (
     <Tab.Navigator
       initialRouteName="Trang chủ"
       screenOptions={{
         headerShown: false,
-        unmountOnBlur: true,
         tabBarActiveTintColor: "#198155",
         tabBarStyle: { position: "absolute", zIndex: 10 },
         tabBarIconStyle: {},
@@ -50,7 +105,7 @@ export default function TabNavigator() {
     >
       <Tab.Screen
         name="Trang chủ"
-        component={HomeScreen}
+        component={FadeHomeScreen}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <View style={getStyle(focused, color, size)}>
@@ -67,7 +122,7 @@ export default function TabNavigator() {
 
       <Tab.Screen
         name="Thu - Chi"
-        component={IncomeExpenseScreen}
+        component={FadeIncomeExpenseScreen}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <View style={getStyle(focused, color, size)}>
@@ -83,7 +138,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Ví"
-        component={WalletNavigator}
+        component={FadeWalletNavigator}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <View style={getStyle(focused, color, size)}>
@@ -103,7 +158,7 @@ export default function TabNavigator() {
       />
       <Tab.Screen
         name="Khác"
-        component={MoreNavigator}
+        component={FadeMoreNavigator}
         options={{
           tabBarIcon: ({ focused, color, size }) => (
             <View style={getStyle(focused, color, size)}>
