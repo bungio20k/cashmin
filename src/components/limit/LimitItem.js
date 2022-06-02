@@ -142,7 +142,8 @@ const LimitItem = ({ title, item, setShowModal, setLimit, money, amount }) => {
         <View style={styles.descItem}>
           <Text style={styles.descTitle}>Hôm nay</Text>
           <Text style={styles.day}>
-            {formatDate(new Date(), settings.dateFormat)}
+            {new Date().getDate()}/{new Date().getMonth() + 1}/
+            {new Date().getFullYear()}
           </Text>
         </View>
 

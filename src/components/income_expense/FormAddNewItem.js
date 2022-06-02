@@ -52,7 +52,7 @@ const FormAddNewItem = () => {
     amount: "",
     categoryName: "Chung",
     categoryIcon: "apps",
-    date: formatDate(new Date(), settings.dateFormat),
+    date: new Date(),
     desc: "",
     walletId: "",
   });
@@ -74,7 +74,7 @@ const FormAddNewItem = () => {
         amount: String(solveDebit.amount),
         categoryName: solveDebit.categoryName,
         categoryIcon: solveDebit.categoryIcon,
-        date: formatDate(new Date(), settings.dateFormat),
+        date: new Date(),
         walletId: wallets?.findIndex(w => w.isMain),
         desc: `Thanh toán cho khoản ${solveDebit.name}`
       })
@@ -99,7 +99,7 @@ const FormAddNewItem = () => {
   }));
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate ? selectedDate : formatDate(new Date(), settings.dateFormat);
+    const currentDate = selectedDate ? selectedDate : new Date();
     setShow(false);
     setFormData((prev) => ({ ...prev, date: currentDate }));
   };
@@ -197,7 +197,7 @@ const FormAddNewItem = () => {
       amount: "",
       categoryName: "Chung",
       categoryIcon: "apps",
-      date: formatDate(new Date(), settings.dateFormat),
+      date: new Date(),
       desc: "",
       walletId: wallets.findIndex((w) => w.isMain),
     });
@@ -389,7 +389,7 @@ const FormAddNewItem = () => {
                   />
                 }
                 placeholder="Thời gian"
-                value={formatDate(formData.date, settings.dateFormat)}
+                value={formatDate(formData.date, "dd/mm/yyyy")}
                 editable={false}
               />
             </TouchableOpacity>
