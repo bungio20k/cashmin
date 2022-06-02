@@ -1,7 +1,5 @@
 import { Text, View } from "react-native";
-import React, {
-  useContext
-} from "react";
+import React, { useContext } from "react";
 import styles from "../../styles/home/VayNoItemStyle";
 import { HStack, VStack } from "native-base";
 import { formatAmountOnly, formatCurrencyOnly } from "src/utils";
@@ -13,7 +11,7 @@ const VayNoItem = ({ item }) => {
   return (
     <View style={styles.vaynoItem}>
       <VStack space={1}>
-        <Text style={styles.vaynoItemName}>{item.name}</Text>
+        <Text style={{}}>{item.name}</Text>
         <HStack justifyContent="space-between" paddingRight={4} paddingLeft={4}>
           <Text
             style={[
@@ -21,11 +19,12 @@ const VayNoItem = ({ item }) => {
               { color: (item.isDebt && "red") || "green" },
             ]}
           >
-            {formatAmountOnly(item.amount, settings.currency)}
-            {" "}
+            {formatAmountOnly(item.amount, settings.currency)}{" "}
             {formatCurrencyOnly(settings.currency)}
           </Text>
-          <Text style={styles.vaynoItemTime}>{formatDate(item.deadline, settings.dateFormat)}</Text>
+          <Text style={styles.vaynoItemTime}>
+            {formatDate(item.deadline, settings.dateFormat)}
+          </Text>
         </HStack>
       </VStack>
     </View>

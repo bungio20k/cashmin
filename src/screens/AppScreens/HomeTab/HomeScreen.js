@@ -1,22 +1,24 @@
-import { FlatList, SafeAreaView, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 import HomeTop from "src/components/home/HomeTop";
 import ThuChi from "src/components/home/ThuChi";
 import HanMuc from "src/components/home/HanMuc";
 import VayNo from "src/components/home/VayNo";
-import { ScrollView, StatusBar } from "native-base";
+import { ScrollView } from "native-base";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 export default function HomeScreen() {
+  const tabBarHeight = useBottomTabBarHeight();
   return (
-    <View style={styles.homeContainer}>
+    <View style={[styles.homeContainer, { marginBottom: tabBarHeight + 24 }]}>
       <HomeTop />
-      <ScrollView nestedScrollEnabled={true}>
-        <View style={styles.mainContainer}>
+      <View>
+        <ScrollView nestedScrollEnabled style={styles.mainContainer}>
           <ThuChi />
           <HanMuc />
           <VayNo />
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </View>
   );
 }

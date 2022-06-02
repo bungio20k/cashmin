@@ -1,4 +1,4 @@
-import { Text, View, FlatList, SafeAreaView, ScrollView } from "react-native";
+import { Text, View, SafeAreaView, ScrollView } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import React from "react";
 import VayNoItem from "./VayNoItem";
@@ -7,8 +7,6 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import DataContext from "../../hooks/data/DataContext";
 import { useContext } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { LimitScreen } from "src/screens/AppScreens/MoreTab/LimitScreen";
-import { AddDebitScreen } from "src/screens/AppScreens/WalletTab/AddDebitScreen";
 
 const VayNo = () => {
   const tabBarHeight = useBottomTabBarHeight();
@@ -26,13 +24,13 @@ const VayNo = () => {
           onPress={() => navigation.navigate("Ví", { screen: "AddDebit" })}
         />
       </View>
-      <SafeAreaView>
+      <View style={{ height: 400, marginBottom: 20 }}>
         <ScrollView nestedScrollEnabled>
           {debits.map((item) => (
             <VayNoItem item={item} key={item.id} />
           ))}
         </ScrollView>
-      </SafeAreaView>
+      </View>
     </View>
   );
 };
