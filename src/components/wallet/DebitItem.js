@@ -8,6 +8,7 @@ import { formatAmountOnly, formatCurrencyOnly, formatDate } from "src/utils";
 import DataContext from "../../hooks/data/DataContext";
 
 import { useNavigation } from "@react-navigation/native";
+import { Divider } from "native-base";
 
 const DebitItem = ({ debit, setCurrentDebit, setShowModal2, setHold }) => {
   const navigation = useNavigation();
@@ -29,6 +30,7 @@ const DebitItem = ({ debit, setCurrentDebit, setShowModal2, setHold }) => {
       <Text style={[style.name, { color: (debit.isDebt && "red") || "green" }]}>
         {debit.name}
       </Text>
+      <Divider my="1"/>
       <View style={style.textContainer}>
         <FontAwesome5
           name="coins"
@@ -45,6 +47,7 @@ const DebitItem = ({ debit, setCurrentDebit, setShowModal2, setHold }) => {
           {formatCurrencyOnly(settings.currency)}
         </Text>
       </View>
+      <Divider my="1"/>
       <View style={style.textContainer}>
         <MaterialIcons
           name="category"
@@ -55,6 +58,7 @@ const DebitItem = ({ debit, setCurrentDebit, setShowModal2, setHold }) => {
         <Text style={style.tit}>Hạng mục</Text>
         <Text style={style.value}>{debit.categoryName}</Text>
       </View>
+      <Divider my="1"/>
       <View style={style.textContainer}>
         <MaterialIcons
           name="description"
@@ -65,6 +69,7 @@ const DebitItem = ({ debit, setCurrentDebit, setShowModal2, setHold }) => {
         <Text style={style.tit}>Mô tả</Text>
         <Text style={style.value}>{debit.desc}</Text>
       </View>
+      <Divider my="1"/>
       <View style={style.textContainer}>
         <Ionicons name="time" size={28} color="#198155" style={style.icon} />
         <Text style={style.tit}>Ngày thanh toán</Text>

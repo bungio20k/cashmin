@@ -5,7 +5,8 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
 
 import { formatMoney } from "src/utils";
-
+import { Divider } from "native-base";
+import { Badge } from 'native-base';
 
 const WalletItem = ({ wallet, settings, setCurrentWallet, setShowModal2, setHold }) => {
   return (
@@ -22,6 +23,7 @@ const WalletItem = ({ wallet, settings, setCurrentWallet, setShowModal2, setHold
       delayLongPress={100}
     >
       <Text style={style.name}>{wallet.name}</Text>
+      <Divider my="1" />
       <View style={style.textContainer}>
         <FontAwesome5
           name="coins"
@@ -32,6 +34,7 @@ const WalletItem = ({ wallet, settings, setCurrentWallet, setShowModal2, setHold
         <Text style={style.tit}>Số dư</Text>
         <Text style={[style.value, { color: "green" }]}>{formatMoney(wallet.balance, settings.currency)}</Text>
       </View>
+      <Divider my="1" />
       <View style={style.textContainer}>
         <MaterialIcons
           name="category"
@@ -42,6 +45,7 @@ const WalletItem = ({ wallet, settings, setCurrentWallet, setShowModal2, setHold
         <Text style={style.tit}>Hạng mục</Text>
         <Text style={style.value}>{wallet.categoryName}</Text>
       </View>
+      <Divider my="1" />
       <View style={style.textContainer}>
         <FontAwesome
           name="credit-card-alt"
@@ -70,7 +74,7 @@ const style = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2,
-    borderRadius: 20,
+    borderRadius: 15,
     paddingLeft: 8,
     paddingRight: 24,
     paddingVertical: 12,
@@ -89,7 +93,7 @@ const style = StyleSheet.create({
     shadowRadius: 1.41,
 
     elevation: 2,
-    borderRadius: 20,
+    borderRadius: 15,
     paddingLeft: 8,
     paddingRight: 24,
     paddingVertical: 12,

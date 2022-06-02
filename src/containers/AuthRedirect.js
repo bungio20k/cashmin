@@ -3,15 +3,20 @@ import TabNavigator from "src/navigation/TabNavigator";
 import AuthContext from "../hooks/login-signup/AuthContext";
 import { useContext } from "react";
 import { DataProvider } from "../../src/hooks/data/DataContext";
+import OnBoard from "../screens/OnBoardingScreens/OnBoard";
 export default function AuthRedirect() {
-    const { auth } = useContext(AuthContext);
+    const { auth, firstTime } = useContext(AuthContext);
     return (
         <>
-            {!auth && <AuthNavigator />}
-            {auth &&
-                <DataProvider>
-                    <TabNavigator />
-                </DataProvider>
+            {firstTime ? <OnBoard /> :
+                <>
+                    {!auth && <AuthNavigator />}
+                    {auth &&
+                        <DataProvider>
+                            <TabNavigator />
+                        </DataProvider>
+                    }
+                </>
             }
         </>
     )

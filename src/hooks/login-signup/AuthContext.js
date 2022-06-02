@@ -25,11 +25,20 @@ const setLocalToken = async (token) => {
 export const AuthProvider = ({ children }) => {
   const [token, changeToken] = useState(null);
   const [auth, changeAuth] = useState(false);
+  const [firstTime, setFirstTime] = useState(false);
 
   useEffect(async () => {
     const token = await getLocalToken();
     if (token != null) changeAuth(true);
     changeToken(token);
+  }, []);
+
+  useEffect(async () => {
+    const check = await AsyncStorage.getItem('firstTime');
+    if (check != 'false') {
+      setFirstTime(true);
+      await AsyncStorage.setItem('firstTime', 'false');
+    }
   }, []);
 
   const setToken = (newToken) => {
@@ -44,6 +53,7 @@ export const AuthProvider = ({ children }) => {
   const logout = async () => {
     try {
       await AsyncStorage.clear();
+      await AsyncStorage.setItem('firstTime', 'false');
     } catch (e) {
       console.error(e);
     }
@@ -60,6 +70,8 @@ export const AuthProvider = ({ children }) => {
         token,
         setToken,
         logout,
+        firstTime,
+        setFirstTime,
       }}
     >
       {children}
