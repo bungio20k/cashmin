@@ -1,18 +1,20 @@
-import { Text, TouchableOpacity, View, ScrollView } from "react-native";
+import { Text, View, ScrollView } from "react-native";
 import styles from "../../styles/wallet/Debit";
 import { AntDesign } from "@expo/vector-icons";
 
 import { useNavigation } from "@react-navigation/native";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import DataContext from "../../hooks/data/DataContext";
 import { formatAmountOnly, formatCurrencyOnly } from "src/utils";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const Debit = () => {
   const navigation = useNavigation();
+  const tabBarHeight = useBottomTabBarHeight();
   const { debits, settings } = useContext(DataContext);
 
   return (
-    <View style={styles.top}>
+    <View style={[styles.top, { marginBottom: tabBarHeight }]}>
       <View style={styles.title}>
         <Text style={styles.name}>Sổ ghi nợ</Text>
         <AntDesign
