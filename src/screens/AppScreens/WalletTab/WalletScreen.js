@@ -3,13 +3,16 @@ import TotalBalance from "src/components/wallet/TotalBalance";
 import Wallet from "src/components/wallet/Wallet";
 import Debit from "src/components/wallet/Debit";
 import { ScrollView, StatusBar } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
 const STATUSBAR_HEIGHT = StatusBar.currentHeight;
 export default function WalletScreen() {
+  const tabBarHeight = useBottomTabBarHeight();
   return (
     <View
       style={{
         backgroundColor: "#fbfbff",
+        marginBottom: tabBarHeight,
       }}
     >
       <Text
