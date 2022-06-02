@@ -11,6 +11,7 @@ import DebitItem from "../../../components/wallet/DebitItem";
 import Debit from "./../../../components/wallet/Debit";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import DataContext from "../../../hooks/data/DataContext";
+import { useIsFocused } from '@react-navigation/native';
 
 const AddDebitScreen = () => {
   const [showModal1, setShowModal1] = useState(false);
@@ -19,6 +20,7 @@ const AddDebitScreen = () => {
   const [currentDebit, setCurrentDebit] = useState();
   const tabBarHeight = useBottomTabBarHeight();
   const { debits } = useContext(DataContext);
+  const isFocused = useIsFocused();
 
   return (
     <>
@@ -49,14 +51,14 @@ const AddDebitScreen = () => {
           currentDebit={currentDebit}
           setShowModal2={setShowModal2}
         />
-        <Fab
+        {isFocused && <Fab
           position="absolute"
           size="sm"
           bgColor="#4FB286"
           onPress={() => setShowModal1(true)}
           marginBottom={12}
           icon={<AntDesign name="pluscircleo" size={24} color="white" />}
-        />
+        />}
       </View>
     </>
   );

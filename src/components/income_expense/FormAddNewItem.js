@@ -67,13 +67,13 @@ const FormAddNewItem = () => {
       }),
     [wallets]
   );
-
+  
   useEffect(() => {
     if (solveDebit) {
       console.log(solveDebit);
       setType(solveDebit.isDebt ? "1" : "0");
       setFormData({
-        amount: solveDebit.amount,
+        amount: String(solveDebit.amount),
         categoryName: solveDebit.categoryName,
         categoryIcon: solveDebit.categoryIcon,
         date: new Date(),
@@ -82,7 +82,7 @@ const FormAddNewItem = () => {
       });
     }
   }, [solveDebit]);
-
+  
   const list = categories.map((item) => ({
     key: item.id || item._id,
     label: item.name,

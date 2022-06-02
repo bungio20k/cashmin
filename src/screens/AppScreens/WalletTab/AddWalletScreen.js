@@ -9,7 +9,7 @@ import { AntDesign } from "@expo/vector-icons";
 import style from "src/styles/wallet/AddRemoveWallet";
 import WalletItem from "../../../components/wallet/WalletItem";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
-
+import { useIsFocused } from '@react-navigation/native';
 import DataContext from '../../../hooks/data/DataContext';
 
 const AddWalletScreen = () => {
@@ -18,7 +18,9 @@ const AddWalletScreen = () => {
   const [hold, setHold] = useState(false);
   const [currentWallet, setCurrentWallet] = useState();
   const tabBarHeight = useBottomTabBarHeight();
-  const { wallets, settings } = useContext(DataContext); 
+  const { wallets, settings } = useContext(DataContext);
+  const isFocused = useIsFocused();
+
   return (
     <View style={[style.container, { marginBottom: tabBarHeight }]}>
       <Text style={style.title}>Thêm/Xóa ví</Text>
@@ -47,14 +49,14 @@ const AddWalletScreen = () => {
         currentWallet={currentWallet}
         setShowModal2={setShowModal2}
       />
-      <Fab
+      {isFocused &&<Fab
         position="absolute"
         size="sm"
         bgColor="#4FB286"
         onPress={() => setShowModal1(true)}
         marginBottom={12}
         icon={<AntDesign name="pluscircleo" size={24} color="white" />}
-      />
+      />}
     </View>
   );
 };
