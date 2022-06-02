@@ -11,7 +11,8 @@ import {
   Modal,
   useToast,
   Box,
-  Spinner
+  Spinner,
+  HStack
 } from "native-base";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
@@ -112,12 +113,12 @@ const FormAddNewItem = () => {
       setErrors({ ...errors, wallet: "Vui lòng chọn ví" });
       return;
     }
-
     const data = {
       ...formData,
       amount: type === "1" ? -Number(formData.amount) : Number(formData.amount),
     };
 
+    setLoading(true);
     try {
       if (solveDebit) {
         const deleted = debits.filter(db => db.id != solveDebit.id);
@@ -164,10 +165,12 @@ const FormAddNewItem = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        setLoading(false);
       }
     } catch (error) {
       // offline
       console.log(error);
+      setLoading(false);
     }
 
     setFormData({
@@ -178,6 +181,7 @@ const FormAddNewItem = () => {
       desc: "",
       walletId: wallets.findIndex(w => w.isMain),
     });
+    setLoading(false);
   };
 
   return (
@@ -335,8 +339,8 @@ const FormAddNewItem = () => {
 
           <FormControl isRequired>
             <FormControl.Label>Thời gian</FormControl.Label>
-            <TouchableOpacity 
-              onPress={() => {showDatepicker(); if (solveDebit) setSolveDebit(null);}}>
+            <TouchableOpacity
+              onPress={() => { showDatepicker(); if (solveDebit) setSolveDebit(null); }}>
               <Input
                 my="1"
                 bg="white"
@@ -440,14 +444,15 @@ const FormAddNewItem = () => {
             w="80%"
             shadow="4"
             onPress={() => {
-              setLoading(true);
               handleSubmit();
-              setLoading(false);
             }}
           >
-            Thêm
+            <HStack>
+              <Text style={{fontSize: 18, color: '#fff'}}>Thêm</Text>
+              {loading && <Spinner />}
+            </HStack>
+
           </Button>
-          {loading && <Spinner size="lg" />}
           <View>
             {show && (
               <DateTimePicker
