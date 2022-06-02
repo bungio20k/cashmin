@@ -10,7 +10,7 @@ import style from "src/styles/wallet/AddRemoveWallet";
 import WalletItem from "../../../components/wallet/WalletItem";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 
-import DataContext from '../../../hooks/data/DataContext';
+import DataContext from "../../../hooks/data/DataContext";
 
 const AddWalletScreen = () => {
   const [showModal1, setShowModal1] = useState(false);
@@ -18,7 +18,7 @@ const AddWalletScreen = () => {
   const [hold, setHold] = useState(false);
   const [currentWallet, setCurrentWallet] = useState();
   const tabBarHeight = useBottomTabBarHeight();
-  const { wallets, settings } = useContext(DataContext); 
+  const { wallets, settings } = useContext(DataContext);
   return (
     <View style={[style.container, { marginBottom: tabBarHeight }]}>
       <Text style={style.title}>Thêm/Xóa ví</Text>
