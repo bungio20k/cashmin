@@ -8,7 +8,7 @@ import {
   VictoryGroup
 } from "victory-native";
 
-import { print, getTotalTransactionsAmountInTimeRange } from "src/utils";
+import { print, getTotalTransactionsAmountInTimeRange, formatAmountOnly, convertCurrencyAmount } from "src/utils";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 
@@ -39,9 +39,11 @@ export default function ReportGraph(props) {
 
   // print(graphData, "graph data");
 
-  const maxBarHeightDefault = 100;
-  const maxBarHeight = getMaxBarHeight(transactionsInBarGroups, thousandModifier);
+  const maxBarHeightDefault = currency === "VND"? 100 : 10;
+  const maxBarHeight = getMaxBarHeight(transactionsInBarGroups, currency, thousandModifier);
   const barWidth = getBarWidth(timeRange);
+
+  // print(maxBarHeight, "max bar height");
 
   // print(getTotalTransactionsAmountInTimeRange(transactions, "day"), "======= UNRELATED ======")
 
@@ -73,14 +75,19 @@ export default function ReportGraph(props) {
           />
         </VictoryGroup>
 
+        {/* time axis */}
         <VictoryAxis
           tickValues={tickValues}
           tickFormat={tickValue => formatTickValue(tickValue, timeRange)}
         />
 
+        {/* amount axis */}
         <VictoryAxis
           dependentAxis
-          tickFormat={tickValue => `${tickValue}${currency === "VND"? "k": ""}`}
+          tickFormat={tickValue => {
+            // console.log(`amount tick value = ${tickValue}`);
+            return `${convertCurrencyAmount(tickValue, currency)}${currency === "VND"? "k": ""}`;
+          }}
         />
       </VictoryChart>
     </View>
@@ -269,7 +276,10 @@ const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, tim
 
       // ... then add to it
       if (graphDataIndexIfExists !== -1) {
-        result[graphDataIndexIfExists].y += Math.abs(transaction.amount) / thousandModifier;
+        const graphDataAddAmount = Math.abs(transaction.amount) / thousandModifier;
+        // result[graphDataIndexIfExists].y += convertCurrencyAmount(graphDataAddAmount, currency);
+        result[graphDataIndexIfExists].y += graphDataAddAmount;
+
         continue;
       }
 
@@ -309,6 +319,7 @@ const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, tim
           break;
       }
 
+      // graphDataEntry.y = convertCurrencyAmount(graphDataEntry.y, currency);
       result.push(graphDataEntry);
     }
   }
@@ -316,7 +327,7 @@ const toGraphData = (transactionsInBarGroups, tickValues, typeOfTransaction, tim
   return result;
 }
 
-const getMaxBarHeight = (transactionsInBarGroups, thousandModifier) => {
+const getMaxBarHeight = (transactionsInBarGroups, currency, thousandModifier) => {
   const maxBarHeights = [100 * thousandModifier];
 
   for (let barGroup of transactionsInBarGroups) {
@@ -326,8 +337,10 @@ const getMaxBarHeight = (transactionsInBarGroups, thousandModifier) => {
     for (let transaction of barGroup) {
       if (transaction.amount > 0)
         incomeSumOfBarGroup += transaction.amount;
+        // incomeSumOfBarGroup += convertCurrencyAmount(transaction.amount, currency);
       else
         expenseSumOfBarGroup += -transaction.amount;
+        // expenseSumOfBarGroup += -convertCurrencyAmount(transaction.amount, currency);
     }
 
     maxBarHeights.push(Math.max(incomeSumOfBarGroup, expenseSumOfBarGroup));
@@ -335,6 +348,7 @@ const getMaxBarHeight = (transactionsInBarGroups, thousandModifier) => {
 
 
   return Math.max(...maxBarHeights) / thousandModifier;
+  // return (Math.max(...maxBarHeights) / thousandModifier) / (currency === "USD"? 5 : 1);
 }
 
 const getBarWidth = (timeRange) => {

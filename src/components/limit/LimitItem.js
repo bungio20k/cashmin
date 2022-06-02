@@ -9,7 +9,7 @@ import { useContext } from "react";
 import { Box, useToast } from "native-base";
 import axios from "axios";
 import * as Progress from "react-native-progress";
-import { formatMoney } from "src/utils";
+import { formatMoney, formatDate } from "src/utils";
 
 const LimitItem = ({ title, item, setShowModal, setLimit, money, amount }) => {
   const { token } = useContext(AuthContext);
@@ -142,8 +142,7 @@ const LimitItem = ({ title, item, setShowModal, setLimit, money, amount }) => {
         <View style={styles.descItem}>
           <Text style={styles.descTitle}>Hôm nay</Text>
           <Text style={styles.day}>
-            {new Date().getDate()}/{new Date().getMonth() + 1}/
-            {new Date().getFullYear()}
+            {formatDate(new Date(), settings.dateFormat)}
           </Text>
         </View>
 

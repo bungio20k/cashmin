@@ -150,6 +150,7 @@ const SettingScreen = () => {
                 style={{ height: 38 }}
               >
                 <Select.Item label="dd/mm/yyyy" value="dd/mm/yyyy" />
+                <Select.Item label="mm/dd/yyyy" value="mm/dd/yyyy" />
               </Select>
             </HStack>
             <HStack
@@ -173,8 +174,8 @@ const SettingScreen = () => {
                 color="white"
                 style={{ height: 38 }}
               >
-                <Select.Item label="VND(đ)" value="VND" />
-                {/* <Select.Item label="USD" value="USD" /> */}
+                <Select.Item label="VND (đ)" value="VND" />
+                <Select.Item label="USD ($)" value="USD" />
               </Select>
             </HStack>
             <HStack

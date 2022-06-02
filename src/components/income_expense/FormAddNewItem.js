@@ -25,9 +25,7 @@ import { Ionicons } from "@expo/vector-icons";
 import ModalSelector from "react-native-modal-selector";
 import axios from "axios";
 
-import { formatDate } from "src/utils";
-
-import { print, formatAmountOnly, formatCurrencyOnly } from "src/utils";
+import { print, formatAmountOnly, formatCurrencyOnly, formatDate } from "src/utils";
 
 const FormAddNewItem = () => {
   const tabBarHeight = useBottomTabBarHeight();
@@ -54,7 +52,7 @@ const FormAddNewItem = () => {
     amount: "",
     categoryName: "Chung",
     categoryIcon: "apps",
-    date: new Date(),
+    date: formatDate(new Date(), settings.dateFormat),
     desc: "",
     walletId: "",
   });
@@ -76,10 +74,10 @@ const FormAddNewItem = () => {
         amount: solveDebit.amount,
         categoryName: solveDebit.categoryName,
         categoryIcon: solveDebit.categoryIcon,
-        date: new Date(),
-        walletId: wallets?.findIndex((w) => w.isMain),
-        desc: `Thanh toán cho khoản ${solveDebit.name}`,
-      });
+        date: formatDate(new Date(), settings.dateFormat),
+        walletId: wallets?.findIndex(w => w.isMain),
+        desc: `Thanh toán cho khoản ${solveDebit.name}`
+      })
     }
   }, [solveDebit]);
 
@@ -101,7 +99,7 @@ const FormAddNewItem = () => {
   }));
 
   const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate ? selectedDate : new Date();
+    const currentDate = selectedDate ? selectedDate : formatDate(new Date(), settings.dateFormat);
     setShow(false);
     setFormData((prev) => ({ ...prev, date: currentDate }));
   };
@@ -199,7 +197,7 @@ const FormAddNewItem = () => {
       amount: "",
       categoryName: "Chung",
       categoryIcon: "apps",
-      date: new Date(),
+      date: formatDate(new Date(), settings.dateFormat),
       desc: "",
       walletId: wallets.findIndex((w) => w.isMain),
     });
