@@ -14,7 +14,7 @@ const Debit = () => {
   const { debits, settings } = useContext(DataContext);
 
   return (
-    <View style={[styles.top, { marginBottom: tabBarHeight }]}>
+    <View style={[styles.top, { marginBottom: tabBarHeight + 4 }]}>
       <View style={styles.title}>
         <Text style={styles.name}>Sổ ghi nợ</Text>
         <AntDesign
