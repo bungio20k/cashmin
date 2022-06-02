@@ -93,8 +93,13 @@ export const getTotalTransactionsAmountInTimeRange = (transactions, type, timeRa
 // currency: String ("VND", "USD")
 // output: String ("100.000 ₫")
 export const formatMoney = (amount, currency) => {
+  if (!amount)
+    amount = 0;
+
+  const convertedAmount = convertCurrencyAmount(amount, currency);
+
   const formattedAmount = formatCurrency({
-    "amount": amount? amount : 0, 
+    "amount": convertedAmount, 
     "code": currency
   })[1];
 
@@ -109,8 +114,13 @@ export const formatMoney = (amount, currency) => {
 // currency: String ("VND", "USD")
 // output: String ("100.000")
 export const formatAmountOnly = (amount, currency) => {
+  if (!amount)
+    amount = 0;
+
+  const convertedAmount = convertCurrencyAmount(amount, currency);
+
   const formattedAmount = formatCurrency({
-    "amount": amount, 
+    "amount": convertedAmount, 
     "code": currency
   })[1];
 
@@ -125,6 +135,18 @@ export const formatCurrencyOnly = (currency) => {
   return currency === "VND"? "₫" : "$";
 }
 
+// Convert amount to a specific currency
+// amount: Number (100000)
+// currency: String ("VND", "USD")
+// output: Number (100000 for VND, or 4.35 for USD)
+export const convertCurrencyAmount = (amount, currency) => {
+  const convertedAmount = 
+    currency === "VND"?
+    amount :
+    parseFloat((amount / 23000).toFixed(2));
+
+  return convertedAmount;
+}
 
 
 // --- Date utils ----------
@@ -133,14 +155,14 @@ export const formatCurrencyOnly = (currency) => {
 // format: String ("dd/mm/yyyy", "mm/dd/yyyy"...)
 // output: String ("22/5/2022")
 export const formatDate = (dateStr, format) => {
-  const date = new Date(dateStr);
+  const date = dayjs(dateStr);
 
   const format1 = format.split("/")[0].toLowerCase();
   const format2 = format.split("/")[1].toLowerCase();
 
-  const dd = date.getDate();
-  const mm = date.getMonth() + 1;
-  const yyyy = date.getFullYear();
+  const dd = date.date();
+  const mm = date.month() + 1;
+  const yyyy = date.year();
 
   let result = "";
 

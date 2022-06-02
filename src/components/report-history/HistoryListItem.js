@@ -28,7 +28,7 @@ export function HistoryListItem({ data }) {
         >
           {formatMoney(data.amount, settings.currency)}
         </Text>
-        <Text style={st.timestamp}>{formatDate(data.date, "dd/mm/yyyy")}</Text>
+        <Text style={st.timestamp}>{formatDate(data.date, settings.dateFormat)}</Text>
       </View>
     </View>
   );
